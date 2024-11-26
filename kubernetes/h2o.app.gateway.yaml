@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+spec:
+  selector:
+    app: gateway
+  ports:
+  - port: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+  labels:
+    app: gateway
+spec:
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+        - name: gateway
+          image: ${registryURL}/h2o.app.gateway:433
+          env:
+            - name: PgConnectionString
+              valueFrom:
+                configMapKeyRef:
+                  name: gateway
+                  key: PgConnectionString                  
+            - name: H2OGateWay
+              valueFrom:
+                configMapKeyRef:
+                  name: gateway
+                  key: H2OGateWay                
+            - name: H2OApplicationHost
+              valueFrom:
+                configMapKeyRef:
+                  name: gateway
+                  key: H2OApplicationHost                    
+            - name: ListenUrls__0
+              valueFrom:
+                configMapKeyRef:
+                  name: gateway
+                  key: ListenUrls  
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gateway
+data:
+  PgConnectionString: ""
+  H2OGateWay: 'http://localhost:8080'
+  ListenUrls: "http://0.0.0.0:8080"
+  H2OApplicationHost: 'http://gateway:8080'

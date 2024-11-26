@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: elmar
+spec:
+  selector:
+    app: elmar
+  ports:
+  - port: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elmar
+  labels:
+    app: elmar
+spec:
+  selector:
+    matchLabels:
+      app: elmar
+  template:
+    metadata:
+      labels:
+        app: elmar
+    spec:
+      containers:
+        - name: elmar
+          image: ${registryURL}/h2o.app.elmar:359
+          env:               
+            - name: H2OGateWay
+              valueFrom:
+                configMapKeyRef:
+                  name: elmar
+                  key: H2OGateWay                  
+            - name: H2OApplicationHost
+              valueFrom:
+                configMapKeyRef:
+                  name: elmar
+                  key: H2OApplicationHost                    
+            - name: ListenUrls__0
+              valueFrom:
+                configMapKeyRef:
+                  name: elmar
+                  key: ListenUrls       
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: elmar
+data:
+  H2OGateWay: 'http://gateway:8080/'
+  ListenUrls: 'http://0.0.0.0:8080/'
+  H2OApplicationHost: 'http://elmar:8080'

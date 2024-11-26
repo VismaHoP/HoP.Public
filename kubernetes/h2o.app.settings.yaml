@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: settings
+spec:
+  selector:
+    app: settings
+  ports:
+  - port: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: settings
+  labels:
+    app: settings
+spec:
+  selector:
+    matchLabels:
+      app: settings
+  template:
+    metadata:
+      labels:
+        app: settings
+    spec:
+      containers:
+        - name: settings
+          image: ${registryURL}/h2o.app.settings:183
+          env:               
+            - name: H2OGateWay
+              valueFrom:
+                configMapKeyRef:
+                  name: settings
+                  key: H2OGateWay                  
+            - name: H2OApplicationHost
+              valueFrom:
+                configMapKeyRef:
+                  name: settings
+                  key: H2OApplicationHost                    
+            - name: ListenUrls__0
+              valueFrom:
+                configMapKeyRef:
+                  name: settings
+                  key: ListenUrls       
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: settings
+data:
+  H2OGateWay: 'http://gateway:8080/'
+  ListenUrls: "http://0.0.0.0:8080/"
+  H2OApplicationHost: 'http://settings:8080'

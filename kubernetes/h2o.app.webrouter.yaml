@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webrouter
+spec:
+  selector:
+    app: webrouter
+  ports:
+  - port: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webrouter
+  labels:
+    app: webrouter
+spec:
+  selector:
+    matchLabels:
+      app: webrouter
+  template:
+    metadata:
+      labels:
+        app: webrouter
+    spec:
+      containers:
+        - name: webrouter
+          image: ${registryURL}/h2o.app.webrouter:503
+          env:               
+            - name: H2OGateWay
+              valueFrom:
+                configMapKeyRef:
+                  name: webrouter
+                  key: H2OGateWay                  
+            - name: H2OApplicationHost
+              valueFrom:
+                configMapKeyRef:
+                  name: webrouter
+                  key: H2OApplicationHost                    
+            - name: ListenUrls__0
+              valueFrom:
+                configMapKeyRef:
+                  name: webrouter
+                  key: ListenUrls                        
+            - name: AddHttpOnlyAndSecureFlagsToAuthenticationCookies
+              valueFrom:
+                configMapKeyRef:
+                  name: webrouter
+                  key: AddHttpOnlyAndSecureFlagsToAuthenticationCookies     
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webrouter
+data:
+  H2OGateWay: 'http://gateway:8080/'
+  ListenUrls: "http://0.0.0.0:8080/"
+  H2OApplicationHost: 'http://webrouter:8080'
+  AddHttpOnlyAndSecureFlagsToAuthenticationCookies: "false"

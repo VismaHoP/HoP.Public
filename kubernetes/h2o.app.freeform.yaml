@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: freeform
+spec:
+  selector:
+    app: freeform
+  ports:
+  - port: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: freeform
+  labels:
+    app: freeform
+spec:
+  selector:
+    matchLabels:
+      app: freeform
+  template:
+    metadata:
+      labels:
+        app: freeform
+    spec:
+      containers:
+        - name: freeform
+          image: ${registryURL}/h2o.app.freeform:340
+          env:               
+            - name: H2OGateWay
+              valueFrom:
+                configMapKeyRef:
+                  name: freeform
+                  key: H2OGateWay                  
+            - name: H2OApplicationHost
+              valueFrom:
+                configMapKeyRef:
+                  name: freeform
+                  key: H2OApplicationHost                    
+            - name: ListenUrls__0
+              valueFrom:
+                configMapKeyRef:
+                  name: freeform
+                  key: ListenUrls       
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: freeform
+data:
+  H2OGateWay: 'http://gateway:8080/'
+  ListenUrls: 'http://0.0.0.0:8080/'
+  H2OApplicationHost: 'http://freeform:8080'

@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: antra
+spec:
+  selector:
+    app: antra
+  ports:
+  - port: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: antra
+  labels:
+    app: antra
+spec:
+  selector:
+    matchLabels:
+      app: antra
+  template:
+    metadata:
+      labels:
+        app: antra
+    spec:
+      containers:
+        - name: antra
+          image: ${registryURL}/h2o.app.antra:621
+          env:               
+            - name: H2OGateWay
+              valueFrom:
+                configMapKeyRef:
+                  name: antra
+                  key: H2OGateWay                  
+            - name: H2OApplicationHost
+              valueFrom:
+                configMapKeyRef:
+                  name: antra
+                  key: H2OApplicationHost                    
+            - name: ListenUrls__0
+              valueFrom:
+                configMapKeyRef:
+                  name: antra
+                  key: ListenUrls             
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: antra
+data:
+  H2OGateWay: 'http://gateway:8080/'
+  ListenUrls: "http://0.0.0.0:8080/"
+  H2OApplicationHost: 'http://antra:8080'
