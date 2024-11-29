@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: absencecalendar
-          image: ${registryURL}/h2o.app.absencecalendar:974
+          image: public.ecr.aws/vismahop/h2o.app.absencecalendar:976
           env:               
             - name: H2OGateWay
               valueFrom:
