@@ -13,3 +13,4 @@ Pirmo reizi startējot HoP ir nepieciešams ievērot sekojošu secību (šis att
 4. Pēc +/- 2min startējam h2o.app.gateway.yaml
 5. Var startēt visus atlikušos mikroservisus.
 
+Pieeju pie HoP nodrošina H2O.Web mikroserviss, kurš pēc noklusējuma pieejams uz 80 porta. Lai izmantotu HoP jāizmanto/jāpublicē šis mikroserviss/ports.
