@@ -55,6 +55,13 @@ spec:
         - name: postgresdata
           persistentVolumeClaim:
             claimName: postgres-volume-claim
+      initContainers:
+        - name: copy-pgdata
+          image: '${registryURL}/postgres14:6'
+          command: ['sh', '-c', '[ "$(ls -A /tmp/pg 2>/dev/null)" ] && echo "Not empty" || echo "Empty, will copy" && cp -rn /var/lib/postgresql/data/* /tmp/pg']
+          volumeMounts:
+            - mountPath: /tmp/pg
+              name: postgresdata
 ---
 apiVersion: v1
 kind: Service
