@@ -1,53 +1,53 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: clientapplications
+  name: payout
 spec:
   selector:
-    app: clientapplications
+    app: payout
   ports:
   - port: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: clientapplications
+  name: payout
   labels:
-    app: clientapplications
+    app: payout
 spec:
   selector:
     matchLabels:
-      app: clientapplications
+      app: payout
   template:
     metadata:
       labels:
-        app: clientapplications
+        app: payout
     spec:
       containers:
-        - name: clientapplications
-          image: ${registryURL}/h2o.app.clientapplications:220
+        - name: payout
+          image: ${registryURL}/h2o.app.payout:355
           env:               
             - name: H2OGateWay
               valueFrom:
                 configMapKeyRef:
-                  name: clientapplications
+                  name: payout
                   key: H2OGateWay                  
             - name: H2OApplicationHost
               valueFrom:
                 configMapKeyRef:
-                  name: clientapplications
+                  name: payout
                   key: H2OApplicationHost                    
             - name: ListenUrls__0
               valueFrom:
                 configMapKeyRef:
-                  name: clientapplications
+                  name: payout
                   key: ListenUrls       
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: clientapplications
+  name: payout
 data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
-  H2OApplicationHost: 'http://clientapplications:8080'
+  H2OApplicationHost: 'http://payout:8080'

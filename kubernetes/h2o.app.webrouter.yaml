@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: webrouter
-          image: ${registryURL}/h2o.app.webrouter:503
+          image: ${registryURL}/h2o.app.webrouter:514
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -46,7 +46,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: webrouter
-                  key: AddHttpOnlyAndSecureFlagsToAuthenticationCookies     
+                  key: AddHttpOnlyAndSecureFlagsToAuthenticationCookies         
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -54,6 +54,6 @@ metadata:
   name: webrouter
 data:
   H2OGateWay: 'http://gateway:8080/'
-  ListenUrls: "http://0.0.0.0:8080/"
+  ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://webrouter:8080'
   AddHttpOnlyAndSecureFlagsToAuthenticationCookies: "false"

@@ -1,53 +1,53 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: clientapplications
+  name: feedback
 spec:
   selector:
-    app: clientapplications
+    app: feedback
   ports:
   - port: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: clientapplications
+  name: feedback
   labels:
-    app: clientapplications
+    app: feedback
 spec:
   selector:
     matchLabels:
-      app: clientapplications
+      app: feedback
   template:
     metadata:
       labels:
-        app: clientapplications
+        app: feedback
     spec:
       containers:
-        - name: clientapplications
-          image: ${registryURL}/h2o.app.clientapplications:220
+        - name: feedback
+          image: ${registryURL}/h2o.app.feedback:187
           env:               
             - name: H2OGateWay
               valueFrom:
                 configMapKeyRef:
-                  name: clientapplications
+                  name: feedback
                   key: H2OGateWay                  
             - name: H2OApplicationHost
               valueFrom:
                 configMapKeyRef:
-                  name: clientapplications
+                  name: feedback
                   key: H2OApplicationHost                    
             - name: ListenUrls__0
               valueFrom:
                 configMapKeyRef:
-                  name: clientapplications
+                  name: feedback
                   key: ListenUrls       
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: clientapplications
+  name: feedback
 data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
-  H2OApplicationHost: 'http://clientapplications:8080'
+  H2OApplicationHost: 'http://feedback:8080'

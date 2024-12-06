@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: department
-          image: ${registryURL}/h2o.app.department:245
+          image: ${registryURL}/h2o.app.department:246
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -41,7 +41,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: department
-                  key: ListenUrls               
+                  key: ListenUrls       
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -49,5 +49,5 @@ metadata:
   name: department
 data:
   H2OGateWay: 'http://gateway:8080/'
-  ListenUrls: "http://0.0.0.0:8080/"
+  ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://department:8080'

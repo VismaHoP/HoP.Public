@@ -1,53 +1,53 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: clientapplications
+  name: matreslist
 spec:
   selector:
-    app: clientapplications
+    app: matreslist
   ports:
   - port: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: clientapplications
+  name: matreslist
   labels:
-    app: clientapplications
+    app: matreslist
 spec:
   selector:
     matchLabels:
-      app: clientapplications
+      app: matreslist
   template:
     metadata:
       labels:
-        app: clientapplications
+        app: matreslist
     spec:
       containers:
-        - name: clientapplications
-          image: ${registryURL}/h2o.app.clientapplications:220
+        - name: matreslist
+          image: ${registryURL}/h2o.app.matres.list:314
           env:               
             - name: H2OGateWay
               valueFrom:
                 configMapKeyRef:
-                  name: clientapplications
+                  name: matreslist
                   key: H2OGateWay                  
             - name: H2OApplicationHost
               valueFrom:
                 configMapKeyRef:
-                  name: clientapplications
+                  name: matreslist
                   key: H2OApplicationHost                    
             - name: ListenUrls__0
               valueFrom:
                 configMapKeyRef:
-                  name: clientapplications
+                  name: matreslist
                   key: ListenUrls       
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: clientapplications
+  name: matreslist
 data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
-  H2OApplicationHost: 'http://clientapplications:8080'
+  H2OApplicationHost: 'http://matreslist:8080'

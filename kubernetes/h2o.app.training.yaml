@@ -1,53 +1,53 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: clientapplications
+  name: training
 spec:
   selector:
-    app: clientapplications
+    app: training
   ports:
   - port: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: clientapplications
+  name: training
   labels:
-    app: clientapplications
+    app: training
 spec:
   selector:
     matchLabels:
-      app: clientapplications
+      app: training
   template:
     metadata:
       labels:
-        app: clientapplications
+        app: training
     spec:
       containers:
-        - name: clientapplications
-          image: ${registryURL}/h2o.app.clientapplications:220
+        - name: training
+          image: ${registryURL}/h2o.app.training:512
           env:               
             - name: H2OGateWay
               valueFrom:
                 configMapKeyRef:
-                  name: clientapplications
+                  name: training
                   key: H2OGateWay                  
             - name: H2OApplicationHost
               valueFrom:
                 configMapKeyRef:
-                  name: clientapplications
+                  name: training
                   key: H2OApplicationHost                    
             - name: ListenUrls__0
               valueFrom:
                 configMapKeyRef:
-                  name: clientapplications
+                  name: training
                   key: ListenUrls       
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: clientapplications
+  name: training
 data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
-  H2OApplicationHost: 'http://clientapplications:8080'
+  H2OApplicationHost: 'http://training:8080'

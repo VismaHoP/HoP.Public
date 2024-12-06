@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: ${registryURL}/h2o.app.auth:449
+          image: ${registryURL}/h2o.app.auth:451
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -41,12 +41,12 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: auth
-                  key: ListenUrls                    
+                  key: ListenUrls
             - name: EnableKeycloakAuthenticationMethod
               valueFrom:
                 configMapKeyRef:
                   name: auth
-                  key: EnableKeycloakAuthenticationMethod            
+                  key: EnableKeycloakAuthenticationMethod       
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -54,6 +54,6 @@ metadata:
   name: auth
 data:
   H2OGateWay: 'http://gateway:8080/'
-  ListenUrls: "http://0.0.0.0:8080/"
+  ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://auth:8080'
-  EnableKeycloakAuthenticationMethod: 'true'
+  EnableKeycloakAuthenticationMethod: 'false'

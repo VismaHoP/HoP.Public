@@ -1,53 +1,53 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: antra.license
+  name: antralicense
 spec:
   selector:
-    app: antra.license
+    app: antralicense
   ports:
   - port: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: antra.license
+  name: antralicense
   labels:
-    app: antra.license
+    app: antralicense
 spec:
   selector:
     matchLabels:
-      app: antra.license
+      app: antralicense
   template:
     metadata:
       labels:
-        app: antra.license
+        app: antralicense
     spec:
       containers:
-        - name: antra.license
-          image: ${registryURL}/h2o.app.antra.license:221
+        - name: antralicense
+          image: ${registryURL}/h2o.app.antra.license:222
           env:               
             - name: H2OGateWay
               valueFrom:
                 configMapKeyRef:
-                  name: antra.license
+                  name: antralicense
                   key: H2OGateWay                  
             - name: H2OApplicationHost
               valueFrom:
                 configMapKeyRef:
-                  name: antra.license
+                  name: antralicense
                   key: H2OApplicationHost                    
             - name: ListenUrls__0
               valueFrom:
                 configMapKeyRef:
-                  name: antra.license
+                  name: antralicense
                   key: ListenUrls       
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: antra.license
+  name: antralicense
 data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
-  H2OApplicationHost: 'http://antra.license:8080'
+  H2OApplicationHost: 'http://antralicense:8080'

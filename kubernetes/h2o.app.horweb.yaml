@@ -1,53 +1,53 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: clientapplications
+  name: horweb
 spec:
   selector:
-    app: clientapplications
+    app: horweb
   ports:
   - port: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: clientapplications
+  name: horweb
   labels:
-    app: clientapplications
+    app: horweb
 spec:
   selector:
     matchLabels:
-      app: clientapplications
+      app: horweb
   template:
     metadata:
       labels:
-        app: clientapplications
+        app: horweb
     spec:
       containers:
-        - name: clientapplications
-          image: ${registryURL}/h2o.app.clientapplications:220
+        - name: horweb
+          image: ${registryURL}/h2o.app.horweb:173
           env:               
             - name: H2OGateWay
               valueFrom:
                 configMapKeyRef:
-                  name: clientapplications
+                  name: horweb
                   key: H2OGateWay                  
             - name: H2OApplicationHost
               valueFrom:
                 configMapKeyRef:
-                  name: clientapplications
+                  name: horweb
                   key: H2OApplicationHost                    
             - name: ListenUrls__0
               valueFrom:
                 configMapKeyRef:
-                  name: clientapplications
+                  name: horweb
                   key: ListenUrls       
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: clientapplications
+  name: horweb
 data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
-  H2OApplicationHost: 'http://clientapplications:8080'
+  H2OApplicationHost: 'http://horweb:8080'
