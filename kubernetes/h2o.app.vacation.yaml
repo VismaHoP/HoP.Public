@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: vacation
-          image: public.ecr.aws/vismahop/h2o.app.vacation:462
+          image: ${registryURL}/h2o.app.vacation:462
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -50,4 +50,4 @@ metadata:
 data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
-  H2OApplicationHost: 'http://'
+  H2OApplicationHost: 'http://vacation:8080'

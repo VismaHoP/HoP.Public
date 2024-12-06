@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: attachment
-          image: public.ecr.aws/vismahop/h2o.app.attachment:458
+          image: ${registryURL}/h2o.app.attachment:458
           env:               
             - name: H2OGateWay
               valueFrom:

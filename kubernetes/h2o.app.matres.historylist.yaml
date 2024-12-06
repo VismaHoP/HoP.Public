@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: matreshistorylist
-          image: public.ecr.aws/vismahop/h2o.app.matres.historylist:218
+          image: ${registryURL}/h2o.app.matres.historylist:218
           env:               
             - name: H2OGateWay
               valueFrom:

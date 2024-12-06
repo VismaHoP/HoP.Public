@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: antralicense
-          image: public.ecr.aws/vismahop/h2o.app.antra.license:222
+          image: ${registryURL}/h2o.app.antra.license:222
           env:               
             - name: H2OGateWay
               valueFrom:

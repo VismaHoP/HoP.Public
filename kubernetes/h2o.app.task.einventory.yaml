@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: taskeinventory
-          image: public.ecr.aws/vismahop/h2o.app.task.einventory:84
+          image: ${registryURL}/h2o.app.task.einventory:84
           env:               
             - name: H2OGateWay
               valueFrom:

@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: license
-          image: public.ecr.aws/vismahop/h2o.app.license:300
+          image: ${registryURL}/h2o.app.license:300
           env:               
             - name: H2OGateWay
               valueFrom:

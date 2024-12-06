@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: public.ecr.aws/vismahop/h2o.app.auth:451
+          image: ${registryURL}/h2o.app.auth:451
           env:               
             - name: H2OGateWay
               valueFrom:

@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: order
-          image: public.ecr.aws/vismahop/h2o.app.order:1115
+          image: ${registryURL}/h2o.app.order:1115
           env:               
             - name: H2OGateWay
               valueFrom:

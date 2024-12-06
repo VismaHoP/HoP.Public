@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: contract
-          image: public.ecr.aws/vismahop/h2o.app.contract:193
+          image: ${registryURL}/h2o.app.contract:193
           env:               
             - name: H2OGateWay
               valueFrom:

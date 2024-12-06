@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: advanceexpense
-          image: public.ecr.aws/vismahop/h2o.app.advanceexpense:890
+          image: ${registryURL}/h2o.app.advanceexpense:890
           env:               
             - name: H2OGateWay
               valueFrom:

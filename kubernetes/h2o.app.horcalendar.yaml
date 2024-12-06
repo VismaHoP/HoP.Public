@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: horcalendar
-          image: public.ecr.aws/vismahop/h2o.app.horcalendar:169
+          image: ${registryURL}/h2o.app.horcalendar:169
           env:               
             - name: H2OGateWay
               valueFrom:

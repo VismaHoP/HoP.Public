@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: taskmatres
-          image: public.ecr.aws/vismahop/h2o.app.task.matres:237
+          image: ${registryURL}/h2o.app.task.matres:237
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -50,4 +50,4 @@ metadata:
 data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
-  H2OApplicationHost: 'http://task.matres:8080'
+  H2OApplicationHost: 'http://taskmatres:8080'

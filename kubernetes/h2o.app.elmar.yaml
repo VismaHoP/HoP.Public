@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: elmar
-          image: public.ecr.aws/vismahop/h2o.app.elmar:363
+          image: ${registryURL}/h2o.app.elmar:363
           env:               
             - name: H2OGateWay
               valueFrom:

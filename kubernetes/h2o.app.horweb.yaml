@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: horweb
-          image: public.ecr.aws/vismahop/h2o.app.horweb:173
+          image: ${registryURL}/h2o.app.horweb:173
           env:               
             - name: H2OGateWay
               valueFrom:

@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: payout
-          image: public.ecr.aws/vismahop/h2o.app.payout:355
+          image: ${registryURL}/h2o.app.payout:355
           env:               
             - name: H2OGateWay
               valueFrom:

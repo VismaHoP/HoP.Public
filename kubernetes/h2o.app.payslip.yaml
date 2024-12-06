@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: payslip
-          image: public.ecr.aws/vismahop/h2o.app.payslip:260
+          image: ${registryURL}/h2o.app.payslip:260
           env:               
             - name: H2OGateWay
               valueFrom:

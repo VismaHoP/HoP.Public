@@ -3,10 +3,13 @@ kind: Service
 metadata:
   name: web
 spec:
+  type: NodePort
   selector:
     app: web
   ports:
-  - port: 8080
+  - port: 80
+    protocol: TCP
+    targetPort: 80
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -25,29 +28,17 @@ spec:
     spec:
       containers:
         - name: web
-          image: public.ecr.aws/vismahop/h2o.web:890
+          image: ${registryURL}/h2o.web:890
           env:               
-            - name: H2OGateWay
+            - name: HTTPD_WEBROUTER
               valueFrom:
                 configMapKeyRef:
                   name: web
-                  key: H2OGateWay                  
-            - name: H2OApplicationHost
-              valueFrom:
-                configMapKeyRef:
-                  name: web
-                  key: H2OApplicationHost                    
-            - name: ListenUrls__0
-              valueFrom:
-                configMapKeyRef:
-                  name: web
-                  key: ListenUrls       
+                  key: HTTPD_WEBROUTER     
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: web
 data:
-  H2OGateWay: 'http://gateway:8080/'
-  ListenUrls: 'http://0.0.0.0:8080/'
-  H2OApplicationHost: 'http://web:8080'
+  HTTPD_WEBROUTER: 'http://webrouter:8080'

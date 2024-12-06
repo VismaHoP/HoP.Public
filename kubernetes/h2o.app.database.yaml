@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: database
-          image: public.ecr.aws/vismahop/h2o.app.database:622
+          image: ${registryURL}/h2o.app.database:622
           env:               
             - name: H2OGateWay
               valueFrom:

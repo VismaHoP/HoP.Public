@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: businesstrip
-          image: public.ecr.aws/vismahop/h2o.app.businesstrip:1852
+          image: ${registryURL}/h2o.app.businesstrip:1852
           env:               
             - name: H2OGateWay
               valueFrom:
