@@ -1,53 +1,53 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
+  name: taskhomeinventory
 spec:
   selector:
-    app: web
+    app: taskhomeinventory
   ports:
   - port: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
+  name: taskhomeinventory
   labels:
-    app: web
+    app: taskhomeinventory
 spec:
   selector:
     matchLabels:
-      app: web
+      app: taskhomeinventory
   template:
     metadata:
       labels:
-        app: web
+        app: taskhomeinventory
     spec:
       containers:
-        - name: web
-          image: public.ecr.aws/vismahop/h2o.web:890
+        - name: taskhomeinventory
+          image: public.ecr.aws/vismahop/h2o.app.task.homeinventory:106
           env:               
             - name: H2OGateWay
               valueFrom:
                 configMapKeyRef:
-                  name: web
+                  name: taskhomeinventory
                   key: H2OGateWay                  
             - name: H2OApplicationHost
               valueFrom:
                 configMapKeyRef:
-                  name: web
+                  name: taskhomeinventory
                   key: H2OApplicationHost                    
             - name: ListenUrls__0
               valueFrom:
                 configMapKeyRef:
-                  name: web
+                  name: taskhomeinventory
                   key: ListenUrls       
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: web
+  name: taskhomeinventory
 data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
-  H2OApplicationHost: 'http://web:8080'
+  H2OApplicationHost: 'http://taskhomeinventory:8080'

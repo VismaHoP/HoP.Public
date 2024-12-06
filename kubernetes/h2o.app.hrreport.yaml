@@ -1,53 +1,53 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
+  name: hrreport
 spec:
   selector:
-    app: web
+    app: hrreport
   ports:
   - port: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
+  name: hrreport
   labels:
-    app: web
+    app: hrreport
 spec:
   selector:
     matchLabels:
-      app: web
+      app: hrreport
   template:
     metadata:
       labels:
-        app: web
+        app: hrreport
     spec:
       containers:
-        - name: web
-          image: public.ecr.aws/vismahop/h2o.web:890
+        - name: hrreport
+          image: public.ecr.aws/vismahop/h2o.app.hrreport:76
           env:               
             - name: H2OGateWay
               valueFrom:
                 configMapKeyRef:
-                  name: web
+                  name: hrreport
                   key: H2OGateWay                  
             - name: H2OApplicationHost
               valueFrom:
                 configMapKeyRef:
-                  name: web
+                  name: hrreport
                   key: H2OApplicationHost                    
             - name: ListenUrls__0
               valueFrom:
                 configMapKeyRef:
-                  name: web
+                  name: hrreport
                   key: ListenUrls       
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: web
+  name: hrreport
 data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
-  H2OApplicationHost: 'http://web:8080'
+  H2OApplicationHost: 'http://hrreport:8080'

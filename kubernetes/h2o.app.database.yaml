@@ -25,13 +25,8 @@ spec:
     spec:
       containers:
         - name: database
-          image: ${registryURL}/h2o.app.database:618
-          env:
-            - name: PgConnectionString
-              valueFrom:
-                configMapKeyRef:
-                  name: database
-                  key: PgConnectionString                  
+          image: public.ecr.aws/vismahop/h2o.app.database:622
+          env:               
             - name: H2OGateWay
               valueFrom:
                 configMapKeyRef:
@@ -46,7 +41,12 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: database
-                  key: ListenUrls       
+                  key: ListenUrls
+            - name: PgConnectionString
+              valueFrom:
+                configMapKeyRef:
+                  name: database
+                  key: PgConnectionString           
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -55,5 +55,5 @@ metadata:
 data:
   PgConnectionString: ""
   H2OGateWay: 'http://gateway:8080/'
-  ListenUrls: "http://0.0.0.0:8080/"
+  ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://database:8080'

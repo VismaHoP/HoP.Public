@@ -1,53 +1,53 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
+  name: persondata
 spec:
   selector:
-    app: web
+    app: persondata
   ports:
   - port: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
+  name: persondata
   labels:
-    app: web
+    app: persondata
 spec:
   selector:
     matchLabels:
-      app: web
+      app: persondata
   template:
     metadata:
       labels:
-        app: web
+        app: persondata
     spec:
       containers:
-        - name: web
-          image: public.ecr.aws/vismahop/h2o.web:890
+        - name: persondata
+          image: public.ecr.aws/vismahop/h2o.app.persondata:694
           env:               
             - name: H2OGateWay
               valueFrom:
                 configMapKeyRef:
-                  name: web
+                  name: persondata
                   key: H2OGateWay                  
             - name: H2OApplicationHost
               valueFrom:
                 configMapKeyRef:
-                  name: web
+                  name: persondata
                   key: H2OApplicationHost                    
             - name: ListenUrls__0
               valueFrom:
                 configMapKeyRef:
-                  name: web
+                  name: persondata
                   key: ListenUrls       
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: web
+  name: persondata
 data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
-  H2OApplicationHost: 'http://web:8080'
+  H2OApplicationHost: 'http://persondata:8080'

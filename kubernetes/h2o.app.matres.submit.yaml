@@ -1,53 +1,53 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
+  name: matressubmit
 spec:
   selector:
-    app: web
+    app: matressubmit
   ports:
   - port: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
+  name: matressubmit
   labels:
-    app: web
+    app: matressubmit
 spec:
   selector:
     matchLabels:
-      app: web
+      app: matressubmit
   template:
     metadata:
       labels:
-        app: web
+        app: matressubmit
     spec:
       containers:
-        - name: web
-          image: public.ecr.aws/vismahop/h2o.web:890
+        - name: matressubmit
+          image: public.ecr.aws/vismahop/h2o.app.matres.submit:277
           env:               
             - name: H2OGateWay
               valueFrom:
                 configMapKeyRef:
-                  name: web
+                  name: matressubmit
                   key: H2OGateWay                  
             - name: H2OApplicationHost
               valueFrom:
                 configMapKeyRef:
-                  name: web
+                  name: matressubmit
                   key: H2OApplicationHost                    
             - name: ListenUrls__0
               valueFrom:
                 configMapKeyRef:
-                  name: web
+                  name: matressubmit
                   key: ListenUrls       
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: web
+  name: matressubmit
 data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
-  H2OApplicationHost: 'http://web:8080'
+  H2OApplicationHost: 'http://matressubmit:8080'

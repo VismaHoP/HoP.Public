@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: menu
-          image: ${registryURL}/h2o.app.menu:408
+          image: public.ecr.aws/vismahop/h2o.app.menu:410
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -49,5 +49,5 @@ metadata:
   name: menu
 data:
   H2OGateWay: 'http://gateway:8080/'
-  ListenUrls: "http://0.0.0.0:8080/"
+  ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://menu:8080'

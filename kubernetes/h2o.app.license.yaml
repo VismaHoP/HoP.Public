@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: license
-          image: ${registryURL}/h2o.app.license:288
+          image: public.ecr.aws/vismahop/h2o.app.license:300
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -49,5 +49,5 @@ metadata:
   name: license
 data:
   H2OGateWay: 'http://gateway:8080/'
-  ListenUrls: "http://0.0.0.0:8080/"
+  ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://license:8080'
