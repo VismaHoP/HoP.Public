@@ -5,7 +5,7 @@ https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html
 
 SVARĪGI:
 Yaml failos privātais repo ir aizvietots ar "${registryURL}", to nepieciešams find/replace visos failos uz vērtību, kura ir nosūtīta privāti.
-Gateway un Database mikroservisu yaml failus jāpapildina/jānomaina ar nosūtīto PgConnectionString.
+Gateway, Database, Notification un Workplace mikroservisu yaml failus jāpapildina/jānomaina ar nosūtīto PgConnectionString.
 Pirmo reizi startējot HoP ir nepieciešams ievērot sekojošu secību (šis attiecas tikai uz gadījumu, kad HoP tiek startēts pirmo reizi):
 1. Startējam Postgres (pg_ecr.yaml)
 2. Startējam h2o.app.database.yaml
