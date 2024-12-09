@@ -46,7 +46,12 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: gateway
-                  key: PgConnectionString           
+                  key: PgConnectionString
+            - name: ExternalH2OApplicationHost
+              valueFrom:
+                configMapKeyRef:
+                  name: gateway
+                  key: ExternalH2OApplicationHost           
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -57,3 +62,4 @@ data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://gateway:8080'
+  ExternalH2OApplicationHost: ""
