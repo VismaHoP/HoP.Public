@@ -4,6 +4,7 @@ Lai veiksmīgi autorizēties pret ECR ir nepieciešams izmantot "laicīgu" token
 https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html
 
 SVARĪGI:
+Gateway yaml failā nepieciešams aizpildīt ExternalH2OApplicationHost kurš satur adresi, kurā pieejams GateWay micro.
 Yaml failos privātais repo ir aizvietots ar "${registryURL}", to nepieciešams find/replace visos failos uz vērtību, kura ir nosūtīta privāti.
 Gateway, Database, Notification un Workplace mikroservisu yaml failus jāpapildina/jānomaina ar nosūtīto PgConnectionString.
 Pirmo reizi startējot HoP ir nepieciešams ievērot sekojošu secību (šis attiecas tikai uz gadījumu, kad HoP tiek startēts pirmo reizi):
