@@ -18,3 +18,6 @@ Pieeju pie HoP nodrošina H2O.Web mikroserviss, kurš pēc noklusējuma pieejams
 
 Keycloak:
 Lai iespējotu Keycloak h2o.app.auth mikroservisa yaml failā nepieciešams parametru EnableKeycloakAuthenticationMethod: 'false' uzstādīt uz 'true'
+
+Acquaint:
+Nepieciešams aizpildīt PgConnectionString un SignaturePlatformHost.
