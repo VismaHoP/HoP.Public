@@ -21,3 +21,6 @@ Lai iespējotu Keycloak h2o.app.auth mikroservisa yaml failā nepieciešams para
 
 Acquaint:
 Nepieciešams aizpildīt PgConnectionString un SignaturePlatformHost.
+
+LogFailu atrašanās vietas konfigurācija:
+Lai mainītu noklusēto log failu attrašanās vietu konteinerī, jāuzstāda env parametrs LogFileDirectory, piemēram, /opt/hop/logs.
