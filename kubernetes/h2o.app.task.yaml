@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: task
-          image: /h2o.app.task:408
+          image: ${registryURL}/h2o.app.task:408
           env:               
             - name: H2OGateWay
               valueFrom:

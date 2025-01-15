@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: antralicense
-          image: /h2o.app.antra.license:229
+          image: ${registryURL}/h2o.app.antra.license:229
           env:               
             - name: H2OGateWay
               valueFrom:
