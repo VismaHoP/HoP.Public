@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: ${registryURL}/h2o.app.gateway:436
+          image: /h2o.app.gateway:443
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -46,12 +46,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: gateway
-                  key: PgConnectionString
-            - name: ExternalH2OApplicationHost
-              valueFrom:
-                configMapKeyRef:
-                  name: gateway
-                  key: ExternalH2OApplicationHost           
+                  key: PgConnectionString           
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -62,4 +57,3 @@ data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://gateway:8080'
-  ExternalH2OApplicationHost: ""

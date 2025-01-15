@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: acquaint
-          image: ${registryURL}/h2o.app.acquaint:1745
+          image: /h2o.app.acquaint:1748
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -41,17 +41,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: acquaint
-                  key: ListenUrls
-            - name: PgConnectionString
-              valueFrom:
-                configMapKeyRef:
-                  name: acquaint
-                  key: PgConnectionString
-            - name: SignaturePlatformHost
-              valueFrom:
-                configMapKeyRef:
-                  name: acquaint
-                  key: SignaturePlatformHost
+                  key: ListenUrls       
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -61,5 +51,3 @@ data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://acquaint:8080'
-  PgConnectionString: ""
-  SignaturePlatformHost: ""
