@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: notification
-          image: ${registryURL}/h2o.app.notification:166
+          image: ${registryURL}/h2o.app.notification:172
           env:               
             - name: H2OGateWay
               valueFrom:

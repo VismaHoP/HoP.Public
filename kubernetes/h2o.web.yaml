@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: ${registryURL}/h2o.web:896
+          image: public.ecr.aws/vismahop/h2o.web:890
           env:               
             - name: HTTPD_WEBROUTER
               valueFrom:

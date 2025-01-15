@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: matressubmit
-          image: ${registryURL}/h2o.app.matres.submit:277
+          image: ${registryURL}/h2o.app.matres.submit:278
           env:               
             - name: H2OGateWay
               valueFrom:
