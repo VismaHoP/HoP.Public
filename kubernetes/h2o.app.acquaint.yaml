@@ -41,13 +41,19 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: acquaint
-                  key: ListenUrls       
+                  key: ListenUrls
+            - name: PgConnectionString
+              valueFrom:
+                configMapKeyRef:
+                  name: notification
+                  key: PgConnectionString          
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: acquaint
 data:
+  PgConnectionString: ""
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://acquaint:8080'
