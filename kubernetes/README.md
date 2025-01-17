@@ -31,7 +31,7 @@ Common environmental variables:
 
 Micro specific environmental variables:
 | Mandatory | Microservice | Variable | Value |
-|| ------------- | ------------- | ------------- |
+| ------------- | ------------- | ------------- | ------------- |
 | yes | h2o.app.gateway | ExternalH2OApplicationHost | ${adrese, kurā pieejams GateWay micro} |
 | yes | h2o.app.acquaint | SignaturePlatformHost | ${hostURL} |
 | yes | h2o.app.acquaint | PgConnectionString | Server=localhost;Port=5432;User Id=user;Password=change-this-to-new-password;Database=db |
