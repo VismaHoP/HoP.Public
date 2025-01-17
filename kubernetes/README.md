@@ -37,8 +37,8 @@ Common environmental variables:
 | LogFileDirectory  | /var/log/hop  |
 
 Micro specific environmental variables:
-| ------------- | ------------- | ------------- |
 | Microservice | Variable | Value |
+| ------------- | ------------- | ------------- |
 | h2o.app.acquaint | PgConnectionString | Server=localhost;Port=5432;User Id=user;Password=change-this-to-new-password;Database=db |
 | h2o.app.attachment | AllowedFileExtensions | txt,pdf,rtf,doc,docx,docm,docb,xls,xlsx,xlsm,xlsxb,ppt,pps,pptx,pptm,ppsx,sldx,sldm,jpg,jpeg,png,gif,tif,tiff,bmp,ico,edoc |
 | h2o.app.attachment | GetMagicNumbersFromConfiguration | true/false |
