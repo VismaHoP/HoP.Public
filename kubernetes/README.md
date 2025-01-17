@@ -25,11 +25,6 @@ Nepieciešams aizpildīt PgConnectionString un SignaturePlatformHost.
 LogFailu atrašanās vietas konfigurācija:
 Lai mainītu noklusēto log failu attrašanās vietu konteinerī, jāuzstāda env parametrs LogFileDirectory, piemēram, /opt/hop/logs.
 
-| Command | Description |
-| --- | --- |
-| git status | List all new or modified files |
-| git diff | Show file differences that haven't been staged |
-
 Common environmental variables:
 | Variable  | Value |
 | ------------- | ------------- |
