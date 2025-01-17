@@ -44,14 +44,14 @@ Micro specific environmental variables:
 | h2o.app.attachment | MagicNumbersForConfiguredFileExtensions | ${value} |
 | h2o.app.antra.license | IsLicenseReloadEnabled | true/false |
 | h2o.app.auth | IsLicenseReloadEnabled | true/false |
-| h2o.app.auth | EnableKeycloakAuthenticationMethod|true/false |
+| h2o.app.auth | EnableKeycloakAuthenticationMethod | true/false |
 | h2o.app.auth | AllowExternalUserIdMismatch|true/false |
-| h2o.app.auth | AutoAssignClientId|true/false |
+| h2o.app.auth | AutoAssignClientId | true/false |
 | h2o.app.database |PgConnectionString | Server=localhost;Port=5432;User Id=user;Password=change-this-to-new-password;Database=db  |
 | h2o.app.gateway | PgConnectionString | Server=localhost;Port=5432;User Id=user;Password=change-this-to-new-password;Database=db  |
 | h2o.app.gateway | AutoAssignClientId | true/false |
-|h2o.app.license|RefreshLicenceIntervalInSeconds|43200|
-|h2o.app.license|LicenceReloadForbiddenFromHour|08:00|
-|h2o.app.license|LicenceReloadForbiddenUntilHour|19:00|
-|h2o.app.notification|PgConnectionString|Server=localhost;Port=5432;User Id=user;Password=change-this-to-new-password;Database=db|
-|h2o.app.workplace|PgConnectionString|Server=localhost;Port=5432;User Id=user;Password=change-this-to-new-password;Database=db|
+| h2o.app.license | RefreshLicenceIntervalInSeconds | 43200|
+| h2o.app.license | LicenceReloadForbiddenFromHour | 08:00|
+| h2o.app.license | LicenceReloadForbiddenUntilHour | 19:00|
+| h2o.app.notification | PgConnectionString | Server=localhost;Port=5432;User Id=user;Password=change-this-to-new-password;Database=db |
+| h2o.app.workplace | PgConnectionString | Server=localhost;Port=5432;User Id=user;Password=change-this-to-new-password;Database=db |
