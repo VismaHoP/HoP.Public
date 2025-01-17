@@ -30,7 +30,7 @@ Common environmental variables:
 | LogFileDirectory  | /var/log/hop  |
 
 Micro specific environmental variables:
-| Mandatory | Microservice | Variable | Value |
+| Mandatory | Microservice | Variable | Example value |
 | ------------- | ------------- | ------------- | ------------- |
 | yes | h2o.app.gateway | ExternalH2OApplicationHost | ${adrese, kurā pieejams GateWay micro} |
 | yes | h2o.app.acquaint | SignaturePlatformHost | ${hostURL} |
@@ -45,7 +45,7 @@ Micro specific environmental variables:
 | no | h2o.app.auth | AutoAssignClientId | true/false |
 | yes | h2o.app.database | PgConnectionString | Server=localhost;Port=5432;User Id=user;Password=change-this-to-new-password;Database=db |
 | yes | h2o.app.gateway | PgConnectionString | Server=localhost;Port=5432;User Id=user;Password=change-this-to-new-password;Database=db |
-| yes | h2o.app.gateway | AutoAssignClientId | true/false |
+| no | h2o.app.gateway | AutoAssignClientId | true/false |
 | no | h2o.app.license | RefreshLicenceIntervalInSeconds | 43200 |
 | no | h2o.app.license | LicenceReloadForbiddenFromHour | 08:00 |
 | no | h2o.app.license | LicenceReloadForbiddenUntilHour | 19:00 |
