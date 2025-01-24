@@ -45,12 +45,12 @@ spec:
             - name: LogFileMinLevel
               valueFrom:
                 configMapKeyRef:
-                  name: 
+                  name: training
                   key: LogFileMinLevel                    
             - name: LogFileDirectory
               valueFrom:
                 configMapKeyRef:
-                  name: 
+                  name: training
                   key: LogFileDirectory        
 ---
 apiVersion: v1
