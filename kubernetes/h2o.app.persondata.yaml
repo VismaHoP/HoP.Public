@@ -41,7 +41,17 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: persondata
-                  key: ListenUrls       
+                  key: ListenUrls                     
+            - name: LogFileMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name: persondata
+                  key: LogFileMinLevel                    
+            - name: LogFileDirectory
+              valueFrom:
+                configMapKeyRef:
+                  name: persondata
+                  key: LogFileDirectory         
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -51,3 +61,5 @@ data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://persondata:8080'
+  LogFileMinLevel: 'Info'
+  LogFileDirectory: '/var/log/hop'

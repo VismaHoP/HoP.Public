@@ -50,12 +50,12 @@ spec:
             - name: LogFileMinLevel
               valueFrom:
                 configMapKeyRef:
-                  name: 
+                  name: acquaint
                   key: LogFileMinLevel                    
             - name: LogFileDirectory
               valueFrom:
                 configMapKeyRef:
-                  name: 
+                  name: acquaint
                   key: LogFileDirectory        
 ---
 apiVersion: v1
