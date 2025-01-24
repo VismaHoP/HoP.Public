@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: database
-          image: ${registryURL}/h2o.app.database:633
+          image: ${registryURL}/h2o.app.database:636
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -46,14 +46,26 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: database
-                  key: PgConnectionString           
+                  key: PgConnectionString                         
+            - name: LogFileMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name: database
+                  key: LogFileMinLevel                    
+            - name: LogFileDirectory
+              valueFrom:
+                configMapKeyRef:
+                  name: database
+                  key: LogFileDirectory         
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: database
 data:
-  PgConnectionString: ""
+  PgConnectionString: ''
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://database:8080'
+  LogFileMinLevel: 'Info'
+  LogFileDirectory: '/var/log/hop'

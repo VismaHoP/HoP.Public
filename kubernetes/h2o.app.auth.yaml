@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: public.ecr.aws/vismahop/h2o.app.auth:460
+          image: public.ecr.aws/vismahop/h2o.app.auth:469
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -46,7 +46,17 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: auth
-                  key: EnableKeycloakAuthenticationMethod       
+                  key: EnableKeycloakAuthenticationMethod                       
+            - name: LogFileMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name: auth
+                  key: LogFileMinLevel                    
+            - name: LogFileDirectory
+              valueFrom:
+                configMapKeyRef:
+                  name: auth
+                  key: LogFileDirectory         
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -57,3 +67,5 @@ data:
   ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://auth:8080'
   EnableKeycloakAuthenticationMethod: 'false'
+  LogFileMinLevel: 'Info'
+  LogFileDirectory: '/var/log/hop'

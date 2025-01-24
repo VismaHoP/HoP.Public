@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: webrouter
-          image: ${registryURL}/h2o.app.webrouter:526
+          image: ${registryURL}/h2o.app.webrouter:531
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -46,7 +46,17 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: webrouter
-                  key: AddHttpOnlyAndSecureFlagsToAuthenticationCookies         
+                  key: AddHttpOnlyAndSecureFlagsToAuthenticationCookies                     
+            - name: LogFileMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name: webrouter
+                  key: LogFileMinLevel                    
+            - name: LogFileDirectory
+              valueFrom:
+                configMapKeyRef:
+                  name: webrouter
+                  key: LogFileDirectory          
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -57,3 +67,5 @@ data:
   ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://webrouter:8080'
   AddHttpOnlyAndSecureFlagsToAuthenticationCookies: "false"
+  LogFileMinLevel: 'Info'
+  LogFileDirectory: '/var/log/hop'

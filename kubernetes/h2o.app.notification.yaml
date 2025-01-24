@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: notification
-          image: ${registryURL}/h2o.app.notification:172
+          image: ${registryURL}/h2o.app.notification:173
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -46,14 +46,26 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: notification
-                  key: PgConnectionString        
+                  key: PgConnectionString                    
+            - name: LogFileMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name: notification
+                  key: LogFileMinLevel                    
+            - name: LogFileDirectory
+              valueFrom:
+                configMapKeyRef:
+                  name: notification
+                  key: LogFileDirectory        
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: notification
 data:
-  PgConnectionString: ""
+  PgConnectionString: ''
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://notification:8080'
+  LogFileMinLevel: 'Info'
+  LogFileDirectory: '/var/log/hop'
