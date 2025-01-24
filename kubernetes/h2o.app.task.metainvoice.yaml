@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: taskmetainvoice
-          image: ${registryURL}/h2o.app.task.metainvoice:223
+          image: ${registryURL}/h2o.app.task.metainvoice:224
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -41,7 +41,17 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: taskmetainvoice
-                  key: ListenUrls       
+                  key: ListenUrls                    
+            - name: LogFileMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name: taskmetainvoice
+                  key: LogFileMinLevel                    
+            - name: LogFileDirectory
+              valueFrom:
+                configMapKeyRef:
+                  name: taskmetainvoice
+                  key: LogFileDirectory
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -51,3 +61,5 @@ data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://taskmetainvoice:8080'
+  LogFileMinLevel: 'Info'
+  LogFileDirectory: '/var/log/hop'

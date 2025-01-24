@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: acquaint
-          image: ${registryURL}/h2o.app.acquaint:1748
+          image: ${registryURL}/h2o.app.acquaint:1749
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -45,21 +45,27 @@ spec:
             - name: PgConnectionString
               valueFrom:
                 configMapKeyRef:
-                  name: notification
-                  key: PgConnectionString    
-            - name: SignaturePlatformHost
+                  name: 
+                  key: PgConnectionString                      
+            - name: LogFileMinLevel
               valueFrom:
                 configMapKeyRef:
-                  name: notification
-                  key: SignaturePlatformHost       
+                  name: acquaint
+                  key: LogFileMinLevel                    
+            - name: LogFileDirectory
+              valueFrom:
+                configMapKeyRef:
+                  name: acquaint
+                  key: LogFileDirectory        
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: acquaint
 data:
-  PgConnectionString: ""
+  PgConnectionString: ''
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://acquaint:8080'
-  SignaturePlatformHost: ''
+  LogFileMinLevel: 'Info'
+  LogFileDirectory: '/var/log/hop'

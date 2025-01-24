@@ -41,19 +41,25 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: workplace
-                  key: ListenUrls
-            - name: PgConnectionString
+                  key: ListenUrls                     
+            - name: LogFileMinLevel
               valueFrom:
                 configMapKeyRef:
                   name: workplace
-                  key: PgConnectionString         
+                  key: LogFileMinLevel                    
+            - name: LogFileDirectory
+              valueFrom:
+                configMapKeyRef:
+                  name: workplace
+                  key: LogFileDirectory        
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: workplace
 data:
-  PgConnectionString: ""
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://workplace:8080'
+  LogFileMinLevel: 'Info'
+  LogFileDirectory: '/var/log/hop'
