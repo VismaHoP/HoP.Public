@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: persondata
-          image: public.ecr.aws/vismahop/h2o.app.persondata:694
+          image: ${registryURL}/vismahop/h2o.app.persondata:694
           env:               
             - name: H2OGateWay
               valueFrom:
