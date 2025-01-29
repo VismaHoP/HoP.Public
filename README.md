@@ -1,7 +1,7 @@
-Skeilojamība:
+## Skeilojamība:
 Visus mikroservisus var skeilot.
 
-Healtheck endpoints:
+## Healtheck endpoints:
 Visiem mirkoservisiem, izņemot H2O.Web ir pieejams 
 ```
   /api/microservice/health/live
