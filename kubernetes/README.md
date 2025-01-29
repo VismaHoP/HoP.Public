@@ -19,6 +19,9 @@ Pieeju pie HoP nodrošina H2O.Web mikroserviss, kurš pēc noklusējuma pieejams
 Acquaint:
 Nepieciešams aizpildīt SignaturePlatformHost.
 
+Skeilojamība:
+Visus mikroservisus VAR skeilot.
+
 
 Common environmental variables:
 | Variable  | Value |
