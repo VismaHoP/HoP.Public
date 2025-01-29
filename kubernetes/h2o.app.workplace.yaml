@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: workplace
-          image: ${registryURL}/h2o.app.workplace:247
+          image: ${registryURL}/h2o.app.workplace:249
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -41,7 +41,12 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: workplace
-                  key: ListenUrls                     
+                  key: ListenUrls
+            - name: PgConnectionString
+              valueFrom:
+                configMapKeyRef:
+                  name: workplace
+                  key: PgConnectionString                       
             - name: LogFileMinLevel
               valueFrom:
                 configMapKeyRef:
@@ -58,6 +63,7 @@ kind: ConfigMap
 metadata:
   name: workplace
 data:
+  PgConnectionString: ''
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://workplace:8080'

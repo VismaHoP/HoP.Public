@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: worktimetracking
-          image: ${registryURL}/h2o.app.worktimetracking:183
+          image: ${registryURL}/h2o.app.worktimetracking:185
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -51,7 +51,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: worktimetracking
-                  key: LogFileDirectory         
+                  key: LogFileDirectory
 ---
 apiVersion: v1
 kind: ConfigMap

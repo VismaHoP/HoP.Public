@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: department
-          image: ${registryURL}/h2o.app.department:248
+          image: ${registryURL}/h2o.app.department:249
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -41,7 +41,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: department
-                  key: ListenUrls                     
+                  key: ListenUrls                    
             - name: LogFileMinLevel
               valueFrom:
                 configMapKeyRef:
@@ -51,7 +51,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: department
-                  key: LogFileDirectory         
+                  key: LogFileDirectory        
 ---
 apiVersion: v1
 kind: ConfigMap

@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: license
-          image: ${registryURL}/h2o.app.license:306
+          image: ${registryURL}/h2o.app.license:311
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -51,7 +51,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: license
-                  key: LogFileDirectory       
+                  key: LogFileDirectory
 ---
 apiVersion: v1
 kind: ConfigMap
