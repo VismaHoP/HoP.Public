@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: vacation
-          image: ${registryURL}/h2o.app.vacation:469
+          image: ${registryURL}/h2o.app.vacation:471
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -45,12 +45,12 @@ spec:
             - name: LogFileMinLevel
               valueFrom:
                 configMapKeyRef:
-                  name: staff
+                  name: vacation
                   key: LogFileMinLevel                    
             - name: LogFileDirectory
               valueFrom:
                 configMapKeyRef:
-                  name: staff
+                  name: vacation
                   key: LogFileDirectory        
 ---
 apiVersion: v1

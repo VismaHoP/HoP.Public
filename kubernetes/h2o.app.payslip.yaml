@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: payslip
-          image: ${registryURL}/h2o.app.payslip:262
+          image: ${registryURL}/h2o.app.payslip:263
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -41,7 +41,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: payslip
-                  key: ListenUrls                     
+                  key: ListenUrls                    
             - name: LogFileMinLevel
               valueFrom:
                 configMapKeyRef:
@@ -51,7 +51,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: payslip
-                  key: LogFileDirectory         
+                  key: LogFileDirectory        
 ---
 apiVersion: v1
 kind: ConfigMap

@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: mhe
-          image: ${registryURL}/vismahop/h2o.app.mhe:278
+          image: ${registryURL}/h2o.app.mhe:280
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -41,7 +41,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: mhe
-                  key: ListenUrls                     
+                  key: ListenUrls                    
             - name: LogFileMinLevel
               valueFrom:
                 configMapKeyRef:

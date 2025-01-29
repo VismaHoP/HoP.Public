@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: acquaint
-          image: ${registryURL}/h2o.app.acquaint:1749
+          image: ${registryURL}/h2o.app.acquaint:1753
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -45,7 +45,7 @@ spec:
             - name: PgConnectionString
               valueFrom:
                 configMapKeyRef:
-                  name: 
+                  name: acquaint
                   key: PgConnectionString                      
             - name: LogFileMinLevel
               valueFrom:

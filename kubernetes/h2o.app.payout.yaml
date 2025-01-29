@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: payout
-          image: ${registryURL}/h2o.app.payout:357
+          image: ${registryURL}/h2o.app.payout:358
           env:               
             - name: H2OGateWay
               valueFrom:
@@ -41,7 +41,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: payout
-                  key: ListenUrls                     
+                  key: ListenUrls                    
             - name: LogFileMinLevel
               valueFrom:
                 configMapKeyRef:
@@ -51,7 +51,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: payout
-                  key: LogFileDirectory         
+                  key: LogFileDirectory        
 ---
 apiVersion: v1
 kind: ConfigMap
