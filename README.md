@@ -2,7 +2,7 @@
 Visus mikroservisus var skeilot.
 
 ## Healtheck endpoints:
-Visiem mirkoservisiem, izņemot H2O.Web ir pieejams 
+Visiem mirkoservisiem, izņemot H2O.Web, ir pieejams 
 ```
   /api/microservice/health/live
 ```
