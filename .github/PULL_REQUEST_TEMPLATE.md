@@ -7,3 +7,5 @@
 - [ ] Kubernetes lokāli notestēts?
 
 - [ ] Visi images url ir korekti?
+    
+- [ ] Vai ir nākuši klāt/dzēsti konfigurācijas parametri?
