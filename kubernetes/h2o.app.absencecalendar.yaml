@@ -26,6 +26,22 @@ spec:
       containers:
         - name: absencecalendar
           image: ${registryURL}/h2o.app.absencecalendar:980
+          readinessProbe:
+            httpGet:
+                path: /api/microservice/health/live
+                port: 8080
+                scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+                path: /api/microservice/health/live
+                port: 8080
+                scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
           env:               
             - name: H2OGateWay
               valueFrom:
