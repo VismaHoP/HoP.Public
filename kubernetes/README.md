@@ -47,3 +47,4 @@ Micro specific environmental variables:
 | no | h2o.app.license | LicenceReloadForbiddenUntilHour | 19:00 |
 | yes | h2o.app.notification | PgConnectionString | Server=localhost;Port=5432;User Id=user;Password=change-this-to-new-password;Database=db |
 | yes | h2o.app.workplace | PgConnectionString | Server=localhost;Port=5432;User Id=user;Password=change-this-to-new-password;Database=db |
+| no | h2o.app.elmar | GeneralAuthenticationSettingsUiEnabled | true/false |
