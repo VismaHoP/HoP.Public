@@ -82,4 +82,4 @@ data:
   H2OApplicationHost: 'http://elmar:8080'
   LogFileMinLevel: 'Info'
   LogFileDirectory: '/var/log/hop'
-  GeneralAuthenticationSettingsUiEnabled: ''
+  GeneralAuthenticationSettingsUiEnabled: 'false'
