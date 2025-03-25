@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: horweb
-          image: ${registryURL}/h2o.app.horweb:185
+          image: ${registryURL}/h2o.app.horweb:190
           env:
             - name: H2OGateWay
               valueFrom:
