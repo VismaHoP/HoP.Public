@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: order
-          image: ${registryURL}/h2o.app.order:1122
+          image: ${registryURL}/h2o.app.order:1124
           env:
             - name: H2OGateWay
               valueFrom:
