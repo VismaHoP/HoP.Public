@@ -42,11 +42,6 @@ spec:
                 configMapKeyRef:
                   name: webrouter
                   key: ListenUrls
-            - name: AddHttpOnlyAndSecureFlagsToAuthenticationCookies
-              valueFrom:
-                configMapKeyRef:
-                  name: webrouter
-                  key: AddHttpOnlyAndSecureFlagsToAuthenticationCookies
             - name: LogFileMinLevel
               valueFrom:
                 configMapKeyRef:
@@ -80,6 +75,5 @@ data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
   H2OApplicationHost: 'http://webrouter:8080'
-  AddHttpOnlyAndSecureFlagsToAuthenticationCookies: "false"
   LogFileMinLevel: 'Info'
   LogFileDirectory: '/var/log/hop'
