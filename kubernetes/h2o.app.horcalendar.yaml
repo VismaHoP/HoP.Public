@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: horcalendar
-          image: ${registryURL}/h2o.app.horcalendar:197
+          image: ${registryURL}/h2o.app.horcalendar:205
           env:
             - name: H2OGateWay
               valueFrom:
