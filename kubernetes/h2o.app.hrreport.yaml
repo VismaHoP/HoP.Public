@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: hrreport
-          image: ${registryURL}/h2o.app.hrreport:81
+          image: ${registryURL}/h2o.app.hrreport:83
           env:
             - name: H2OGateWay
               valueFrom:

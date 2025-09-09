@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: license
-          image: ${registryURL}/h2o.app.license:356
+          image: ${registryURL}/h2o.app.license:360
           env:
             - name: H2OGateWay
               valueFrom:
