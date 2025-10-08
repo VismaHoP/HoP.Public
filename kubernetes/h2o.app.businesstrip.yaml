@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: businesstrip
-          image: ${registryURL}/h2o.app.businesstrip:1981
+          image: ${registryURL}/h2o.app.businesstrip:1982
           env:
             - name: H2OGateWay
               valueFrom:
