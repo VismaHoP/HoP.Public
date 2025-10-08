@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: training
-          image: ${registryURL}/h2o.app.training:559
+          image: ${registryURL}/h2o.app.training:567
           env:
             - name: H2OGateWay
               valueFrom:
