@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: acquaint
-          image: ${registryURL}/h2o.app.acquaint:1865
+          image: ${registryURL}/h2o.app.acquaint:1872
           env:
             - name: H2OGateWay
               valueFrom:

@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: matreslist
-          image: ${registryURL}/h2o.app.matres.list:426
+          image: ${registryURL}/h2o.app.matres.list:435
           env:
             - name: H2OGateWay
               valueFrom:
