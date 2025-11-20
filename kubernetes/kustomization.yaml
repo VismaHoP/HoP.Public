@@ -50,3 +50,4 @@ resources:
   - h2o.app.worktimetracking.yaml
   - h2o.web.yaml
   - pg_ecr.yaml
+  - h2o.app.ftg.yaml
