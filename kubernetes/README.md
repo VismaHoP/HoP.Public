@@ -20,6 +20,7 @@ Acquaint:
 Nepieciešams aizpildīt SignaturePlatformHost.
 
 FTG micro konfigurācijas apraksts: [Info](https://github.com/VismaHoP/HoP.Public/blob/Delivery-92/kubernetes/FTG_README.md)
+
 Common environmental variables:
 | Variable  | Value |
 | ------------- | ------------- |
