@@ -1,5 +1,5 @@
 ## Skeilojamība:
-Visus mikroservisus var skeilot.
+Visus mikroservisus, izņemot H2O.App.FTG var skeilot.
 
 ## Healtheck endpoints:
 Visiem mirkoservisiem, izņemot H2O.Web, ir pieejams 
