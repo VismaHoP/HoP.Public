@@ -57,6 +57,11 @@ spec:
                 configMapKeyRef:
                   name: elmar
                   key: GeneralAuthenticationSettingsUiEnabled
+            - name: LogConsoleMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name: elmar
+                  key: LogConsoleMinLevel
           readinessProbe:
             httpGet:
               path: /api/microservice/health/live
@@ -83,3 +88,4 @@ data:
   LogFileMinLevel: 'Info'
   LogFileDirectory: '/var/log/hop'
   GeneralAuthenticationSettingsUiEnabled: 'true'
+  LogConsoleMinLevel: ''
