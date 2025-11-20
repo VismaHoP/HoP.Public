@@ -1,6 +1,6 @@
 # FTG Micro
 
-FTG micro, atšķirībā no citiem micro, izmanto image, jo ir nepieciešams papildus tools:
+FTG micro, atšķirībā no citiem micro, izmanto skd image, jo ir nepieciešams papildus tools:
 
 - `mcr.microsoft.com/dotnet/sdk:8.0-alpine3.22`
 - https://github.com/stylianosnicoletti/dotnet-certificate-tool/tree/master
