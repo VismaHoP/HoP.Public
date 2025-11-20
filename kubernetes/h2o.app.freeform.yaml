@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: freeform
-          image: ${registryURL}/h2o.app.freeform:374
+          image: ${registryURL}/h2o.app.freeform:376
           env:
             - name: H2OGateWay
               valueFrom:
@@ -52,6 +52,11 @@ spec:
                 configMapKeyRef:
                   name: freeform
                   key: LogFileDirectory
+            - name: LogConsoleMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name:
+                  key: LogConsoleMinLevel
           readinessProbe:
             httpGet:
               path: /api/microservice/health/live
@@ -77,3 +82,4 @@ data:
   H2OApplicationHost: 'http://freeform:8080'
   LogFileMinLevel: 'Info'
   LogFileDirectory: '/var/log/hop'
+  LogConsoleMinLevel: ''

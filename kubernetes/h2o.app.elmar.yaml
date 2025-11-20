@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: elmar
-          image: ${registryURL}/h2o.app.elmar:453
+          image: ${registryURL}/h2o.app.elmar:459
           env:
             - name: H2OGateWay
               valueFrom:

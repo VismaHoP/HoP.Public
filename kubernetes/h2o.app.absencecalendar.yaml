@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: absencecalendar
-          image: ${registryURL}/h2o.app.absencecalendar:994
+          image: ${registryURL}/h2o.app.absencecalendar:995
           env:
             - name: H2OGateWay
               valueFrom:
@@ -52,6 +52,11 @@ spec:
                 configMapKeyRef:
                   name: absencecalendar
                   key: LogFileDirectory
+            - name: LogConsoleMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name:
+                  key: LogConsoleMinLevel
           readinessProbe:
             httpGet:
               path: /api/microservice/health/live
@@ -77,3 +82,4 @@ data:
   H2OApplicationHost: 'http://absencecalendar:8080'
   LogFileMinLevel: 'Info'
   LogFileDirectory: '/var/log/hop'
+  LogConsoleMinLevel: ''

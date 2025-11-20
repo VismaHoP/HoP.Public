@@ -1,61 +1,81 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: antralicense
+  name: ftg
 spec:
   selector:
-    app: antralicense
+    app: ftg
   ports:
     - port: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: antralicense
+  name: ftg
   labels:
-    app: antralicense
+    app: ftg
 spec:
   selector:
     matchLabels:
-      app: antralicense
+      app: ftg
   template:
     metadata:
       labels:
-        app: antralicense
+        app: ftg
     spec:
       containers:
-        - name: antralicense
-          image: ${registryURL}/h2o.app.antra.license:288
+        - name: ftg
+          image: ${registryURL}/h2o.app.ftg:698
           env:
             - name: H2OGateWay
               valueFrom:
                 configMapKeyRef:
-                  name: antralicense
+                  name: ftg
                   key: H2OGateWay
             - name: H2OApplicationHost
               valueFrom:
                 configMapKeyRef:
-                  name: antralicense
+                  name: ftg
                   key: H2OApplicationHost
             - name: ListenUrls__0
               valueFrom:
                 configMapKeyRef:
-                  name: antralicense
+                  name: ftg
                   key: ListenUrls
             - name: LogFileMinLevel
               valueFrom:
                 configMapKeyRef:
-                  name: antralicense
+                  name: ftg
                   key: LogFileMinLevel
             - name: LogFileDirectory
               valueFrom:
                 configMapKeyRef:
-                  name: antralicense
+                  name: ftg
                   key: LogFileDirectory
+            - name: X509SsoThumbprint
+              valueFrom:
+                configMapKeyRef:
+                  name: ftg
+                  key: X509SsoThumbprint
+            - name: CERT_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: ftg
+                  key: CERT_NAME
+            - name: CERT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: ftg
+                  key: CERT_PASSWORD
+            - name: FtgRestServerUrl
+              valueFrom:
+                configMapKeyRef:
+                  name: ftg
+                  key: FtgRestServerUrl
             - name: LogConsoleMinLevel
               valueFrom:
                 configMapKeyRef:
-                  name: antralicense
+                  name: ftg
                   key: LogConsoleMinLevel
           readinessProbe:
             httpGet:
@@ -71,15 +91,27 @@ spec:
             initialDelaySeconds: 15
             periodSeconds: 10
             timeoutSeconds: 5
+          volumeMounts:
+            - name: ftgcert
+              mountPath: /app/certificate/cert.pfx
+              subPath: cert.pfx
+      volumes:
+        - name: ftgcert
+          configMap:
+            name: ftgcert
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: antralicense
+  name: ftg
 data:
   H2OGateWay: 'http://gateway:8080/'
   ListenUrls: 'http://0.0.0.0:8080/'
-  H2OApplicationHost: 'http://antralicense:8080'
+  H2OApplicationHost: 'http://ftg:8080'
   LogFileMinLevel: 'Info'
   LogFileDirectory: '/var/log/hop'
+  X509SsoThumbprint: 'thumbprint'
+  CERT_NAME: 'cert.pfx'
+  CERT_PASSWORD: 'pass'
+  FtgRestServerUrl: 'http://x.x.x.x:xx/rest'
   LogConsoleMinLevel: ''

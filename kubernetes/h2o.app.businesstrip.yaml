@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: businesstrip
-          image: ${registryURL}/h2o.app.businesstrip:1985
+          image: ${registryURL}/h2o.app.businesstrip:1988
           env:
             - name: H2OGateWay
               valueFrom:
@@ -52,6 +52,11 @@ spec:
                 configMapKeyRef:
                   name: businesstrip
                   key: LogFileDirectory
+            - name: LogConsoleMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name: businesstrip
+                  key: LogConsoleMinLevel
           readinessProbe:
             httpGet:
               path: /api/microservice/health/live
@@ -77,3 +82,4 @@ data:
   H2OApplicationHost: 'http://businesstrip:8080'
   LogFileMinLevel: 'Info'
   LogFileDirectory: '/var/log/hop'
+  LogConsoleMinLevel: ''

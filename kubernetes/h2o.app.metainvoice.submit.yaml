@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: metainvoicesubmit
-          image: ${registryURL}/h2o.app.metainvoice.submit:542
+          image: ${registryURL}/h2o.app.metainvoice.submit:546
           env:
             - name: H2OGateWay
               valueFrom:
@@ -52,6 +52,11 @@ spec:
                 configMapKeyRef:
                   name: metainvoicesubmit
                   key: LogFileDirectory
+            - name: LogConsoleMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name: metainvoicesubmit
+                  key: LogConsoleMinLevel
           readinessProbe:
             httpGet:
               path: /api/microservice/health/live
@@ -77,3 +82,4 @@ data:
   H2OApplicationHost: 'http://metainvoicesubmit:8080'
   LogFileMinLevel: 'Info'
   LogFileDirectory: '/var/log/hop'
+  LogConsoleMinLevel: ''
