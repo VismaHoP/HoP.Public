@@ -1,6 +1,6 @@
 # FTG Micro
 
-**Šo mikroservisu nedrīkst skeilot (pagaidām)!
+**Tehnisku iemeslu dēļ, šobrīd šo mikroservisu nevar skeilot!**
 
 FTG micro, atšķirībā no citiem micro, izmanto skd image, jo ir nepieciešams papildus tools:
 
