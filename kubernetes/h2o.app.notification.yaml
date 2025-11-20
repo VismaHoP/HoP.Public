@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: notification
-          image: ${registryURL}/h2o.app.notification:237
+          image: ${registryURL}/h2o.app.notification:240
           env:
             - name: H2OGateWay
               valueFrom:
@@ -57,6 +57,11 @@ spec:
                 configMapKeyRef:
                   name: notification
                   key: LogFileDirectory
+            - name: LogConsoleMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name: notification
+                  key: LogConsoleMinLevel
           readinessProbe:
             httpGet:
               path: /api/microservice/health/live
@@ -83,3 +88,4 @@ data:
   H2OApplicationHost: 'http://notification:8080'
   LogFileMinLevel: 'Info'
   LogFileDirectory: '/var/log/hop'
+  LogConsoleMinLevel: ''

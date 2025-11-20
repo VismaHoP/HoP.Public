@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: ${registryURL}/h2o.app.auth:538
+          image: ${registryURL}/h2o.app.auth:545
           env:
             - name: H2OGateWay
               valueFrom:
@@ -57,6 +57,11 @@ spec:
                 configMapKeyRef:
                   name: auth
                   key: LogFileDirectory
+            - name: LogConsoleMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name: auth
+                  key: LogConsoleMinLevel
           readinessProbe:
             httpGet:
               path: /api/microservice/health/live
@@ -83,3 +88,4 @@ data:
   EnableKeycloakAuthenticationMethod: 'false'
   LogFileMinLevel: 'Info'
   LogFileDirectory: '/var/log/hop'
+  LogConsoleMinLevel: ''

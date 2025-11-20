@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: taskeinventory
-          image: ${registryURL}/h2o.app.task.einventory:90
+          image: ${registryURL}/h2o.app.task.einventory:91
           env:
             - name: H2OGateWay
               valueFrom:
@@ -52,6 +52,11 @@ spec:
                 configMapKeyRef:
                   name: taskeinventory
                   key: LogFileDirectory
+            - name: LogConsoleMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name: taskeinventory
+                  key: LogConsoleMinLevel
           readinessProbe:
             httpGet:
               path: /api/microservice/health/live
@@ -77,3 +82,4 @@ data:
   H2OApplicationHost: 'http://taskeinventory:8080'
   LogFileMinLevel: 'Info'
   LogFileDirectory: '/var/log/hop'
+  LogConsoleMinLevel: ''

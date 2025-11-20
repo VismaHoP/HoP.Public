@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: acquaint
-          image: ${registryURL}/h2o.app.acquaint:1872
+          image: ${registryURL}/h2o.app.acquaint:1873
           env:
             - name: H2OGateWay
               valueFrom:
@@ -57,6 +57,11 @@ spec:
                 configMapKeyRef:
                   name: acquaint
                   key: LogFileDirectory
+            - name: LogConsoleMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name: acquaint
+                  key: LogConsoleMinLevel
           readinessProbe:
             httpGet:
               path: /api/microservice/health/live
@@ -83,3 +88,4 @@ data:
   H2OApplicationHost: 'http://acquaint:8080'
   LogFileMinLevel: 'Info'
   LogFileDirectory: '/var/log/hop'
+  LogConsoleMinLevel: ''

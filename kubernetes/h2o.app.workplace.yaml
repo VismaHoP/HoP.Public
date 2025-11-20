@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: workplace
-          image: ${registryURL}/h2o.app.workplace:255
+          image: ${registryURL}/h2o.app.workplace:256
           env:
             - name: H2OGateWay
               valueFrom:
@@ -57,6 +57,11 @@ spec:
                 configMapKeyRef:
                   name: workplace
                   key: LogFileDirectory
+            - name: LogConsoleMinLevel
+              valueFrom:
+                configMapKeyRef:
+                  name: workplace
+                  key: LogConsoleMinLevel
           readinessProbe:
             httpGet:
               path: /api/microservice/health/live
@@ -83,3 +88,4 @@ data:
   H2OApplicationHost: 'http://workplace:8080'
   LogFileMinLevel: 'Info'
   LogFileDirectory: '/var/log/hop'
+  LogConsoleMinLevel: ''
