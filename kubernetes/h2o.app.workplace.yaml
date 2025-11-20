@@ -60,7 +60,7 @@ spec:
             - name: LogConsoleMinLevel
               valueFrom:
                 configMapKeyRef:
-                  name:
+                  name: workplace
                   key: LogConsoleMinLevel
           readinessProbe:
             httpGet:
