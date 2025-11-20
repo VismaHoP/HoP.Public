@@ -60,7 +60,7 @@ spec:
             - name: LogConsoleMinLevel
               valueFrom:
                 configMapKeyRef:
-                  name: LogFileDirectory
+                  name: auth
                   key: LogConsoleMinLevel
           readinessProbe:
             httpGet:
