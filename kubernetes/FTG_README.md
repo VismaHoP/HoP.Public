@@ -1,6 +1,7 @@
 # FTG Micro
 
 Šo mikroservisu nedrīkst skeilot (pagaidām)!
+
 FTG micro, atšķirībā no citiem micro, izmanto skd image, jo ir nepieciešams papildus tools:
 
 - `mcr.microsoft.com/dotnet/sdk:8.0-alpine3.22`
