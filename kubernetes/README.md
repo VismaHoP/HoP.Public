@@ -24,6 +24,7 @@ Common environmental variables:
 | ------------- | ------------- |
 | LogFileMinLevel  | Info/Warn/Trace/Debug/Error/Fatal  |
 | LogFileDirectory  | /var/log/hop  |
+| LogConsoleMinLevel  | Trace,Debug,Info,Warn,Error,Fatal,Off  [Info](https://github.com/VismaHoP/HoP.Public/blob/Delivery-92/kubernetes/COMMON.md) |
 
 Micro specific environmental variables:
 | Mandatory | Microservice | Variable | Example value |
