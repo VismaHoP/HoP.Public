@@ -55,7 +55,7 @@ spec:
             - name: LogConsoleMinLevel
               valueFrom:
                 configMapKeyRef:
-                  name: mhe
+                  name:
                   key: LogConsoleMinLevel
           readinessProbe:
             httpGet:

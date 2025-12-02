@@ -55,7 +55,7 @@ spec:
             - name: LogConsoleMinLevel
               valueFrom:
                 configMapKeyRef:
-                  name: vacation
+                  name:
                   key: LogConsoleMinLevel
           readinessProbe:
             httpGet:

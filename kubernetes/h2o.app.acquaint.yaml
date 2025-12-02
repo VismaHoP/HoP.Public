@@ -60,7 +60,7 @@ spec:
             - name: LogConsoleMinLevel
               valueFrom:
                 configMapKeyRef:
-                  name: acquaint
+                  name:
                   key: LogConsoleMinLevel
           readinessProbe:
             httpGet:
