@@ -57,6 +57,11 @@ spec:
                 configMapKeyRef:
                   name: menu
                   key: LogConsoleMinLevel
+            - name: EnableAudienceChangeWithoutReauthenticationForKeycloak
+              valueFrom:
+                configMapKeyRef:
+                  name: menu
+                  key: EnableAudienceChangeWithoutReauthenticationForKeycloak
           readinessProbe:
             httpGet:
               path: /api/microservice/health/live
@@ -83,3 +88,4 @@ data:
   LogFileMinLevel: 'Info'
   LogFileDirectory: '/var/log/hop'
   LogConsoleMinLevel: ''
+  EnableAudienceChangeWithoutReauthenticationForKeycloak: ''
