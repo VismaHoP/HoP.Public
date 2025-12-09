@@ -2,7 +2,7 @@
 Visus mikroservisus, izņemot H2O.App.FTG var skeilot.
 
 ## Healtheck endpoints:
-Visiem mirkoservisiem, izņemot H2O.Web, ir pieejams 
+Visiem mikroservisiem, izņemot H2O.Web, ir pieejams 
 ```
   /api/microservice/health/live
 ```
