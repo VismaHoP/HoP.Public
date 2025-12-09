@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: stockwriteoff
-          image: ${registryURL}/h2o.app.stockwriteoff:391
+          image: ${registryURL}/h2o.app.stockwriteoff:392
           env:
             - name: H2OGateWay
               valueFrom:
