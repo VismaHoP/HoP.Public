@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: worktimetracking
-          image: ${registryURL}/h2o.app.worktimetracking:234
+          image: ${registryURL}/h2o.app.worktimetracking:236
           env:
             - name: H2OGateWay
               valueFrom:
