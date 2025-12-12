@@ -285,7 +285,6 @@ archive-connections:
   connections:
     -
       name: "FS-MAIN"
-      failover: "FSA-MAIN"
       url: http://dmss-archive-services-fallback:8095/api
       type: EXTERNAL_FILE_SYSTEM
       priority: 1
