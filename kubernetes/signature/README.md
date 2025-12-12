@@ -208,7 +208,7 @@ lvrtc:
 
 **Kur iegūst:**
 - `clientId` un `clientSecret` - Reģistrējieties https://www.eparaksts.lv/
-- `signaturePersonURL` - Jūsu signatureperson servisa publiskais URL (piemēram: `https://signature-person.example.com`)
+- `signaturePersonUrl` - Jūsu SignaturePerson servisa publiskais URL (piemēram: `https://signature-person.example.com`)
 
 **Hazelcast Konfigurācija:**
 
@@ -242,13 +242,13 @@ lvrtc:
   baseUri: https://eidas.eparaksts.lv/
   clientId: ${clientId}                                              # OBLIGĀTI MAINĪT
   clientSecret: ${clientSecret}                                      # OBLIGĀTI MAINĪT
-  authRedirectUri: ${signaturePersonURL}/api/lvrtc-signing/sign-authorize/
-  signRedirectUri: ${signaturePersonURL}/api/lvrtc-signing/signing-identity/
+  authRedirectUri: ${signaturePersonUrl}/api/lvrtc-signing/sign-authorize/
+  signRedirectUri: ${signaturePersonUrl}/api/lvrtc-signing/signing-identity/
   defaultLocale: lv
   tspUrl: https://tsa.eparaksts.lv/
 ```
 
-**Piezīme:** `clientId`, `clientSecret` un `signaturePersonURL` jābūt tādiem pašiem kā `dmss-authentication-service.yaml`.
+**Piezīme:** `clientId`, `clientSecret` un `signaturePersonUrl` jābūt tādiem pašiem kā `dmss-authentication-service.yaml`.
 
 **DigiDoc4j Konfigurācija:**
 
