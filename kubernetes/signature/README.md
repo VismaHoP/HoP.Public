@@ -111,17 +111,6 @@ storageClassName: standard
 - **storage**: Pielāgojiet datu glabāšanas apjomu (noklusētais: 10Gi)
 - **storageClassName**: Iestatiet atbilstošu storage class jūsu Kubernetes klasterim
 
-##### Resursu Ierobežojumi:
-```yaml
-resources:
-  requests:
-    memory: "256Mi"
-    cpu: "250m"
-  limits:
-    memory: "512Mi"
-    cpu: "500m"
-```
-
 #### Izvietošanas Secība
 
 1. **Vispirms izvietojiet PostgreSQL:**
