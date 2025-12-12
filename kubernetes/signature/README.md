@@ -14,7 +14,7 @@ Direktorijā atrodas šādi Signature konfigurācijas faili:
 - `signatureconfiguration.yaml` - Konfigurācijas servisa iestatījumi (Nepieciešams DNS/adrese, lai servisam varētu piekļūt ārpus cluster)
 - `signatureintegration.yaml` - Integrācijas servisa konfigurācija (Nepieciešams DNS/adrese, lai servisam varētu piekļūt ārpus cluster)
 - `signatureperson.yaml` - Personu servisa konfigurācija (Nepieciešams DNS/adrese, lai servisam varētu piekļūt ārpus cluster)
-- `signatureworker.yaml` - Darba servisa konfigurācija (Nepieciešams DNS/adrese, lai servisam varētu piekļūt ārpus cluster)
+- `signatureworker.yaml` - Fona darbu servisa konfigurācija (Nepieciešams DNS/adrese, lai servisam varētu piekļūt ārpus cluster)
 
 ### Automātiski Aizpildāmie Lauki
 
@@ -125,7 +125,7 @@ storageClassName: standard
    ```
 #### Pirmreizējā lietotāja izveide
 
-Lai izveidotu pirmreizējo administratora lietotāju Signature sistēmā, ir jāpalaiž PowerShell skripts `generate_first_user` mapē.
+Lai izveidotu pirmreizējo administratora lietotāju Signature.Configuration lietotnei, ir jāpalaiž PowerShell skripts `generate_first_user` mapē.
 
 1. **Pārejiet uz generate_first_user direktoriju:**
    ```bash
