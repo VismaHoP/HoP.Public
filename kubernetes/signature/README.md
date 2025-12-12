@@ -301,9 +301,29 @@ archive-connections:
 ```yaml
 spring:
   datasource:
-    url: jdbc:postgresql://fallback-postgres-db:5432/signature
-    username: admin      # OBLIGĀTI MAINĪT
-    password: example    # OBLIGĀTI MAINĪT
+    url: jdbc:postgresql://fallback-postgres-db:5432/${fallbackDbName}
+    username: ${fallbackDbUsername}      # OBLIGĀTI MAINĪT
+    password: ${fallbackDbPassword}      # OBLIGĀTI MAINĪT
+```
+
+**Kur iegūt:**
+- `${fallbackDbName}` - Datubāzes nosaukums (piemēram: `signature`)
+- `${fallbackDbUsername}` - Datubāzes lietotājvārds (piemēram: `admin`)
+- `${fallbackDbPassword}` - Datubāzes parole (jāizveido droša parole)
+
+**PostgreSQL Deployment Konfigurācija:**
+
+```yaml
+env:
+  - name: POSTGRES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: fallback-postgres-secret
+        key: password
+  - name: POSTGRES_DB
+    value: ${fallbackDbName}           # OBLIGĀTI MAINĪT
+  - name: POSTGRES_USER
+    value: ${fallbackDbUsername}       # OBLIGĀTI MAINĪT
 ```
 
 **PostgreSQL Secret:**
@@ -315,13 +335,15 @@ metadata:
   name: fallback-postgres-secret
 type: Opaque
 data:
-  password: ZXhhbXBsZQ==  # base64("example") - OBLIGĀTI MAINĪT
+  password: <base64-encoded-password>  # OBLIGĀTI MAINĪT
 ```
 
-**Kā mainīt paroli:**
+**Kā izveidot base64 kodētu paroli:**
 ```bash
 echo -n 'jūsu-drošā-parole' | base64
 ```
+
+**Piezīme:** Pārliecinieties, ka `${fallbackDbName}` un `${fallbackDbUsername}` vērtības ir identiskas gan Spring datasource konfigurācijā, gan PostgreSQL deployment environment mainīgajos.
 
 **Persistent Volume:**
 
@@ -355,6 +377,9 @@ spec:
 | `dmss-container-and-signature-service.yaml` | `${clientId}` | LVRTC klienta ID (tāds pats) | eParaksts.lv reģistrācija |
 | `dmss-container-and-signature-service.yaml` | `${clientSecret}` | LVRTC noslēpums (tāds pats) | eParaksts.lv reģistrācija |
 | `dmss-container-and-signature-service.yaml` | `${signaturePersonURL}` | Signature Person URL (tāds pats) | Jūsu DNS/Ingress konfigurācija |
+| `dmss-archive-services-fallback.yaml` | `${fallbackDbName}` | PostgreSQL datubāzes nosaukums | Jūsu izvēle (piemēram: `signature`) |
+| `dmss-archive-services-fallback.yaml` | `${fallbackDbUsername}` | PostgreSQL lietotājvārds | Jūsu izvēle (piemēram: `admin`) |
+| `dmss-archive-services-fallback.yaml` | `${fallbackDbPassword}` | PostgreSQL parole | Droša parole (base64 kodēta Secret) |
 
 ### Izvietošanas Secība
 
