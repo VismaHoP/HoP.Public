@@ -73,7 +73,7 @@ Host: 'https://signature-worker.example.com/'
 
 ### Svarīgas Piezīmes
 
-- **Nekad nemainiet** automātiski ģenerētos sertifikātus un atslēgas
+- **Bez vajadzības nemainiet** automātiski ģenerētos sertifikātus un atslēgas, ja ir nepieciešamība pārģenerēt, tad izmantojiet `gen.js` skriptu
 - Pārliecinieties, ka visi servisu URL ir pareizi konfigurēti jūsu videi
 - PostgreSQL datubāze tiek izveidota ar `signature-postgres.yaml`
 
