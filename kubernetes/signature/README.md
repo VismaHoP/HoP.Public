@@ -61,11 +61,15 @@ Host: 'https://signature-worker.example.com/'
 
 ### Konfigurācijas Soļi
 
+**Priekšnosacījumi:** `gen.js` skripta darbināšanai nepieciešama Node.js instalācija darbastacijā.
+
 1. **Palaidiet sertifikātu ģenerēšanu:**
    ```bash
    cd generate_certificates
    node gen.js
    ```
+
+   **Alternatīva:** Ja nevēlaties izmantot `gen.js`, atslēgas var ģenerēt manuāli ar OpenSSL. Skatiet [OPENSSL.md](OPENSSL.md) instrukcijas.
 
 2. **Manuāli konfigurējiet:**
    - Datubāzes savienojuma virkni
@@ -235,6 +239,8 @@ smartId:
   displayText: ${displayText}                # OBLIGĀTI MAINĪT (tāds pats kā authentication-service)
 ```
 
+**Piezīme:** `${displayText} konfigurē tekstu, kurš tiks attēlots lietotājiem Smart-ID autentifikācijas laikā.
+
 **LVRTC Konfigurācija:**
 
 ```yaml
@@ -373,7 +379,7 @@ spec:
 | `dmss-authentication-service.yaml` | `${signaturePersonURL}` | Signature Person publiskais URL | Jūsu DNS/Ingress konfigurācija |
 | `dmss-container-and-signature-service.yaml` | `${relyingPartyUUID}` | Smart-ID UUID (tāds pats) | Smart-ID reģistrācija |
 | `dmss-container-and-signature-service.yaml` | `${relyingPartyName}` | Smart-ID nosaukums (tāds pats) | Smart-ID reģistrācija |
-| `dmss-container-and-signature-service.yaml` | `${displayText}` | Teksts lietotājam (tāds pats) | Jūsu izvēle |
+| `dmss-container-and-signature-service.yaml` | `${displayText}` | Teksts, ko rāda lietotājam Smart-ID autentifikācijas laikā | Jūsu izvēle |
 | `dmss-container-and-signature-service.yaml` | `${clientId}` | LVRTC klienta ID (tāds pats) | eParaksts.lv reģistrācija |
 | `dmss-container-and-signature-service.yaml` | `${clientSecret}` | LVRTC noslēpums (tāds pats) | eParaksts.lv reģistrācija |
 | `dmss-container-and-signature-service.yaml` | `${signaturePersonURL}` | Signature Person URL (tāds pats) | Jūsu DNS/Ingress konfigurācija |
