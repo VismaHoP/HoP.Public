@@ -88,6 +88,9 @@ console.log('\n--- Updating YAML files ---');
 const yamlDir = path.join(__dirname, '..');
 const yamlFiles = fs.readdirSync(yamlDir).filter(f => f.startsWith('signature') && f.endsWith('.yaml'));
 
+console.log(`Looking for YAML files in: ${yamlDir}`);
+console.log(`Found ${yamlFiles.length} signature*.yaml files`);
+
 // Mapping: Microservice index -> key name
 const microserviceMapping = {
   0: 'signatureconfiguration',
@@ -110,26 +113,26 @@ yamlFiles.forEach(yamlFile => {
 
   let content = fs.readFileSync(yamlPath, 'utf8');
 
-  // Replace EncryptionKey
+  // Replace EncryptionKey (matches empty or non-empty values)
   content = content.replace(
-    /(EncryptionKey:\s*['"])([^'"]+)(['"])/,
+    /(EncryptionKey:\s*['"])([^'"]*)(['"])/,
     `$1${encryptionKey}$3`
   );
 
-  // Replace PrivateKey for this service
+  // Replace PrivateKey for this service (matches empty or non-empty values)
   const privateKey = fs.readFileSync(`${serviceName}-private.txt`, 'utf8');
   content = content.replace(
-    /(PrivateKey:\s*['"])([^'"]+)(['"])/,
+    /(PrivateKey:\s*['"])([^'"]*)(['"])/,
     `$1${privateKey}$3`
   );
 
-  // Replace Microservices 0-5 PublicKeys
+  // Replace Microservices 0-5 PublicKeys (matches empty or non-empty values)
   for (let i = 0; i <= 5; i++) {
     const microserviceName = microserviceMapping[i];
     const publicKey = fs.readFileSync(`${microserviceName}-public.txt`, 'utf8');
 
     const regex = new RegExp(
-      `(Microservices__${i}__PublicKey:\\s*["\'])([^"\']+)(["\'])`,
+      `(Microservices__${i}__PublicKey:\\s*["\'])([^"\']*)(["\'])`,
       'g'
     );
     content = content.replace(regex, `$1${publicKey}$3`);
