@@ -1,0 +1,241 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: signatureclient
+spec:
+  selector:
+    app: signatureclient
+  ports:
+    - port: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: signatureclient
+  labels:
+    app: signatureclient
+spec:
+  selector:
+    matchLabels:
+      app: signatureclient
+  template:
+    metadata:
+      labels:
+        app: signatureclient
+    spec:
+      initContainers:
+        - name: migrate
+          image: ${registryURL}/signatureclient:622
+          command: ['dotnet', 'Signature.Client.dll', 'migrate']
+          env:
+          - name: connectionString
+            valueFrom:
+              configMapKeyRef:
+                name: signatureauthorize
+                key: ConnectionString
+      containers:
+        - name: signatureclient
+          image: ${registryURL}/signatureclient:622
+          env:
+            - name: ASPNETCORE_URLS
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: ASPNETCORE_URLS
+            - name: EncryptionKey
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: EncryptionKey
+            - name: PrivateKey
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: PrivateKey
+            - name: connectionString
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: ConnectionString
+            - name: DigitalMindsContainersAndSignaturesService
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: DigitalMindsContainersAndSignaturesService
+            - name: DigitalMindsArchiveService
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: DigitalMindsArchiveService
+            - name: PersonsMicroserviceHost
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: PersonsMicroserviceHost
+            # Microservice 0: Configuration
+            - name: Microservices__0__Microservice
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__0__Microservice
+            - name: Microservices__0__Host
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__0__Host
+            - name: Microservices__0__PublicKey
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__0__PublicKey
+            # Microservice 1: Client
+            - name: Microservices__1__Microservice
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__1__Microservice
+            - name: Microservices__1__Host
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__1__Host
+            - name: Microservices__1__PublicKey
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__1__PublicKey
+            # Microservice 2: Person
+            - name: Microservices__2__Microservice
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__2__Microservice
+            - name: Microservices__2__Host
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__2__Host
+            - name: Microservices__2__PublicKey
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__2__PublicKey
+            # Microservice 3: Worker
+            - name: Microservices__3__Microservice
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__3__Microservice
+            - name: Microservices__3__Host
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__3__Host
+            - name: Microservices__3__PublicKey
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__3__PublicKey
+            # Microservice 4: Authorization
+            - name: Microservices__4__Microservice
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__4__Microservice
+            - name: Microservices__4__Host
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__4__Host
+            - name: Microservices__4__PublicKey
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__4__PublicKey
+            # Microservice 5: Integration
+            - name: Microservices__5__Microservice
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__5__Microservice
+            - name: Microservices__5__Host
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__5__Host
+            - name: Microservices__5__PublicKey
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureclient
+                  key: Microservices__5__PublicKey
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: signatureclient
+data:
+  ASPNETCORE_URLS: 'http://+:8080'
+  EncryptionKey: ''
+  PrivateKey: ''
+  ConnectionString: 'Server=postgres-signature;Port=5432;User Id=signature;Password=signaturePassword;Database=signature'
+  DigitalMindsContainersAndSignaturesService: 'http://dmss-container-and-signature:8092/'
+  DigitalMindsArchiveService: 'http://dmss-archive-services:8090/'
+  PersonsMicroserviceHost: ''
+  # ------------------------------------------------------------------
+  # --- Microservice 0: Configuration ---
+  # ------------------------------------------------------------------
+  Microservices__0__Microservice: Configuration
+  Microservices__0__Host: http://signatureconfiguration:8080
+  Microservices__0__PublicKey: ""
+  # ------------------------------------------------------------------
+  # --- Microservice 1: Client ---
+  # ------------------------------------------------------------------
+  Microservices__1__Microservice: Client
+  Microservices__1__Host: http://signatureclient:8080
+  Microservices__1__PublicKey: ""
+  # ------------------------------------------------------------------
+  # --- Microservice 2: Person ---
+  # ------------------------------------------------------------------
+  Microservices__2__Microservice: Person
+  Microservices__2__Host: http://signatureperson:8080
+  Microservices__2__PublicKey: ""
+  # ------------------------------------------------------------------
+  # --- Microservice 3: Worker ---
+  # ------------------------------------------------------------------
+  Microservices__3__Microservice: Worker
+  Microservices__3__Host: http://signatureworker:8080
+  Microservices__3__PublicKey: ""
+  # ------------------------------------------------------------------
+  # --- Microservice 4: Authorization ---
+  # ------------------------------------------------------------------
+  Microservices__4__Microservice: Authorization
+  Microservices__4__Host: http://signatureauthorize:8080
+  Microservices__4__PublicKey: ""
+  # ------------------------------------------------------------------
+  # --- Microservice 5: Integration ---
+  # ------------------------------------------------------------------
+  Microservices__5__Microservice: Integration
+  Microservices__5__Host: http://signatureintegration:8080
+  Microservices__5__PublicKey: ""
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

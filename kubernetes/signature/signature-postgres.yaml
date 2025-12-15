@@ -1,0 +1,117 @@
+---
+# PostgreSQL ConfigMap for initialization scripts (optional)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-signature-config
+data:
+  POSTGRES_DB: signature
+  POSTGRES_USER: signature
+---
+# PostgreSQL Secret for sensitive data
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-signature-secret
+type: Opaque
+data:
+  # Base64 encoded values - change these!
+  # echo -n 'signaturePassword' | base64
+  POSTGRES_PASSWORD: c2lnbmF0dXJlUGFzc3dvcmQ=
+---
+# Persistent Volume Claim for PostgreSQL data
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-signature-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard  # Uncomment and set your storage class
+---
+# PostgreSQL Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-signature
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-signature
+  template:
+    metadata:
+      labels:
+        app: postgres-signature
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:16-alpine
+        ports:
+        - containerPort: 5432
+          name: postgres
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-signature-config
+              key: POSTGRES_DB
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-signature-config
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-signature-secret
+              key: POSTGRES_PASSWORD
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        volumeMounts:
+        - name: postgres-signature-storage
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - signature
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - signature
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: postgres-signature-storage
+        persistentVolumeClaim:
+          claimName: postgres-signature-pvc
+---
+# PostgreSQL Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-signature
+spec:
+  selector:
+    app: postgres-signature
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+  type: NodePort
