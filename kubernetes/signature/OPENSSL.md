@@ -59,7 +59,7 @@ openssl rand -base64 24 > .\Encryption.key
 
 ## Configuration
 
-Encyption key, savu Private key, un servisu, kas var sūtīt "tev" ziņojumus, Public keys jānorāda configā:
+Encyption key, paša servisa Private key, un citu servisu Public keys jānorāda appsettings.json failā:
 
 ```json
 {

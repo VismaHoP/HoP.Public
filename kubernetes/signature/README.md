@@ -57,7 +57,7 @@ PersonsMicroserviceHost: 'https://signature-person.example.com/'
 Host: 'https://signature-worker.example.com/'
 ```
 
-**Piezīme:** DMSS servisu adreses (`DigitalMindsAuthenticationService`, `DigitalMindsContainersAndSignaturesService`, `DigitalMindsArchiveService`) nav jākonfigurē, ja `dmss-*` servisi nav izvietoti ar citiem nosaukumiem vai portiem.
+**Piezīme:** TrustLynx servisu adreses (`DigitalMindsAuthenticationService`, `DigitalMindsContainersAndSignaturesService`, `DigitalMindsArchiveService`) nav jākonfigurē, ja `dmss-*` servisi nav izvietoti ar citiem nosaukumiem vai portiem.
 
 ### Konfigurācijas Soļi
 
@@ -173,11 +173,11 @@ Lai izveidotu pirmreizējo administratora lietotāju Signature.Configuration lie
 
 ---
 
-## 2. DMSS KONFIGURĀCIJA
+## 2. TrustLynx KONFIGURĀCIJA
 
 ### Failu Pārskats
 
-DMSS (Digital Minds Signature Services) konfigurācijas faili:
+TrustLynx konfigurācijas faili:
 - `dmss-authentication-service.yaml` - Autentifikācijas serviss (Smart-ID, Mobile-ID, LVRTC)
 - `dmss-container-and-signature-service.yaml` - Konteineru un parakstu serviss
 - `dmss-archive-services.yaml` - Arhivēšanas serviss (primārais)
@@ -410,4 +410,4 @@ spec:
 
 - **OBLIGĀTI** mainiet visas noklusētās paroles (`example`, `signaturePassword`)
 - Izmantojiet Kubernetes Secrets visiem sensitīvajiem datiem
-- Ierobežojiet piekļuvi DMSS servisiem tikai no Signature mikroservisiem
+- Ierobežojiet piekļuvi TrustLynx servisiem tikai no Signature mikroservisiem
