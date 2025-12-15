@@ -1,4 +1,4 @@
-# Konfigurācijas Dokumentācija - Clean Files
+# Konfigurācijas Dokumentācija
 
 Šī dokumentācija apraksta `signature*.yaml` un `dmss-*.yaml` failu konfigurāciju.
 
