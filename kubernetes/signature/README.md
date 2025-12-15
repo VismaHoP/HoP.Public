@@ -83,6 +83,8 @@ Host: 'https://signature-worker.example.com/'
 
 ### PostgreSQL Datubāzes Konfigurācija
 
+Datubāzes konfigurācija atrodas failā `signature-postgres.yaml`.
+
 #### Obligāti Mainīt
 
 ##### Datubāzes Parole
@@ -249,8 +251,8 @@ smartId:
 ```yaml
 lvrtc:
   baseUri: https://eidas.eparaksts.lv/
-  clientId: ${clientId}                                              # OBLIGĀTI MAINĪT
-  clientSecret: ${clientSecret}                                      # OBLIGĀTI MAINĪT
+  clientId: ${clientId}                                              # OBLIGĀTI MAINĪT (tāds pats kā authentication-service)
+  clientSecret: ${clientSecret}                                      # OBLIGĀTI MAINĪT (tāds pats kā authentication-service)
   authRedirectUri: ${signaturePersonUrl}/api/lvrtc-signing/sign-authorize/
   signRedirectUri: ${signaturePersonUrl}/api/lvrtc-signing/signing-identity/
   defaultLocale: lv
