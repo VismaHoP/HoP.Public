@@ -1,0 +1,224 @@
+---
+# ConfigMap for application.yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dmss-container-and-signature-service
+data:
+  application.yml: |
+    server:
+      port: 8092
+    management:
+      tracing:
+        enabled: false
+    spring:
+      servlet:
+        multipart:
+          maxFileSize: 1000MB
+          maxRequestSize: 1000MB
+          max-file-size: 1000MB
+          max-request-size: 1000MB
+      sleuth:
+        web:
+          client:
+            enabled: true
+      zipkin:
+        enabled: false
+      main:
+        allow-bean-definition-overriding: true
+    signatureServices:
+      signatureIsAddedAsynchronouslyToContainer: true
+      timeout: 30000
+      cors:
+        disabled: true
+    containerController:
+      illegalChars: "[\\\\/:*?\"<>|\\^\\&]"
+      createNewContainer:
+        documentData:
+          containerExtensionJsonKey: "containerExtension"
+          certInHexJsonKey: "certInHex"
+          signatureProfileJsonKey: "signatureProfile"
+          documentFilenameJsonKey: "documentFilename"
+          documentMimeTypeJsonKey: "contentType"
+          containerMimeTypeJsonKey: "containerContentType"
+          documentTypeJsonKey: "documentType"
+          objectNameJsonKey: "objectName"
+    archive-services:
+      baseUrl: http://dmss-archive-services:8090/api
+      fallbackUrl: http://localhost:8095/api
+      forwardHttpHeaders: authorization, otcsticket, X-User-Context, X-Forwarded-For, X-Session-ID, X-Request-ID
+      configuration:
+        container:
+          defaultMimeType: application/vnd.etsi.asic-e+zip
+          defaultContainerExtension: .asice
+          defaultDocumentType: Document
+        dataToSign:
+          mimeType: application/x-binary
+          documentType: temp
+          fileExtension: .bin
+      saveBinFilesAllwaysInFallback: false
+      fileMimeTypesAndExtensions: classpath:mime.types
+    smartId:
+      hostUrl: https://rp-api.smart-id.com/v2/
+      relyingPartyUUID: ${relyingPartyUUID}
+      relyingPartyName: ${relyingPartyName}
+      displayText: ${displayText}
+      delay: 3000
+      trustedCertificates: classpath:trusted_certificates.jks
+      interactions:
+        -
+          interactionName: "Interaction.confirmationMessageAndVerificationCodeChoice"
+          defaultText: "confirmationMessageAndVerificationCodeChoice"
+          maxsize: 200
+          enabled: true
+        -
+          interactionName: "Interaction.confirmationMessage"
+          defaultText: "confirmationMessage"
+          maxsize: 200
+          enabled: true
+        -
+          interactionName: "Interaction.verificationCodeChoice"
+          defaultText: "verificationCodeChoice"
+          maxsize: 60
+          enabled: true
+        -
+          interactionName: "Interaction.displayTextAndPIN"
+          defaultText: "displayTextAndPIN"
+          maxsize: 60
+          enabled: true
+    mobile-id:
+      fakeRequestsInTest: true
+      countries:
+        EE:
+          relyingPartyName: DEMO
+          hostUrl: https://tsp.demo.sk.ee/mid-api
+          relyingPartyUUID: 00000000-0000-0000-0000-000000000000
+          displayText: "Allkirjasta dokument?"
+        LT:
+          relyingPartyName: DEMO
+          hostUrl: https://tsp.demo.sk.ee/mid-api
+          relyingPartyUUID: 00000000-0000-0000-0000-000000000000
+          displayText: "Pasirašai dokumentą?"
+    hsm:
+      enabled: false
+      pkcs11ModulePath: "C:/1Program Files/SafeNet/LunaClient/cryptoki.dll"
+      partitionPin: 
+      slotIndex: 0
+    document-generation-service:
+      baseUrl: http://localhost:8083/api
+      configuration:
+        defaultMimeType: application/pdf
+        defaultExtension: .pdf
+    digital-stamping-service:
+      baseUrl: http://localhost:8084/api
+    hystrix:
+      command:
+        default:
+          execution:
+            isolation:
+              thread:
+                timeoutInMilliseconds: 100000
+    digidoc4j:
+      configuration:
+        mode: PROD
+        #file: classpath:digidoc4j-custom.yaml
+        preferAiaOcsp: true
+        issuers:
+    pdf:
+      cakeystorepath: file:/confs/dmssrootca.p12
+      cakeystorepassword: 
+      caCertAlias: digital mind root ca
+      #tsaUrl: http://tsa.sk.ee
+      signature:
+        defaults:
+          xAxis: 100
+          yAxis: 700
+          zoomPrecent: 50
+          signatureText: "Digitally signed by: {cn} \n{dnName} \nAt date: {date}"
+        textImage:
+          by: "Signed By"
+          in: "In"
+          at: "At"
+      watermark:
+        defaults:
+          xAxis: 100
+          yAxis: 700
+          transparency: 1
+          colour:
+            r: 255
+            g: 0
+            b: 0
+          font: "C:/Users/Brain/font/Pacifico-Regular.ttf"
+          fontsize: 50
+    hazelcast:
+      expireInminutes: 3
+      members: localhost:5777
+      port: 5777
+      kubernetes:
+        enabled: true
+        kubernetesServiceDns: dmss-container-and-signature.default.svc.cluster.local
+    idCard:
+      useContainerIdAsSession: false
+    lvrtc:
+      baseUri: https://eidas.eparaksts.lv/
+      clientId: ${clientId}
+      clientSecret: ${clientSecret}
+      authRedirectUri: ${signaturePersonUrl}/api/lvrtc-signing/sign-authorize/
+      signRedirectUri: ${signaturePersonUrl}/api/lvrtc-signing/signing-identity/
+      defaultLocale: lv
+      tspUrl: https://tsa.eparaksts.lv/
+      keystorePassword: 
+      certAlias: 
+    logging:
+      pattern:
+        console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{X-Session-ID}/%X{X-Request-ID}] %-5p [%t] %logger{36} - %msg%n'
+      level:
+        root: debug
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dmss-container-and-signature
+  labels:
+    app: dmss-container-and-signature
+spec:
+  selector:
+    matchLabels:
+      app: dmss-container-and-signature
+  template:
+    metadata:
+      labels:
+        app: dmss-container-and-signature
+    spec:
+      containers:
+      - name: dmss-container-and-signature
+        image: trustlynx/container-signature-service:24.3.0.41
+        env:
+        - name: SPRING_CONFIG_LOCATION
+          value: /confs/application.yml
+        - name: TZ
+          value: Europe/Riga
+        volumeMounts:
+        - name: config
+          mountPath: /confs/application.yml
+          subPath: application.yml
+      volumes:
+      - name: config
+        configMap:
+          name: dmss-container-and-signature-service
+---
+# Service for port 8092 (standard service)
+apiVersion: v1
+kind: Service
+metadata:
+  name: dmss-container-and-signature
+  labels:
+    app: dmss-container-and-signature
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8092
+  selector:
+    app: dmss-container-and-signature
+---

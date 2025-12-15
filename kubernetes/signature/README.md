@@ -212,7 +212,7 @@ lvrtc:
   resourcesUri: https://eidas.eparaksts.lv/trustedx-resources/openid/v1/users/me
   clientId: ${clientId}                                     # OBLIGĀTI MAINĪT
   clientSecret: ${clientSecret}                             # OBLIGĀTI MAINĪT
-  redirectUri: ${signaturePersonURL}/api/lvrtc-signing/     # OBLIGĀTI MAINĪT
+  redirectUri: ${signaturePersonUrl}/api/lvrtc-signing/     # OBLIGĀTI MAINĪT
 ```
 
 **Kur iegūst:**
@@ -381,13 +381,13 @@ spec:
 | `dmss-authentication-service.yaml` | `${displayText}` | Teksts, ko rāda lietotājam | Jūsu izvēle |
 | `dmss-authentication-service.yaml` | `${clientId}` | LVRTC klienta ID | eParaksts.lv reģistrācija |
 | `dmss-authentication-service.yaml` | `${clientSecret}` | LVRTC klienta noslēpums | eParaksts.lv reģistrācija |
-| `dmss-authentication-service.yaml` | `${signaturePersonURL}` | Signature Person publiskais URL | Jūsu DNS/Ingress konfigurācija |
+| `dmss-authentication-service.yaml` | `${signaturePersonUrl}` | Signature Person publiskais URL | Jūsu DNS/Ingress konfigurācija |
 | `dmss-container-and-signature-service.yaml` | `${relyingPartyUUID}` | Smart-ID UUID (tāds pats) | Smart-ID reģistrācija |
 | `dmss-container-and-signature-service.yaml` | `${relyingPartyName}` | Smart-ID nosaukums (tāds pats) | Smart-ID reģistrācija |
 | `dmss-container-and-signature-service.yaml` | `${displayText}` | Teksts, ko rāda lietotājam Smart-ID autentifikācijas laikā | Jūsu izvēle |
 | `dmss-container-and-signature-service.yaml` | `${clientId}` | LVRTC klienta ID (tāds pats) | eParaksts.lv reģistrācija |
 | `dmss-container-and-signature-service.yaml` | `${clientSecret}` | LVRTC noslēpums (tāds pats) | eParaksts.lv reģistrācija |
-| `dmss-container-and-signature-service.yaml` | `${signaturePersonURL}` | Signature Person URL (tāds pats) | Jūsu DNS/Ingress konfigurācija |
+| `dmss-container-and-signature-service.yaml` | `${signaturePersonUrl}` | Signature Person URL (tāds pats) | Jūsu DNS/Ingress konfigurācija |
 | `dmss-archive-services-fallback.yaml` | `${fallbackDbName}` | PostgreSQL datubāzes nosaukums | Jūsu izvēle (piemēram: `signature`) |
 | `dmss-archive-services-fallback.yaml` | `${fallbackDbUsername}` | PostgreSQL lietotājvārds | Jūsu izvēle (piemēram: `admin`) |
 | `dmss-archive-services-fallback.yaml` | `${fallbackDbPassword}` | PostgreSQL parole | Droša parole (base64 kodēta Secret) |

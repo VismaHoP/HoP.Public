@@ -1,0 +1,119 @@
+---
+# ConfigMap for application.yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dmss-authentication-service
+data:
+  application.yml: |
+    server:
+      port: 8089
+    digidoc4j:
+      configuration:
+        mode: PROD
+        file: classpath:digidoc4j-custom.yaml
+        preferAiaOcsp: true
+        issuers:
+    smartId:
+      hostUrl: https://rp-api.smart-id.com/v2
+      relyingPartyUUID: ${relyingPartyUUID}
+      relyingPartyName: ${relyingPartyName}
+      displayText: ${displayText}
+      displayTextLong:
+      delay: 3000
+      interactions:
+        -
+          interactionName: "Interaction.confirmationMessageAndVerificationCodeChoice"
+          defaultText: "confirmationMessageAndVerificationCodeChoice"
+          maxsize: 200
+          enabled: true
+        -
+          interactionName: "Interaction.confirmationMessage"
+          defaultText: "confirmationMessage"
+          maxsize: 200
+          enabled: false
+        -
+          interactionName: "Interaction.verificationCodeChoice"
+          defaultText: "verificationCodeChoice"
+          maxsize: 60
+          enabled: false
+        -
+          interactionName: "Interaction.displayTextAndPIN"
+          defaultText: "displayTextAndPIN"
+          maxsize: 60
+          enabled: true
+    mobileId:
+      relyingPartyName: DEMO
+      hostUrl: https://tsp.demo.sk.ee/mid-api
+      relyingPartyUUID: 00000000-0000-0000-0000-000000000000
+      displayText: Log into Service?
+      defaultCountry: EE
+      defaultLanguage: ENG
+    lvrtc:
+      authUri: https://eidas.eparaksts.lv/trustedx-authserver/oauth/lvrtc-eipsign-as
+      resourcesUri: https://eidas.eparaksts.lv/trustedx-resources/openid/v1/users/me
+      clientId: ${clientId}
+      clientSecret: ${clientSecret}
+      redirectUri: ${signaturePersonUrl}/api/lvrtc-signing/
+      acrValues: urn:eparaksts:authentication:flow:mobileid
+      scope: "urn:lvrtc:fpeil:aa"
+      locale: lv
+    hazelcast:
+      expireInminutes: 3
+      members: localhost:5776
+      port: 5776
+      useMulticastConfig: false
+      useTcpIpConfig: false
+      kubernetes:
+        enabled: true
+        service-dns: dmss-authentication-service.default.svc.cluster.local
+    spring:
+      zipkin:
+        enabled: false
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dmss-authentication-service
+  labels:
+    app: dmss-authentication-service
+spec:
+  selector:
+    matchLabels:
+      app: dmss-authentication-service
+  template:
+    metadata:
+      labels:
+        app: dmss-authentication-service
+    spec:
+      containers:
+      - name: dmss-authentication-service
+        image: trustlynx/dmss-authentication-service:24.0.21
+        env:
+        - name: SPRING_CONFIG_LOCATION
+          value: /confs/application.yml
+        - name: TZ
+          value: Europe/Riga
+        volumeMounts:
+        - name: config
+          mountPath: /confs/application.yml
+          subPath: application.yml
+      volumes:
+      - name: config
+        configMap:
+          name: dmss-authentication-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dmss-authentication-service
+  labels:
+    app: dmss-authentication-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8089
+  selector:
+    app: dmss-authentication-service
+---

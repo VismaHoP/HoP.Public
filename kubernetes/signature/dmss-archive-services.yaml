@@ -1,0 +1,169 @@
+---
+# ConfigMap - You'll need to populate this with your actual application.yml content
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dmss-archive-service
+data:
+  application.yml: |
+    server:
+      port: 8090
+    spring:
+      sleuth:
+        propagation:
+          type: B3
+      application:
+        name: dmss-archive-services
+      servlet:
+        multipart:
+          maxFileSize: 1000MB
+          maxRequestSize: 1000MB
+          max-file-size: 1000MB
+          max-request-size: 1000MB
+      datasource:
+        url: jdbc:hsqldb:mem:myDb
+        driver-class-name: org.hsqldb.jdbc.JDBCDriver
+        username: sa
+        password: sa
+      jpa:
+        hibernate:
+          ddl-auto: validate
+          #ddl-auto: create-drop
+      liquibase:
+        change-log: classpath:liquibase-changeLog.xml
+      zipkin:
+        enabled: false
+    management:
+      security:
+    #    enabled: false
+      health:
+        probes:
+          enabled: true
+    springdoc:
+      swagger-ui:
+        use-root-path: true
+    auth-providers:
+      - name: ot_ticket
+        type: "OT_TICKET"
+        
+    authentication:
+      documentAccess:
+        enabled: false
+        identificationCodeHeaderName: "identificationCode"
+        documentIdHeaderName: "documentId"
+        rootRelativeUrl: /v1/auth/user
+      jwt:
+        enabled: false
+        validation: false
+        headerName: X-User-Context
+        systemCodeNameInClaim: appName
+        authorizationClaim: appName
+        private: false
+        secret: ""
+    certificateService:
+      username: ""
+      password: ""
+      enabled: false
+      cron: "0 0 0 21 2 ?"
+      url: ""
+    logRequests: false
+    fileMimeTypesAndExtensions: classpath:mime.types
+    requestMappings: /confs/requestmappings.json
+    opentext:
+      retryCount401: 3
+      transformSpecJsonPath:
+        cateogries: file:/confs/mappings.json
+        docBody: classpath:metaForDoc.json
+    filesystem-service:
+      baseurl: http://localhost:8086/api
+    archive-connections:
+      connections:
+        -   
+          name: "FS-MAIN"
+          failover: "FSA-MAIN"
+          url: http://dmss-archive-services-fallback:8095/api
+          type: EXTERNAL_FILE_SYSTEM
+          priority: 1
+    archive-general-settings:
+      database:
+        enabled: false
+      # Can use SEQUENCE or UID if database is enabled. Without database one can use UNMODIFIED or PREFIX values.
+      externalIdType: UNMODIFIED
+    synchronisation:
+      cron: "5 * * * * ?"
+      maxRetry: 100
+      factory: 3
+    logging:
+      pattern:
+        console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{traceId}/%X{spanId}] %-5p [%t] %logger{36} - %msg%n'
+      level:
+        root: info
+  mappings.json: |
+    [
+      {
+        "name": "DMSSDoc",
+        "id": 0,
+        "archiveName": "FS-MAIN",
+        "baseCategoryId": 0,
+        "spec": [
+          {
+            "operation": "shift",
+            "spec": {
+              "a":"a"
+            }
+          }
+        ]
+      }
+    ]
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dmss-archive-services
+  labels:
+    app: dmss-archive-services
+spec:
+  selector:
+    matchLabels:
+      app: dmss-archive-services
+  template:
+    metadata:
+      labels:
+        app: dmss-archive-services
+    spec:
+      containers:
+      - name: dmss-archive-services
+        image: trustlynx/dmss-archive-services:24.2.0.9
+        env:
+        - name: SPRING_CONFIG_LOCATION
+          value: /confs/
+        - name: TZ
+          value: Europe/Riga
+        volumeMounts:
+            - name: dmss-archive-services-volume
+              mountPath: /confs/
+              readOnly: true
+      volumes:
+      - name: dmss-archive-services-volume
+        configMap:
+          name: dmss-archive-service
+          items:
+          - key: application.yml
+            path: application.yml
+          - key: mappings.json
+            path: mappings.json
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: dmss-archive-services
+  labels:
+    app: dmss-archive-services
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8090
+  selector:
+    app: dmss-archive-services

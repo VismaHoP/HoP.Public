@@ -1,0 +1,193 @@
+---
+# ConfigMap for dmss-archive-services-fallback
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dmss-archive-services-fallback-v4
+  #namespace: dmss
+data:
+  application.yml: |
+    spring:
+      servlet:
+        multipart:
+          maxFileSize: 1000MB
+          maxRequestSize: 1000MB
+      datasource:
+        url: jdbc:postgresql://fallback-postgres-db:5432/${fallbackDbName}
+        username: ${fallbackDbUsername}
+        password: ${fallbackDbPassword}
+      jpa:
+        show-sql: true
+        hibernate:
+          format_sql: true
+          ddl-auto: update
+      threads:
+        virtual:
+          enabled: true
+      application:
+        name: dmss-archive-services-fallback
+      sleuth:
+        propagation:
+          type: CUSTOM
+        trace-id128: true
+        supports-join: false
+      zipkin:
+        enabled: false
+    server:
+      port: 8095
+    fallback:
+      tempDirectory: '/tmp'
+      documentsDirectory: '/tmp'
+      actAsMainService: true
+      tempDocumentType: 'temp'
+      directoryDepth: 3
+    archiveServices:
+      baseUrl: http://localhost:8090/api
+    management:
+      endpoint:
+        health:
+          probes:
+            enabled: true
+      health:
+        livenessState:
+          enabled: true
+        readinessState:
+          enabled: true
+    springdoc:
+      swagger-ui:
+        use-root-path: true
+    logging:
+      pattern:
+        console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{X-Session-ID} %X{X-Request-ID} %X{traceId} %X{spanId}] %-5p [%t] %logger{36} - %msg%n'
+      level:
+        root: info
+    logRequests: false
+    fileMimeTypesAndExtensions: classpath:mime.types
+    service-data-collector:
+      enabled: false
+    trustlynx:
+      illegalChars: "[\\/:*?\\\"<>|^&]"
+---
+# PersistentVolumeClaim for PostgreSQL data
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fallback-db-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 500Mi
+---
+# Deployment for dmss-archive-services-fallback
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dmss-archive-services-fallback
+  labels:
+    app: dmss-archive-services-fallback
+spec:
+  selector:
+    matchLabels:
+      app: dmss-archive-services-fallback
+  template:
+    metadata:
+      labels:
+        app: dmss-archive-services-fallback
+    spec:
+      containers:
+      - name: dmss-archive-services-fallback
+        image: trustlynx/dmss-archive-services-fallback:24.0.6
+        env:
+        - name: SPRING_CONFIG_LOCATION
+          value: /confs/application.yml
+        - name: TZ
+          value: Europe/Riga
+        volumeMounts:
+        - name: config
+          mountPath: /confs/application.yml
+          subPath: application.yml
+      volumes:
+      - name: config
+        configMap:
+          name: dmss-archive-services-fallback-v4
+---
+# Service for dmss-archive-services-fallback
+apiVersion: v1
+kind: Service
+metadata:
+  name: dmss-archive-services-fallback
+  labels:
+    app: dmss-archive-services-fallback
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8095
+  selector:
+    app: dmss-archive-services-fallback
+--- 
+# Add Secret for Postgres password
+apiVersion: v1
+kind: Secret
+metadata:
+  name: fallback-postgres-secret
+type: Opaque
+data:
+  password: ZXhhbXBsZQ==  # base64("example")
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fallback-postgres-db
+  labels:
+    app: fallback-postgres-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fallback-postgres-db
+  template:
+    metadata:
+      labels:
+        app: fallback-postgres-db
+    spec:
+      containers:
+      - name: fallback-postgres-db
+        image: postgres:18.1
+        ports:
+        - containerPort: 5432
+          protocol: TCP
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: fallback-postgres-secret
+              key: password
+        - name: POSTGRES_DB
+          value: ${fallbackDbName}
+        - name: POSTGRES_USER
+          value: ${fallbackDbUsername}
+        volumeMounts:
+        - name: postgres-data
+          mountPath: /var/lib/postgresql
+          subPath: data
+      volumes:
+      - name: postgres-data
+        persistentVolumeClaim:
+          claimName: fallback-db-pvc
+--- 
+# Service for PostgreSQL database
+apiVersion: v1
+kind: Service
+metadata:
+  name: fallback-postgres-db
+  labels:
+    app: fallback-postgres-db
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+  selector:
+    app: fallback-postgres-db
