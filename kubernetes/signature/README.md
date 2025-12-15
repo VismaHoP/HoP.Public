@@ -125,7 +125,10 @@ storageClassName: standard
    ```bash
    kubectl apply -f signatureauthorize.yaml
    kubectl apply -f signatureclient.yaml
-   # utt.
+   kubectl apply -f signatureconfiguration.yaml
+   kubectl apply -f signatureintegration.yaml
+   kubectl apply -f signatureperson.yaml
+   kubectl apply -f signatureworker.yaml
    ```
 #### Pirmreizējā lietotāja izveide
 
