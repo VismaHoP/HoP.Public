@@ -24,8 +24,8 @@ jobs:
         run: |
           FILE="${{ github.event.inputs.file }}"
           IMAGE="${{ github.event.inputs.image }}"
-          # assumes a line like: image: <something>
-          sed -i "s|^\\s*image: .*|  image: ${IMAGE}|" "$FILE"
+          # Preserve existing indentation before "image:"
+          sed -i "s|^\([[:space:]]*\)image: .*|\1image: ${IMAGE}|" "$FILE"
           echo "Updated image in $FILE to $IMAGE"
           grep "image:" "$FILE"
 
