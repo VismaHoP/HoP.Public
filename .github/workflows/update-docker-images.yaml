@@ -1,1 +1,41 @@
+name: Update Kubernetes image
 
+on:
+  workflow_dispatch:
+    inputs:
+      file:
+        description: Path to YAML file to update
+        required: true
+      image:
+        description: Full image reference (e.g. my-registry/app:tag)
+        required: true
+
+jobs:
+  bump-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update image line
+        run: |
+          FILE="${{ github.event.inputs.file }}"
+          IMAGE="${{ github.event.inputs.image }}"
+          # assumes a line like: image: <something>
+          sed -i "s|^\\s*image: .*|  image: ${IMAGE}|" "$FILE"
+          echo "Updated image in $FILE to $IMAGE"
+          grep "image:" "$FILE"
+
+      - name: Commit and push
+        env:
+          FILE: ${{ github.event.inputs.file }}
+          IMAGE: ${{ github.event.inputs.image }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$FILE"
+          git commit -m "Update image in $FILE to $IMAGE" || echo "No changes to commit"
+          git push || echo "Nothing to push"
