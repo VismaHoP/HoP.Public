@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: signatureworker
-          image: ${registryURL}/signatureworker:134
+          image: ${registryURL}/signatureworker:144
           env:
             - name: ASPNETCORE_URLS
               valueFrom:
