@@ -6,8 +6,8 @@ on:
       file:
         description: Path to YAML file to update
         required: true
-      image:
-        description: Full image reference (e.g. my-registry/app:tag)
+      image_suffix:
+        description: Last part + tag (e.g. signatureconfiguration:597)
         required: true
 
 jobs:
@@ -23,10 +23,12 @@ jobs:
       - name: Update image line
         run: |
           FILE="${{ github.event.inputs.file }}"
-          IMAGE="${{ github.event.inputs.image }}"
-          # Preserve existing indentation before "image:"
-          sed -i "s|^\([[:space:]]*\)image: .*|\1image: ${IMAGE}|" "$FILE"
-          echo "Updated image in $FILE to $IMAGE"
+          SUFFIX="${{ github.event.inputs.image_suffix }}"
+      
+          # Resulting line will be: image: ${registryURL}/<SUFFIX>
+          sed -i "s|^\([[:space:]]*image:\s*\)\${registryURL}/.*|\1\${registryURL}/${SUFFIX}|" "$FILE"
+      
+          echo "Updated image in $FILE to \${registryURL}/${SUFFIX}"
           grep "image:" "$FILE"
 
       - name: Commit and push
