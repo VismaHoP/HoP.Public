@@ -99,7 +99,7 @@ spec:
     spec:
       containers:
       - name: dmss-archive-services-fallback
-        image: trustlynx/dmss-archive-services-fallback:24.0.6
+        image: trustlynx/dmss-archive-services-fallback:24.0.7
         env:
         - name: SPRING_CONFIG_LOCATION
           value: /confs/application.yml
