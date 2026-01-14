@@ -134,7 +134,7 @@ spec:
     spec:
       containers:
       - name: dmss-archive-services
-        image: trustlynx/dmss-archive-services:24.2.0.9
+        image: trustlynx/dmss-archive-services:24.2.0.13
         env:
         - name: SPRING_CONFIG_LOCATION
           value: /confs/
