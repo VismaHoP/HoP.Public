@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: advanceexpense
-          image: ${registryURL}/h2o.app.advanceexpense:1004
+          image: ${registryURL}/h2o.app.advanceexpense:1029
           env:
             - name: H2OGateWay
               valueFrom:
