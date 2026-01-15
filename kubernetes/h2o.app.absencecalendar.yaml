@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: absencecalendar
-          image: ${registryURL}/h2o.app.absencecalendar:996
+          image: ${registryURL}/h2o.app.absencecalendar:997
           env:
             - name: H2OGateWay
               valueFrom:
