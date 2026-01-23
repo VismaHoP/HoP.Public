@@ -25,7 +25,7 @@ spec:
     spec:
       initContainers:
         - name: migrate
-          image: ${registryURL}/signatureclient:632
+          image: ${registryURL}/signatureclient:633
           command: ['dotnet', 'Signature.Client.dll', 'migrate']
           env:
           - name: connectionString
@@ -35,7 +35,7 @@ spec:
                 key: ConnectionString
       containers:
         - name: signatureclient
-          image: ${registryURL}/signatureclient:632
+          image: ${registryURL}/signatureclient:633
           env:
             - name: ASPNETCORE_URLS
               valueFrom:
