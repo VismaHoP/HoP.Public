@@ -89,7 +89,7 @@ spec:
     spec:
       containers:
       - name: dmss-authentication-service
-        image: trustlynx/dmss-authentication-service:24.0.25
+        image: trustlynx/dmss-authentication-service:24.0.27
         env:
         - name: SPRING_CONFIG_LOCATION
           value: /confs/application.yml
