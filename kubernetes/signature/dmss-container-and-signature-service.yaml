@@ -193,7 +193,7 @@ spec:
     spec:
       containers:
       - name: dmss-container-and-signature
-        image: trustlynx/container-signature-service:24.3.0.46
+        image: trustlynx/container-signature-service:24.3.0.48
         env:
         - name: SPRING_CONFIG_LOCATION
           value: /confs/application.yml
