@@ -22,6 +22,8 @@ aws ecr get-login-password --region region | docker login --username AWS --passw
 
 ## Svarīga Konfigurācija
 
+HoP risinājumam gala lietotājiem jābūt pieejamam izmantojot HTTPS protokolu.
+
 ### Gateway Konfigurācija
 
 Gateway `yaml` failā nepieciešams aizpildīt `ExternalH2OApplicationHost`, kurš satur adresi, kurā pieejams Gateway micro.
