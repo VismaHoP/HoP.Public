@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: ftg
-          image: ${registryURL}/h2o.app.ftg:715
+          image: ${registryURL}/h2o.app.ftg:716
           env:
             - name: H2OGateWay
               valueFrom:
