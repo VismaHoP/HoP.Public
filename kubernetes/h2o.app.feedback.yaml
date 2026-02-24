@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: feedback
-          image: ${registryURL}/h2o.app.feedback:257
+          image: ${registryURL}/h2o.app.feedback:259
           env:
             - name: H2OGateWay
               valueFrom:
