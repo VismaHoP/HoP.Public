@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: ${registryURL}/h2o.app.auth:564
+          image: ${registryURL}/h2o.app.auth:565
           env:
             - name: H2OGateWay
               valueFrom:
