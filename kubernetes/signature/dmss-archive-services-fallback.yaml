@@ -26,11 +26,6 @@ data:
           enabled: true
       application:
         name: dmss-archive-services-fallback
-      sleuth:
-        propagation:
-          type: CUSTOM
-        trace-id128: true
-        supports-join: false
       zipkin:
         enabled: false
     server:
@@ -99,7 +94,7 @@ spec:
     spec:
       containers:
       - name: dmss-archive-services-fallback
-        image: trustlynx/dmss-archive-services-fallback:24.0.7
+        image: trustlynx/dmss-archive-services-fallback:24.1.0
         env:
         - name: SPRING_CONFIG_LOCATION
           value: /confs/application.yml
