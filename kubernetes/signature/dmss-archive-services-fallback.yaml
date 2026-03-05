@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dmss-archive-services-fallback-v4
+  name: dmss-archive-services-fallback
   #namespace: dmss
 data:
   application.yml: |
@@ -107,7 +107,7 @@ spec:
       volumes:
       - name: config
         configMap:
-          name: dmss-archive-services-fallback-v4
+          name: dmss-archive-services-fallback
 ---
 # Service for dmss-archive-services-fallback
 apiVersion: v1
