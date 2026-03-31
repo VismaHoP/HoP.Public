@@ -29,11 +29,6 @@ Nepieciešamības gadījumā klients var mauntot savu `entrypoint.sh` skriptu `/
 
 **SVARĪGI** - sertifikāta nosaukumā izmantot lowercase.
 
-### LDAP
-Lai HoP spētu izmantot LDAP autentifikāciju, nepieciešams pieviento sekojošos parametrus kā ENV variables/vai rediģēt appsettings.json faila saturu:
-- LdapDomainName=domainName
-- LdapDomainController=controller.com
-
 ### Piemērs
 
 ```
@@ -42,6 +37,12 @@ CERT_NAME=0d067f7004205c406e111100c19f9c.pfx
 CERT_PASSWORD=pass
 ```
 
+
+### LDAP
+Lai HoP spētu izmantot LDAP autentifikāciju, nepieciešams pieviento sekojošos parametrus kā ENV variables/vai rediģēt appsettings.json faila saturu:
+- LdapDomainName=domainName
+- LdapDomainController=controller.com
+  
 ## entrypoint.sh skripts
 
 ```bash
