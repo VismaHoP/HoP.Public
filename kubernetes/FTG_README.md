@@ -42,6 +42,7 @@ CERT_PASSWORD=pass
 Lai HoP spētu izmantot LDAP autentifikāciju, nepieciešams pieviento sekojošos parametrus kā ENV variables/vai rediģēt appsettings.json faila saturu:
 - LdapDomainName=domainName
 - LdapDomainController=controller.com
+- LdapAuthType=Basic
   
 ## entrypoint.sh skripts
 
