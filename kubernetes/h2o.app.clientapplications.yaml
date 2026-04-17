@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: clientapplications
-          image: ${registryURL}/h2o.app.clientapplications:316
+          image: ${registryURL}/h2o.app.clientapplications:317
           env:
             - name: H2OGateWay
               valueFrom:
