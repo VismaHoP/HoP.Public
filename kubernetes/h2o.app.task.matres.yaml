@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: taskmatres
-          image: ${registryURL}/h2o.app.task.matres:330
+          image: ${registryURL}/h2o.app.task.matres:331
           env:
             - name: H2OGateWay
               valueFrom:
