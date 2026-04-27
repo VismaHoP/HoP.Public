@@ -57,6 +57,11 @@ PersonsMicroserviceHost: 'https://signature-person.example.com/'
 Host: 'https://signature-worker.example.com/'
 ```
 
+##### signatureperson.yaml
+```yaml
+AllowSmartIdAuthAndSign : 'true/false'
+```
+
 **Piezīme:** TrustLynx servisu adreses (`DigitalMindsAuthenticationService`, `DigitalMindsContainersAndSignaturesService`, `DigitalMindsArchiveService`) nav jākonfigurē, ja `dmss-*` servisi nav izvietoti ar citiem nosaukumiem vai portiem.
 
 ### Konfigurācijas Soļi
