@@ -33,6 +33,11 @@ spec:
                 configMapKeyRef:
                   name: signatureperson
                   key: ASPNETCORE_URLS
+            - name: AllowSmartIdAuthAndSign
+              valueFrom:
+                configMapKeyRef:
+                  name: signatureperson
+                  key: AllowSmartIdAuthAndSign
             - name: EncryptionKey
               valueFrom:
                 configMapKeyRef:
@@ -146,6 +151,7 @@ metadata:
   name: signatureperson
 data:
   ASPNETCORE_URLS: 'http://+:8080'
+  AllowSmartIdAuthAndSign: 'true'
   EncryptionKey: ''
   PrivateKey: ''
   # ------------------------------------------------------------------
