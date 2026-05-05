@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: taskeinventory
-          image: ${registryURL}/h2o.app.task.einventory:97
+          image: ${registryURL}/h2o.app.task.einventory:100
           env:
             - name: H2OGateWay
               valueFrom:
