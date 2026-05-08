@@ -45,6 +45,7 @@ DigitalMindsAuthenticationService: 'http://dmss-authentication-service:8089/'
 
 ##### signatureclient.yaml
 ```yaml
+PgArchiveFallbackConnectionString: ''
 DigitalMindsContainersAndSignaturesService: 'http://dmss-container-and-signature:8092/'
 DigitalMindsArchiveService: 'http://dmss-archive-services:8090/'
 PersonsMicroserviceHost: 'https://signature-person.example.com/'
