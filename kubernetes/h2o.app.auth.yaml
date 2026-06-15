@@ -76,6 +76,14 @@ spec:
             initialDelaySeconds: 15
             periodSeconds: 10
             timeoutSeconds: 5
+          volumeMounts:
+            - name: app-secrets
+              mountPath: /app/appsettings.Secrets.json
+              subPath: appsettings.Secrets.json
+      volumes:
+        - name: app-secrets
+          secret:
+            secretName: hop-secrets-auth
 ---
 apiVersion: v1
 kind: ConfigMap
