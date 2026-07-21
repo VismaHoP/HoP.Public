@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: freeform
-          image: ${registryURL}/h2o.app.freeform:395
+          image: ${registryURL}/h2o.app.freeform:397
           env:
             - name: H2OGateWay
               valueFrom:
