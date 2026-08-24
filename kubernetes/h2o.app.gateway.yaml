@@ -23,6 +23,8 @@ spec:
       labels:
         app: gateway
     spec:
+      securityContext:
+        fsGroup: 2000
       containers:
         - name: gateway
           image: ${registryURL}/h2o.app.gateway:560
@@ -89,6 +91,7 @@ spec:
         - name: app-secrets
           secret:
             secretName: hop-secrets-gateway
+            defaultMode: 0440
 ---
 apiVersion: v1
 kind: ConfigMap

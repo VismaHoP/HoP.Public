@@ -23,6 +23,8 @@ spec:
       labels:
         app: menu
     spec:
+      securityContext:
+        fsGroup: 2000
       containers:
         - name: menu
           image: ${registryURL}/h2o.app.menu:523
@@ -84,6 +86,7 @@ spec:
         - name: app-secrets
           secret:
             secretName: hop-secrets-menu
+            defaultMode: 0440
 ---
 apiVersion: v1
 kind: ConfigMap

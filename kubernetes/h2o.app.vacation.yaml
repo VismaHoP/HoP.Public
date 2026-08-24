@@ -23,6 +23,8 @@ spec:
       labels:
         app: vacation
     spec:
+      securityContext:
+        fsGroup: 2000
       containers:
         - name: vacation
           image: ${registryURL}/h2o.app.vacation:519

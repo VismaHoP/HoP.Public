@@ -23,6 +23,8 @@ spec:
       labels:
         app: attachment
     spec:
+      securityContext:
+        fsGroup: 2000
       containers:
         - name: attachment
           image: ${registryURL}/h2o.app.attachment:582
@@ -71,6 +73,15 @@ spec:
             initialDelaySeconds: 15
             periodSeconds: 10
             timeoutSeconds: 5
+          volumeMounts:
+            - name: app-secrets
+              mountPath: /app/appsettings.Secrets.json
+              subPath: appsettings.Secrets.json
+      volumes:
+        - name: app-secrets
+          secret:
+            secretName: hop-secrets-attachment
+            defaultMode: 0440
 ---
 apiVersion: v1
 kind: ConfigMap

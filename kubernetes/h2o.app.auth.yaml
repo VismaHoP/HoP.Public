@@ -23,6 +23,8 @@ spec:
       labels:
         app: auth
     spec:
+      securityContext:
+        fsGroup: 2000
       containers:
         - name: auth
           image: ${registryURL}/h2o.app.auth:578
@@ -84,6 +86,7 @@ spec:
         - name: app-secrets
           secret:
             secretName: hop-secrets-auth
+            defaultMode: 0440
 ---
 apiVersion: v1
 kind: ConfigMap

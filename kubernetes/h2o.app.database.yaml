@@ -23,6 +23,8 @@ spec:
       labels:
         app: database
     spec:
+      securityContext:
+        fsGroup: 2000
       containers:
         - name: database
           image: ${registryURL}/h2o.app.database:764
@@ -84,6 +86,7 @@ spec:
         - name: app-secrets
           secret:
             secretName: hop-secrets-database
+            defaultMode: 0440
 ---
 apiVersion: v1
 kind: ConfigMap

@@ -23,6 +23,8 @@ spec:
       labels:
         app: report
     spec:
+      securityContext:
+        fsGroup: 2000
       containers:
         - name: report
           image: ${registryURL}/h2o.app.report:368
@@ -71,6 +73,15 @@ spec:
             initialDelaySeconds: 15
             periodSeconds: 10
             timeoutSeconds: 5
+          volumeMounts:
+            - name: app-secrets
+              mountPath: /app/appsettings.Secrets.json
+              subPath: appsettings.Secrets.json
+      volumes:
+        - name: app-secrets
+          secret:
+            secretName: hop-secrets-report
+            defaultMode: 0440
 ---
 apiVersion: v1
 kind: ConfigMap
