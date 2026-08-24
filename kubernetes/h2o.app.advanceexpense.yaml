@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: advanceexpense
-          image: ${registryURL}/h2o.app.advanceexpense:1035
+          image: ${registryURL}/h2o.app.advanceexpense:1048
           env:
             - name: H2OGateWay
               valueFrom:

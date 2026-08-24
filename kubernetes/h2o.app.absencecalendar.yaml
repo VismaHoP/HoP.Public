@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: absencecalendar
-          image: ${registryURL}/h2o.app.absencecalendar:1001
+          image: ${registryURL}/h2o.app.absencecalendar:1012
           env:
             - name: H2OGateWay
               valueFrom:

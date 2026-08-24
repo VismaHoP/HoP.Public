@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: hrreport
-          image: ${registryURL}/h2o.app.hrreport:89
+          image: ${registryURL}/h2o.app.hrreport:94
           env:
             - name: H2OGateWay
               valueFrom:

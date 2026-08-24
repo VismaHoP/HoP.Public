@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: taskmetainvoice
-          image: ${registryURL}/h2o.app.task.metainvoice:311
+          image: ${registryURL}/h2o.app.task.metainvoice:333
           env:
             - name: H2OGateWay
               valueFrom:

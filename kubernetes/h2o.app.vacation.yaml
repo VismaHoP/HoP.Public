@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: vacation
-          image: ${registryURL}/h2o.app.vacation:519
+          image: ${registryURL}/h2o.app.vacation:533
           env:
             - name: H2OGateWay
               valueFrom:

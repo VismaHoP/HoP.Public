@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: staff
-          image: ${registryURL}/h2o.app.staff:306
+          image: ${registryURL}/h2o.app.staff:320
           env:
             - name: H2OGateWay
               valueFrom:

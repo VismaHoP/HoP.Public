@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: taskeinventory
-          image: ${registryURL}/h2o.app.task.einventory:100
+          image: ${registryURL}/h2o.app.task.einventory:104
           env:
             - name: H2OGateWay
               valueFrom:

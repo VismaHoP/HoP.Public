@@ -30,13 +30,13 @@ spec:
         fsGroup: 2000
       containers:
         - name: web
-          image: ${registryURL}/h2o.web:1046
-          env:               
+          image: ${registryURL}/h2o.web:1074
+          env:
             - name: HTTPD_WEBROUTER
               valueFrom:
                 configMapKeyRef:
                   name: web
-                  key: HTTPD_WEBROUTER     
+                  key: HTTPD_WEBROUTER
 ---
 apiVersion: v1
 kind: ConfigMap

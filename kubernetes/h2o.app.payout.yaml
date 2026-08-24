@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: payout
-          image: ${registryURL}/h2o.app.payout:374
+          image: ${registryURL}/h2o.app.payout:396
           env:
             - name: H2OGateWay
               valueFrom:

@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: menu
-          image: ${registryURL}/h2o.app.menu:523
+          image: ${registryURL}/h2o.app.menu:542
           env:
             - name: H2OGateWay
               valueFrom:
@@ -99,4 +99,4 @@ data:
   LogFileMinLevel: 'Info'
   LogFileDirectory: '/var/log/hop'
   LogConsoleMinLevel: ''
-  EnableAudienceChangeWithoutReauthenticationForKeycloak: ''
+  EnableAudienceChangeWithoutReauthenticationForKeycloak: 'false'

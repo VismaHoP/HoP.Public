@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: freeform
-          image: ${registryURL}/h2o.app.freeform:385
+          image: ${registryURL}/h2o.app.freeform:409
           env:
             - name: H2OGateWay
               valueFrom:

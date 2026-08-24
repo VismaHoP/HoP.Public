@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: payslip
-          image: ${registryURL}/h2o.app.payslip:305
+          image: ${registryURL}/h2o.app.payslip:313
           env:
             - name: H2OGateWay
               valueFrom:

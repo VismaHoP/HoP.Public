@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: antralicense
-          image: ${registryURL}/h2o.app.antra.license:315
+          image: ${registryURL}/h2o.app.antra.license:330
           env:
             - name: H2OGateWay
               valueFrom:

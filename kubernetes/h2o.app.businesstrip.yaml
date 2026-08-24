@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: businesstrip
-          image: ${registryURL}/h2o.app.businesstrip:2037
+          image: ${registryURL}/h2o.app.businesstrip:2087
           env:
             - name: H2OGateWay
               valueFrom:

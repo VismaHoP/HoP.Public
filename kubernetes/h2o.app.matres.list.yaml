@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: matreslist
-          image: ${registryURL}/h2o.app.matres.list:477
+          image: ${registryURL}/h2o.app.matres.list:509
           env:
             - name: H2OGateWay
               valueFrom:
