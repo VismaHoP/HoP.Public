@@ -52,22 +52,30 @@ Pirmo reizi startējot HoP, ir nepieciešams ievērot **sekojošu secību**:
    kubectl apply -f pg_ecr.yaml
    ```
 
-2. **Startējam Database mikroservisu**
+2. **Startējam Database mikroservisu** (izpilda datubāzes migrācijas un sēklas datus)
    ```bash
    kubectl apply -f h2o.app.database.yaml
+   kubectl wait --for=condition=ready pod -l app=database --timeout=300s
    ```
 
-3. **Startējam Auth mikroservisu**
+3. **Ģenerējam un sinhronizējam secrets** — obligāts solis; bez tā pārējiem mikroservisiem
+   trūkst `appsettings.Secrets.json` un tie nevar startēt
+   ```bash
+   kubectl apply -f hop.secrets.job.yaml
+   kubectl wait --for=condition=complete job/hop-secrets-job --timeout=300s
+   ```
+
+4. **Startējam Auth mikroservisu**
    ```bash
    kubectl apply -f h2o.app.auth.yaml
    ```
 
-4. **Pēc ~2 minūtēm startējam Gateway**
+5. **Pēc ~2 minūtēm startējam Gateway**
    ```bash
    kubectl apply -f h2o.app.gateway.yaml
    ```
 
-5. **Startējam visus atlikušos mikroservisus**
+6. **Startējam visus atlikušos mikroservisus**
    ```bash
    kubectl apply -f .
    ```
