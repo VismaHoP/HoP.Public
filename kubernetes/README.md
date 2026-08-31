@@ -82,6 +82,39 @@ Pirmo reizi startējot HoP, ir nepieciešams ievērot **sekojošu secību**:
 
 ---
 
+## Atjaunināšana (Upgrade)
+
+Pirms `hop.secrets.job.yaml` atkārtotas palaišanas — obligāti izveidojam backup, lai būtu no kā atjaunoties,
+ja process neizdodas vai secrets pēc tam pazūd no klastera:
+
+```bash
+pg_dump ... > backup-db-$(date +%F).sql
+kubectl get secret -l app.kubernetes.io/part-of=hop -o yaml > backup-secrets-$(date +%F).yaml
+```
+
+Atjaunošanas gadījumā abi šie faili jāatjauno **kopā**, ne atsevišķi — citādi datubāze un secrets faili
+atkal nesakrīt.
+
+Pati atjaunināšana:
+
+1. **Dzēšam un no jauna palaižam secrets Job** — Job'a `spec.template` nav maināms, tāpēc atkārtota
+   identiska `apply` neko nedarīs (nedz pārpalaidīs, nedz rotēs secrets):
+   ```bash
+   kubectl delete job hop-secrets-job --ignore-not-found --wait
+   kubectl apply -f hop.secrets.job.yaml
+   kubectl wait --for=condition=complete job/hop-secrets-job --timeout=300s
+   ```
+
+2. **Restartējam jau strādājošos migrētos mikroservisus**, lai tie uzņemtu jauno secret — fails ir
+   montēts ar `subPath`, kuru kubelet nekad neatjauno dzīvam podam neatkarīgi no Secret izmaiņām:
+   ```bash
+   kubectl rollout restart deployment/database deployment/auth deployment/gateway deployment/menu
+   ```
+
+3. **Atjaunojam pārējos mikroservisus** parastajā veidā (jaunais image tags manifestos).
+
+---
+
 ## Piekļuve HoP
 
 Pieeju pie HoP nodrošina **H2O.Web** mikroserviss, kurš pēc noklusējuma pieejams uz **porta 80**. 
