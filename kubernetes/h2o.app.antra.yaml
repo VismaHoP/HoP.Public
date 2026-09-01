@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: antra
-          image: ${registryURL}/h2o.app.antra:826
+          image: ${registryURL}/h2o.app.antra:827
           env:
             - name: H2OGateWay
               valueFrom:

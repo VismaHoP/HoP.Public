@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: contract
-          image: ${registryURL}/h2o.app.contract:291
+          image: ${registryURL}/h2o.app.contract:294
           env:
             - name: H2OGateWay
               valueFrom:

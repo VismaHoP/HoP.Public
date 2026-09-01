@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: webrouter
-          image: ${registryURL}/h2o.app.webrouter:652
+          image: ${registryURL}/h2o.app.webrouter:660
           env:
             - name: H2OGateWay
               valueFrom:

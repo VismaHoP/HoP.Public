@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: stockwriteoff
-          image: ${registryURL}/h2o.app.stockwriteoff:431
+          image: ${registryURL}/h2o.app.stockwriteoff:432
           env:
             - name: H2OGateWay
               valueFrom:

@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: metainvoicelist
-          image: ${registryURL}/h2o.app.metainvoice.list:457
+          image: ${registryURL}/h2o.app.metainvoice.list:460
           env:
             - name: H2OGateWay
               valueFrom:

@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: worktimeplanning
-          image: ${registryURL}/h2o.app.worktimeplanning:319
+          image: ${registryURL}/h2o.app.worktimeplanning:322
           env:
             - name: H2OGateWay
               valueFrom:

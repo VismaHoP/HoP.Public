@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: feedback
-          image: ${registryURL}/h2o.app.feedback:284
+          image: ${registryURL}/h2o.app.feedback:287
           env:
             - name: H2OGateWay
               valueFrom:

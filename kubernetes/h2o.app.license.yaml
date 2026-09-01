@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: license
-          image: ${registryURL}/h2o.app.license:421
+          image: ${registryURL}/h2o.app.license:423
           env:
             - name: H2OGateWay
               valueFrom:

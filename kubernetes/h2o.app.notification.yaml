@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: notification
-          image: ${registryURL}/h2o.app.notification:282
+          image: ${registryURL}/h2o.app.notification:286
           env:
             - name: H2OGateWay
               valueFrom:

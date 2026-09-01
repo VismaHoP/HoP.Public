@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: horcalendar
-          image: ${registryURL}/h2o.app.horcalendar:270
+          image: ${registryURL}/h2o.app.horcalendar:273
           env:
             - name: H2OGateWay
               valueFrom:
