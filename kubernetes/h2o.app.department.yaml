@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: department
-          image: ${registryURL}/h2o.app.department:271
+          image: ${registryURL}/h2o.app.department:274
           env:
             - name: H2OGateWay
               valueFrom:

@@ -27,7 +27,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: elmar
-          image: ${registryURL}/h2o.app.elmar:509
+          image: ${registryURL}/h2o.app.elmar:510
           env:
             - name: H2OGateWay
               valueFrom:
