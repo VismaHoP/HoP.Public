@@ -78,7 +78,7 @@ Pirmo reizi startējot HoP, ir nepieciešams ievērot **sekojošu secību**:
 
 6. **Startējam visus atlikušos mikroservisus**
    ```bash
-   kubectl apply -f .
+   kubectl apply -k .
    ```
 
 ---
