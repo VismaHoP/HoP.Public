@@ -23,8 +23,6 @@ spec:
       labels:
         app: database
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: database
           image: ${registryURL}/h2o.app.database:802

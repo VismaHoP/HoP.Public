@@ -23,8 +23,6 @@ spec:
       labels:
         app: taskmetainvoice
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: taskmetainvoice
           image: ${registryURL}/h2o.app.task.metainvoice:337

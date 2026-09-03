@@ -23,8 +23,6 @@ spec:
       labels:
         app: worktimetracking
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: worktimetracking
           image: ${registryURL}/h2o.app.worktimetracking:276

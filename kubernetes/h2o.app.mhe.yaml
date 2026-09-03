@@ -23,8 +23,6 @@ spec:
       labels:
         app: mhe
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: mhe
           image: ${registryURL}/h2o.app.mhe:310

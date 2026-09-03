@@ -23,8 +23,6 @@ spec:
       labels:
         app: taskmatres
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: taskmatres
           image: ${registryURL}/h2o.app.task.matres:373

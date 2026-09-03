@@ -23,8 +23,6 @@ spec:
       labels:
         app: horweb
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: horweb
           image: ${registryURL}/h2o.app.horweb:271

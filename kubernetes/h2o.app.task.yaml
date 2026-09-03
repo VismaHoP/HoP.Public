@@ -23,8 +23,6 @@ spec:
       labels:
         app: task
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: task
           image: ${registryURL}/h2o.app.task:575

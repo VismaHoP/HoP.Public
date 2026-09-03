@@ -23,8 +23,6 @@ spec:
       labels:
         app: image
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: image
           image: ${registryURL}/h2o.app.image:364

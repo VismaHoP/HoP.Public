@@ -23,8 +23,6 @@ spec:
       labels:
         app: payslip
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: payslip
           image: ${registryURL}/h2o.app.payslip:313

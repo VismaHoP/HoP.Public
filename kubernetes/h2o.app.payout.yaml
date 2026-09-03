@@ -23,8 +23,6 @@ spec:
       labels:
         app: payout
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: payout
           image: ${registryURL}/h2o.app.payout:396

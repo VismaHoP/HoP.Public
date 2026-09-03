@@ -23,8 +23,6 @@ spec:
       labels:
         app: stockwriteoff
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: stockwriteoff
           image: ${registryURL}/h2o.app.stockwriteoff:432

@@ -23,8 +23,6 @@ spec:
       labels:
         app: license
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: license
           image: ${registryURL}/h2o.app.license:424

@@ -23,8 +23,6 @@ spec:
       labels:
         app: webrouter
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: webrouter
           image: ${registryURL}/h2o.app.webrouter:660

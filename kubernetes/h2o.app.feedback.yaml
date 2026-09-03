@@ -23,8 +23,6 @@ spec:
       labels:
         app: feedback
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: feedback
           image: ${registryURL}/h2o.app.feedback:287

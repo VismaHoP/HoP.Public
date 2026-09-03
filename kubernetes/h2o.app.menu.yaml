@@ -23,8 +23,6 @@ spec:
       labels:
         app: menu
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: menu
           image: ${registryURL}/h2o.app.menu:547

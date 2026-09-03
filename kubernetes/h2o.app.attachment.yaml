@@ -23,8 +23,6 @@ spec:
       labels:
         app: attachment
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: attachment
           image: ${registryURL}/h2o.app.attachment:609

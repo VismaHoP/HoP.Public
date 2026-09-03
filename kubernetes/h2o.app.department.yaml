@@ -23,8 +23,6 @@ spec:
       labels:
         app: department
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: department
           image: ${registryURL}/h2o.app.department:274

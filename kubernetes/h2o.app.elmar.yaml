@@ -23,8 +23,6 @@ spec:
       labels:
         app: elmar
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: elmar
           image: ${registryURL}/h2o.app.elmar:510

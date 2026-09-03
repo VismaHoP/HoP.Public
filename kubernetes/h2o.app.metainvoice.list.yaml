@@ -23,8 +23,6 @@ spec:
       labels:
         app: metainvoicelist
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: metainvoicelist
           image: ${registryURL}/h2o.app.metainvoice.list:460

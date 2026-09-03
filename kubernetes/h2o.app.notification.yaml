@@ -23,8 +23,6 @@ spec:
       labels:
         app: notification
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: notification
           image: ${registryURL}/h2o.app.notification:286

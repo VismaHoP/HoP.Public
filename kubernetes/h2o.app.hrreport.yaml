@@ -23,8 +23,6 @@ spec:
       labels:
         app: hrreport
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: hrreport
           image: ${registryURL}/h2o.app.hrreport:94

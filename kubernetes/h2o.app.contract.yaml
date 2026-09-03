@@ -23,8 +23,6 @@ spec:
       labels:
         app: contract
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: contract
           image: ${registryURL}/h2o.app.contract:294

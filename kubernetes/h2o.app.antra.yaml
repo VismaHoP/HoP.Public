@@ -23,8 +23,6 @@ spec:
       labels:
         app: antra
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: antra
           image: ${registryURL}/h2o.app.antra:829

@@ -23,8 +23,6 @@ spec:
       labels:
         app: absencecalendar
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: absencecalendar
           image: ${registryURL}/h2o.app.absencecalendar:1030

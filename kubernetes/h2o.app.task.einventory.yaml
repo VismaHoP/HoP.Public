@@ -23,8 +23,6 @@ spec:
       labels:
         app: taskeinventory
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: taskeinventory
           image: ${registryURL}/h2o.app.task.einventory:105

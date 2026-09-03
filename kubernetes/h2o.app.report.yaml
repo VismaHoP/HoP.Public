@@ -23,8 +23,6 @@ spec:
       labels:
         app: report
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: report
           image: ${registryURL}/h2o.app.report:388

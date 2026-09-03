@@ -23,8 +23,6 @@ spec:
       labels:
         app: staff
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: staff
           image: ${registryURL}/h2o.app.staff:320

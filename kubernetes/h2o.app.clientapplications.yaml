@@ -23,8 +23,6 @@ spec:
       labels:
         app: clientapplications
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: clientapplications
           image: ${registryURL}/h2o.app.clientapplications:356

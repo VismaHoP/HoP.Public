@@ -23,8 +23,6 @@ spec:
       labels:
         app: worktimeplanning
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: worktimeplanning
           image: ${registryURL}/h2o.app.worktimeplanning:322

@@ -23,8 +23,6 @@ spec:
       labels:
         app: acquaint
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: acquaint
           image: ${registryURL}/h2o.app.acquaint:1919

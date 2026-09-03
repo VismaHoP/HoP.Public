@@ -23,8 +23,6 @@ spec:
       labels:
         app: training
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: training
           image: ${registryURL}/h2o.app.training:608

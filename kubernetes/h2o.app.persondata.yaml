@@ -23,8 +23,6 @@ spec:
       labels:
         app: persondata
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: persondata
           image: ${registryURL}/h2o.app.persondata:804

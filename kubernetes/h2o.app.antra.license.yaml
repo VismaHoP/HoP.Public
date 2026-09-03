@@ -23,8 +23,6 @@ spec:
       labels:
         app: antralicense
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: antralicense
           image: ${registryURL}/h2o.app.antra.license:333

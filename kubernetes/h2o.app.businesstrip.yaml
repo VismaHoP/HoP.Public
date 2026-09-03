@@ -23,8 +23,6 @@ spec:
       labels:
         app: businesstrip
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: businesstrip
           image: ${registryURL}/h2o.app.businesstrip:2095

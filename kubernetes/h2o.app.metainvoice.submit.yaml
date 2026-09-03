@@ -23,8 +23,6 @@ spec:
       labels:
         app: metainvoicesubmit
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: metainvoicesubmit
           image: ${registryURL}/h2o.app.metainvoice.submit:640

@@ -23,8 +23,6 @@ spec:
       labels:
         app: advanceexpense
     spec:
-      securityContext:
-        fsGroup: 2000
       containers:
         - name: advanceexpense
           image: ${registryURL}/h2o.app.advanceexpense:1052
