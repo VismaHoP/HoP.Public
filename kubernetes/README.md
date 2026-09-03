@@ -34,12 +34,13 @@ Yaml failos privātais repo ir aizvietots ar `${registryURL}`. To nepieciešams 
 
 ### Datubāzes Connection String
 
-Šādiem mikroservisu yaml failiem jāpapildina/jānomaina ar nosūtīto `PgConnectionString`:
+Šādiem yaml failiem jāpapildina/jānomaina ar nosūtīto `PgConnectionString`:
 - Gateway
 - Database
 - Notification
 - Acquaint
 - Workplace
+- Secrets Job (`hop.secrets.job.yaml`) — pēc noklusējuma tukšs, obligāti jāaizpilda **pirms** Job palaišanas
 
 ---
 
