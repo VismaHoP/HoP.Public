@@ -89,7 +89,7 @@ ja process neizdodas vai secrets pēc tam pazūd no klastera:
 
 ```bash
 pg_dump ... > backup-db-$(date +%F).sql
-kubectl get secret -l app.kubernetes.io/part-of=hop -o yaml > backup-secrets-$(date +%F).yaml
+kubectl get secret -o name | grep '^secret/hop-secrets-' | xargs kubectl get -o yaml > backup-secrets-$(date +%F).yaml
 ```
 
 Atjaunošanas gadījumā abi šie faili jāatjauno **kopā**, ne atsevišķi — citādi datubāze un secrets faili
@@ -97,21 +97,20 @@ atkal nesakrīt.
 
 Pati atjaunināšana:
 
-1. **Dzēšam un no jauna palaižam secrets Job** — Job'a `spec.template` nav maināms, tāpēc atkārtota
-   identiska `apply` neko nedarīs (nedz pārpalaidīs, nedz rotēs secrets):
+1. **Dzēšam un no jauna palaižam secrets Job, tad restartējam migrētos mikroservisus vienā komandu ķēdē** —
+   Job'a `spec.template` nav maināms (atkārtota identiska `apply` neko nedarīs). Restarts izpildās **tikai
+   tad, ja Job veiksmīgi pabeidzas** — tā novēršam manuālu pauzi starp abiem soļiem, kuras laikā jau
+   strādājošie podi (fails montēts ar `subPath`, ko kubelet dzīvam podam neatjauno) turpina rādīt vecos secrets:
    ```bash
-   kubectl delete job hop-secrets-job --ignore-not-found --wait
-   kubectl apply -f hop.secrets.job.yaml
-   kubectl wait --for=condition=complete job/hop-secrets-job --timeout=300s
+   kubectl delete job hop-secrets-job --ignore-not-found --wait && \
+   kubectl apply -f hop.secrets.job.yaml && \
+   kubectl wait --for=condition=complete job/hop-secrets-job --timeout=300s && \
+   kubectl get deployments -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.spec.template.spec.volumes[*].secret.secretName}{"\n"}{end}' \
+     | awk '/hop-secrets-/ {print $1}' \
+     | xargs -r -n1 kubectl rollout restart deployment
    ```
 
-2. **Restartējam jau strādājošos migrētos mikroservisus**, lai tie uzņemtu jauno secret — fails ir
-   montēts ar `subPath`, kuru kubelet nekad neatjauno dzīvam podam neatkarīgi no Secret izmaiņām:
-   ```bash
-   kubectl rollout restart deployment/database deployment/auth deployment/gateway deployment/menu
-   ```
-
-3. **Atjaunojam pārējos mikroservisus** parastajā veidā (jaunais image tags manifestos).
+2. **Atjaunojam pārējos mikroservisus** parastajā veidā (jaunais image tags manifestos).
 
 ---
 
