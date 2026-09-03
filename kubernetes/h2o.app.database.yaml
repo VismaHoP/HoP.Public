@@ -87,6 +87,7 @@ spec:
           secret:
             secretName: hop-secrets-database
             defaultMode: 0440
+            optional: true # must boot before hop-secrets-job creates this Secret
 ---
 apiVersion: v1
 kind: ConfigMap
