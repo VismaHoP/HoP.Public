@@ -40,7 +40,7 @@ Yaml failos privātais repo ir aizvietots ar `${registryURL}`. To nepieciešams 
 - Notification
 - Acquaint
 - Workplace
-- Secrets Job (`hop.secrets.job.yaml`) — pēc noklusējuma tukšs, obligāti jāaizpilda **pirms** Job palaišanas
+- Secrets Job (`hop.secretsjob.yaml`) — pēc noklusējuma tukšs, obligāti jāaizpilda **pirms** Job palaišanas
 
 ---
 
@@ -63,7 +63,7 @@ Pirmo reizi startējot HoP, ir nepieciešams ievērot **sekojošu secību**:
 
 3. **Ģenerējam un sinhronizējam secrets**
    ```bash
-   kubectl apply -f hop.secrets.job.yaml
+   kubectl apply -f hop.secretsjob.yaml
    kubectl wait --for=condition=complete job/hop-secrets-job --timeout=300s && \
    kubectl rollout restart deployment/database && \
    kubectl rollout status deployment/database --timeout=300s
@@ -88,7 +88,7 @@ Pirmo reizi startējot HoP, ir nepieciešams ievērot **sekojošu secību**:
 
 ## Atjaunināšana (Upgrade)
 
-Pirms `hop.secrets.job.yaml` atkārtotas palaišanas — obligāti izveidojam backup, lai būtu no kā atjaunoties,
+Pirms `hop.secretsjob.yaml` atkārtotas palaišanas — obligāti izveidojam backup, lai būtu no kā atjaunoties,
 ja process neizdodas vai secrets pēc tam pazūd no klastera:
 
 ```bash
@@ -104,7 +104,7 @@ Pati atjaunināšana:
    (Job'a `spec.template` nav maināms; `subPath` mounti nekad neatjaunojas dzīvam podam):
    ```bash
    kubectl delete job hop-secrets-job --ignore-not-found --wait && \
-   kubectl apply -f hop.secrets.job.yaml && \
+   kubectl apply -f hop.secretsjob.yaml && \
    kubectl wait --for=condition=complete job/hop-secrets-job --timeout=300s && \
    kubectl get deployments -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.spec.template.spec.volumes[*].secret.secretName}{"\n"}{end}' \
      | awk '/hop-secrets-/ {print $1}' \
@@ -168,7 +168,7 @@ FTG micro konfigurācijas apraksts: [FTG README](https://github.com/VismaHoP/HoP
 | ❌ | `h2o.app.license` | `LicenceReloadForbiddenUntilHour` | `19:00` |
 | ✅ | `h2o.app.notification` | `PgConnectionString` | `Server=localhost;Port=5432;User Id=user;Password=password;Database=db` |
 | ✅ | `h2o.app.workplace` | `PgConnectionString` | `Server=localhost;Port=5432;User Id=user;Password=password;Database=db` |
-| ✅ | `hop.secrets.job` | `PgConnectionString` | `Server=localhost;Port=5432;User Id=user;Password=password;Database=db` |
+| ✅ | `hop.secretsjob` | `PgConnectionString` | `Server=localhost;Port=5432;User Id=user;Password=password;Database=db` |
 | ❌ | `h2o.app.elmar` | `GeneralAuthenticationSettingsUiEnabled` | `true` / `false` |
 
 **Apzīmējumi:**
