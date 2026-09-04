@@ -34,12 +34,13 @@ Yaml failos privātais repo ir aizvietots ar `${registryURL}`. To nepieciešams 
 
 ### Datubāzes Connection String
 
-Šādiem mikroservisu yaml failiem jāpapildina/jānomaina ar nosūtīto `PgConnectionString`:
+Šādiem yaml failiem jāpapildina/jānomaina ar nosūtīto `PgConnectionString`:
 - Gateway
 - Database
 - Notification
 - Acquaint
 - Workplace
+- Secrets Job (`hop.secrets.job.yaml`) — pēc noklusējuma tukšs, obligāti jāaizpilda **pirms** Job palaišanas
 
 ---
 
@@ -52,25 +53,72 @@ Pirmo reizi startējot HoP, ir nepieciešams ievērot **sekojošu secību**:
    kubectl apply -f pg_ecr.yaml
    ```
 
-2. **Startējam Database mikroservisu**
+2. **Startējam Database mikroservisu** (izpilda datubāzes migrācijas). `hop-secrets-database` šajā
+   brīdī vēl neeksistē — izveidojam tukšu vietturi tikai tad, ja tas tā nav, tad piesakām mikroservisu:
    ```bash
+   (kubectl get secret hop-secrets-database >/dev/null 2>&1 || \
+     kubectl create secret generic hop-secrets-database --from-literal='appsettings.Secrets.json={}') && \
    kubectl apply -f h2o.app.database.yaml
    ```
+   Konteiners pēc migrāciju izpildes var iet `CrashLoopBackOff`, jo `ApplicationSecret` pagaidām ir
+   tukšs vietturis (`{}`) — tas ir sagaidāms līdz Secrets Job to aizvieto ar īsto vērtību. **Nav
+   jāgaida `Ready`** šajā solī.
 
-3. **Startējam Auth mikroservisu**
+3. **Ģenerējam un sinhronizējam secrets** — obligāts solis; Job pats gaida, kamēr 2. solī iesāktās
+   migrācijas ir izpildītas, tad ieraksta `database` īsto secret un restartējam, lai to uzņemtu:
+   ```bash
+   kubectl apply -f hop.secrets.job.yaml
+   kubectl wait --for=condition=complete job/hop-secrets-job --timeout=300s && \
+   kubectl rollout restart deployment/database && \
+   kubectl rollout status deployment/database --timeout=300s
+   ```
+
+4. **Startējam Auth mikroservisu**
    ```bash
    kubectl apply -f h2o.app.auth.yaml
    ```
 
-4. **Pēc ~2 minūtēm startējam Gateway**
+5. **Pēc ~2 minūtēm startējam Gateway**
    ```bash
    kubectl apply -f h2o.app.gateway.yaml
    ```
 
-5. **Startējam visus atlikušos mikroservisus**
+6. **Startējam visus atlikušos mikroservisus**
    ```bash
-   kubectl apply -f .
+   kubectl apply -k .
    ```
+
+---
+
+## Atjaunināšana (Upgrade)
+
+Pirms `hop.secrets.job.yaml` atkārtotas palaišanas — obligāti izveidojam backup, lai būtu no kā atjaunoties,
+ja process neizdodas vai secrets pēc tam pazūd no klastera:
+
+```bash
+pg_dump ... > backup-db-$(date +%F).sql
+kubectl get secret -o name | grep '^secret/hop-secrets-' | xargs kubectl get -o yaml > backup-secrets-$(date +%F).yaml
+```
+
+Atjaunošanas gadījumā abi šie faili jāatjauno **kopā**, ne atsevišķi — citādi datubāze un secrets faili
+atkal nesakrīt.
+
+Pati atjaunināšana:
+
+1. **Dzēšam un no jauna palaižam secrets Job, tad restartējam migrētos mikroservisus vienā komandu ķēdē** —
+   Job'a `spec.template` nav maināms (atkārtota identiska `apply` neko nedarīs). Restarts izpildās **tikai
+   tad, ja Job veiksmīgi pabeidzas** — tā novēršam manuālu pauzi starp abiem soļiem, kuras laikā jau
+   strādājošie podi (fails montēts ar `subPath`, ko kubelet dzīvam podam neatjauno) turpina rādīt vecos secrets:
+   ```bash
+   kubectl delete job hop-secrets-job --ignore-not-found --wait && \
+   kubectl apply -f hop.secrets.job.yaml && \
+   kubectl wait --for=condition=complete job/hop-secrets-job --timeout=300s && \
+   kubectl get deployments -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.spec.template.spec.volumes[*].secret.secretName}{"\n"}{end}' \
+     | awk '/hop-secrets-/ {print $1}' \
+     | xargs -r -n1 kubectl rollout restart deployment
+   ```
+
+2. **Atjaunojam pārējos mikroservisus** parastajā veidā (jaunais image tags manifestos).
 
 ---
 
