@@ -50,4 +50,3 @@ resources:
   - h2o.web.yaml
   - pg_ecr.yaml
   - h2o.app.ftg.yaml
-  - hop.secrets.job.yaml
