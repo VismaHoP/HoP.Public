@@ -53,19 +53,15 @@ Pirmo reizi startējot HoP, ir nepieciešams ievērot **sekojošu secību**:
    kubectl apply -f pg_ecr.yaml
    ```
 
-2. **Startējam Database mikroservisu** (izpilda datubāzes migrācijas). `hop-secrets-database` šajā
-   brīdī vēl neeksistē — izveidojam tukšu vietturi tikai tad, ja tas tā nav, tad piesakām mikroservisu:
+2. **Startējam Database mikroservisu**
    ```bash
    (kubectl get secret hop-secrets-database >/dev/null 2>&1 || \
      kubectl create secret generic hop-secrets-database --from-literal='appsettings.Secrets.json={}') && \
    kubectl apply -f h2o.app.database.yaml
    ```
-   Konteiners pēc migrāciju izpildes var iet `CrashLoopBackOff`, jo `ApplicationSecret` pagaidām ir
-   tukšs vietturis (`{}`) — tas ir sagaidāms līdz Secrets Job to aizvieto ar īsto vērtību. **Nav
-   jāgaida `Ready`** šajā solī.
+   Sagaidāms `CrashLoopBackOff` līdz Secrets Job; nav jāgaida `Ready`.
 
-3. **Ģenerējam un sinhronizējam secrets** — obligāts solis; Job pats gaida, kamēr 2. solī iesāktās
-   migrācijas ir izpildītas, tad ieraksta `database` īsto secret un restartējam, lai to uzņemtu:
+3. **Ģenerējam un sinhronizējam secrets**
    ```bash
    kubectl apply -f hop.secrets.job.yaml
    kubectl wait --for=condition=complete job/hop-secrets-job --timeout=300s && \
@@ -100,15 +96,12 @@ pg_dump ... > backup-db-$(date +%F).sql
 kubectl get secret -o name | grep '^secret/hop-secrets-' | xargs kubectl get -o yaml > backup-secrets-$(date +%F).yaml
 ```
 
-Atjaunošanas gadījumā abi šie faili jāatjauno **kopā**, ne atsevišķi — citādi datubāze un secrets faili
-atkal nesakrīt.
+Atjaunošanas gadījumā abi šie faili jāatjauno **kopā**, ne atsevišķi — citādi datubāze un secrets faili nesakrīt.
 
 Pati atjaunināšana:
 
-1. **Dzēšam un no jauna palaižam secrets Job, tad restartējam migrētos mikroservisus vienā komandu ķēdē** —
-   Job'a `spec.template` nav maināms (atkārtota identiska `apply` neko nedarīs). Restarts izpildās **tikai
-   tad, ja Job veiksmīgi pabeidzas** — tā novēršam manuālu pauzi starp abiem soļiem, kuras laikā jau
-   strādājošie podi (fails montēts ar `subPath`, ko kubelet dzīvam podam neatjauno) turpina rādīt vecos secrets:
+1. **Dzēšam un no jauna palaižam secrets Job, tad restartējam migrētos mikroservisus vienā komandu ķēdē**
+   (Job'a `spec.template` nav maināms; `subPath` mounti nekad neatjaunojas dzīvam podam):
    ```bash
    kubectl delete job hop-secrets-job --ignore-not-found --wait && \
    kubectl apply -f hop.secrets.job.yaml && \
@@ -118,7 +111,7 @@ Pati atjaunināšana:
      | xargs -r -n1 kubectl rollout restart deployment
    ```
 
-2. **Atjaunojam pārējos mikroservisus** parastajā veidā (jaunais image tags manifestos).
+2. **Atjaunojam visus mikroservisus uz jauno versiju** parastajā veidā (jaunais image tags manifestos).
 
 ---
 
@@ -175,6 +168,7 @@ FTG micro konfigurācijas apraksts: [FTG README](https://github.com/VismaHoP/HoP
 | ❌ | `h2o.app.license` | `LicenceReloadForbiddenUntilHour` | `19:00` |
 | ✅ | `h2o.app.notification` | `PgConnectionString` | `Server=localhost;Port=5432;User Id=user;Password=password;Database=db` |
 | ✅ | `h2o.app.workplace` | `PgConnectionString` | `Server=localhost;Port=5432;User Id=user;Password=password;Database=db` |
+| ✅ | `hop.secrets.job` | `PgConnectionString` | `Server=localhost;Port=5432;User Id=user;Password=password;Database=db` |
 | ❌ | `h2o.app.elmar` | `GeneralAuthenticationSettingsUiEnabled` | `true` / `false` |
 
 **Apzīmējumi:**
