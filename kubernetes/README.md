@@ -53,17 +53,24 @@ Pirmo reizi startējot HoP, ir nepieciešams ievērot **sekojošu secību**:
    kubectl apply -f pg_ecr.yaml
    ```
 
-2. **Startējam Database mikroservisu** (izpilda datubāzes migrācijas un sēklas datus)
+2. **Startējam Database mikroservisu** (izpilda datubāzes migrācijas). `hop-secrets-database` šajā
+   brīdī vēl neeksistē — izveidojam tukšu vietturi tikai tad, ja tas tā nav, tad piesakām mikroservisu:
    ```bash
+   (kubectl get secret hop-secrets-database >/dev/null 2>&1 || \
+     kubectl create secret generic hop-secrets-database --from-literal='appsettings.Secrets.json={}') && \
    kubectl apply -f h2o.app.database.yaml
-   kubectl wait --for=condition=ready pod -l app=database --timeout=300s
    ```
+   Konteiners pēc migrāciju izpildes var iet `CrashLoopBackOff`, jo `ApplicationSecret` pagaidām ir
+   tukšs vietturis (`{}`) — tas ir sagaidāms līdz Secrets Job to aizvieto ar īsto vērtību. **Nav
+   jāgaida `Ready`** šajā solī.
 
-3. **Ģenerējam un sinhronizējam secrets** — obligāts solis; bez tā pārējiem mikroservisiem
-   trūkst `appsettings.Secrets.json` un tie nevar startēt
+3. **Ģenerējam un sinhronizējam secrets** — obligāts solis; Job pats gaida, kamēr 2. solī iesāktās
+   migrācijas ir izpildītas, tad ieraksta `database` īsto secret un restartējam, lai to uzņemtu:
    ```bash
    kubectl apply -f hop.secrets.job.yaml
-   kubectl wait --for=condition=complete job/hop-secrets-job --timeout=300s
+   kubectl wait --for=condition=complete job/hop-secrets-job --timeout=300s && \
+   kubectl rollout restart deployment/database && \
+   kubectl rollout status deployment/database --timeout=300s
    ```
 
 4. **Startējam Auth mikroservisu**
