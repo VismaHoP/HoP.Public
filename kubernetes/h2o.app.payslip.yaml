@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: payslip
-          image: ${registryURL}/h2o.app.payslip:318
+          image: ${registryURL}/h2o.app.payslip:321
           env:
             - name: H2OGateWay
               valueFrom:
