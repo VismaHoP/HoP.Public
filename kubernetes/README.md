@@ -92,11 +92,17 @@ Pirms `hop.secretsjob.yaml` atkārtotas palaišanas — obligāti izveidojam bac
 ja process neizdodas vai secrets pēc tam pazūd no klastera:
 
 ```bash
-pg_dump ... > backup-db-$(date +%F).sql
-kubectl get secret -o name | grep '^secret/hop-secrets-' | xargs kubectl get -o yaml > backup-secrets-$(date +%F).yaml
+DATE=$(date +%Y%m%d)
+
+kubectl exec deploy/postgres -- pg_dump -U postgres -Fc h2o > backup-db-$DATE.dump
+kubectl exec deploy/postgres -- pg_dumpall -U postgres --roles-only > backup-roles-$DATE.sql
+kubectl get secret -o name | grep '^secret/hop-secrets-' | xargs -r kubectl get -o yaml > backup-secrets-$DATE.yaml
 ```
 
-Atjaunošanas gadījumā abi šie faili jāatjauno **kopā**, ne atsevišķi — citādi datubāze un secrets faili nesakrīt.
+Atjaunošanas gadījumā šīs rezerves kopijas jāizmanto kā viena komplekta kopijas no viena laika punkta — citādi datubāzes dati, PostgreSQL lomu paroles un Kubernetes secrets var savstarpēji neatbilst.
+
+**Piezīme:** `backup-secrets-*.yaml` satur darba secrets Base64 kodējumā (nevis šifrētus) — glabājiet kā sensitīvu failu.
+Neizmantojiet to tieši ar `kubectl apply` (satur novecojušu `resourceVersion`/`uid` u.c. metadatus) — pārbaudiet atjaunošanas procedūru iepriekš.
 
 Pati atjaunināšana:
 
@@ -112,6 +118,19 @@ Pati atjaunināšana:
    ```
 
 2. **Atjaunojam visus mikroservisus uz jauno versiju** parastajā veidā (jaunais image tags manifestos).
+
+### Ja lomu paroles netiek rotētas
+
+Ja `PgConnectionString` lietotājam trūkst tiesību, Job'a logos (`kubectl logs job/hop-secrets-job`) parādās
+`Cannot alter role '<role>' — skipping password rotation.` — Job turpina darboties, tikai šī loma paliek nerotēta.
+
+Fix (superuser, aizstājot `<your_user>` ar `PgConnectionString` lietotāju), tad atkārtoti palaidiet Job'u:
+
+```sql
+GRANT h2o_quartz TO <your_user> WITH ADMIN OPTION;
+GRANT h2o_sys_notify TO <your_user> WITH ADMIN OPTION;
+GRANT h2o_hangfire TO <your_user> WITH ADMIN OPTION;
+```
 
 ---
 
