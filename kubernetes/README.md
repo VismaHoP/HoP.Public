@@ -90,7 +90,7 @@ Pirmo reizi startējot HoP, ir nepieciešams ievērot **sekojošu secību**:
 
 Ja HoP darbojas virtuālajā mašīnā un izmantotā virtualizācijas platforma to atbalsta, pirms atjaunināšanas ieteicams izveidot virtuālās mašīnas kontrolpunktu (checkpoint) vai momentuzņēmumu (snapshot).
 
-Pirms `hop.secretsjob.yaml` atkārtotas palaišanas — obligāti izveidojam backup, lai būtu no kā atjaunoties,
+Pirms `hop.secretsjob.yaml` palaišanas — obligāti izveidojam backup, lai būtu no kā atjaunoties,
 ja process neizdodas vai secrets pēc tam pazūd no klastera:
 
 ```bash
@@ -101,25 +101,30 @@ kubectl exec deploy/postgres -- pg_dumpall -U postgres --roles-only > backup-rol
 kubectl get secret -o name | grep '^secret/hop-secrets-' | xargs -r kubectl get -o yaml > backup-secrets-$DATE.yaml
 ```
 
+Pēc rezerves kopiju izveides pārliecinieties, ka visi backup faili ir veiksmīgi izveidoti un pieejami pašreizējā darba mapē.
+
 Atjaunošanas gadījumā šīs rezerves kopijas jāizmanto kā viena komplekta kopijas no viena laika punkta — citādi datubāzes dati, PostgreSQL lomu paroles un Kubernetes secrets var savstarpēji neatbilst.
 
 **Piezīme:** `backup-secrets-*.yaml` satur darba secrets Base64 kodējumā (nevis šifrētus) — glabājiet kā sensitīvu failu.
 Neizmantojiet to tieši ar `kubectl apply` (satur novecojušu `resourceVersion`/`uid` u.c. metadatus) — pārbaudiet atjaunošanas procedūru iepriekš.
 
-Pati atjaunināšana:
-
-1. **Dzēšam un no jauna palaižam secrets Job, tad restartējam migrētos mikroservisus vienā komandu ķēdē**
-   (Job'a `spec.template` nav maināms; `subPath` mounti nekad neatjaunojas dzīvam podam):
+1. Sagatavojam jaunās versijas manifestus, bet vēl neveicam `apply`.
+2. Palaižam secrets Job un gaidām tā veiksmīgu pabeigšanu:
    ```bash
    kubectl delete job hop-secrets-job --ignore-not-found --wait && \
    kubectl apply -f hop.secretsjob.yaml && \
-   kubectl wait --for=condition=complete job/hop-secrets-job --timeout=300s && \
+   kubectl wait --for=condition=complete job/hop-secrets-job --timeout=300s
+   ```
+3. Pielietojam manifestus:
+   ```bash
+   kubectl apply -k .
+   ```
+4. Restartējam visus mikroservisus, kuri izmanto `hop-secrets-*`:
+   ```bash
    kubectl get deployments -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.spec.template.spec.volumes[*].secret.secretName}{"\n"}{end}' \
      | awk '/hop-secrets-/ {print $1}' \
      | xargs -r -n1 kubectl rollout restart deployment
    ```
-
-2. **Atjaunojam visus mikroservisus uz jauno versiju** parastajā veidā (jaunais image tags manifestos).
 
 ### Ja lomu paroles netiek rotētas
 
