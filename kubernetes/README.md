@@ -88,6 +88,8 @@ Pirmo reizi startējot HoP, ir nepieciešams ievērot **sekojošu secību**:
 
 ## Atjaunināšana (Upgrade)
 
+Ja HoP darbojas virtuālajā mašīnā un izmantotā virtualizācijas platforma to atbalsta, pirms atjaunināšanas ieteicams izveidot virtuālās mašīnas kontrolpunktu (checkpoint) vai momentuzņēmumu (snapshot).
+
 Pirms `hop.secretsjob.yaml` atkārtotas palaišanas — obligāti izveidojam backup, lai būtu no kā atjaunoties,
 ja process neizdodas vai secrets pēc tam pazūd no klastera:
 
