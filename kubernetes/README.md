@@ -131,13 +131,15 @@ Neizmantojiet to tieši ar `kubectl apply` (satur novecojušu `resourceVersion`/
 Ja `PgConnectionString` lietotājam trūkst tiesību, Job'a logos (`kubectl logs job/hop-secrets-job`) parādās
 `Cannot alter role '<role>' — skipping password rotation.` — Job turpina darboties, tikai šī loma paliek nerotēta.
 
-Fix (superuser, aizstājot `<your_user>` ar `PgConnectionString` lietotāju), tad atkārtoti palaidiet Job'u:
+PostgreSQL administratoram (superuser) jāizpilda šādas komandas (aizvietojot `h2ouser` ar `PgConnectionString` lietotāju):
 
 ```sql
-GRANT h2o_quartz TO <your_user> WITH ADMIN OPTION;
-GRANT h2o_sys_notify TO <your_user> WITH ADMIN OPTION;
-GRANT h2o_hangfire TO <your_user> WITH ADMIN OPTION;
+GRANT h2o_quartz TO h2ouser WITH ADMIN OPTION;
+GRANT h2o_sys_notify TO h2ouser WITH ADMIN OPTION;
+GRANT h2o_hangfire TO h2ouser WITH ADMIN OPTION;
 ```
+
+Pēc tam atkārtoti izpildiet visus atjaunināšanas soļus iepriekš (Job → `apply -k .` → `rollout restart`).
 
 ---
 
