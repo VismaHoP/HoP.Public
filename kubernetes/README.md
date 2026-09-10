@@ -91,13 +91,15 @@ Pirmo reizi startējot HoP, ir nepieciešams ievērot **sekojošu secību**:
 Ja HoP darbojas virtuālajā mašīnā un izmantotā virtualizācijas platforma to atbalsta, pirms atjaunināšanas ieteicams izveidot virtuālās mašīnas kontrolpunktu (checkpoint) vai momentuzņēmumu (snapshot).
 
 Pirms `hop.secretsjob.yaml` palaišanas — obligāti izveidojam backup, lai būtu no kā atjaunoties,
-ja process neizdodas vai secrets pēc tam pazūd no klastera:
+ja process neizdodas vai secrets pēc tam pazūd no klastera.
+
+Aizvietojiet `<PG_SUPERUSER>` ar savu PostgreSQL superuser lietotāju (piemēram — `h2ouser`, ja tas ir superuser).
 
 ```bash
 DATE=$(date +%Y%m%d)
 
-kubectl exec deploy/postgres -- pg_dump -U h2ouser -Fc h2o > backup-db-$DATE.dump
-kubectl exec deploy/postgres -- pg_dumpall -U h2ouser --roles-only > backup-roles-$DATE.sql
+kubectl exec deploy/postgres -- pg_dump -U <PG_SUPERUSER> -Fc h2o > backup-db-$DATE.dump
+kubectl exec deploy/postgres -- pg_dumpall -U <PG_SUPERUSER> --roles-only > backup-roles-$DATE.sql
 kubectl get secret -o name | grep '^secret/hop-secrets-' | xargs -r kubectl get -o yaml > backup-secrets-$DATE.yaml
 ```
 
@@ -128,15 +130,15 @@ Neizmantojiet to tieši ar `kubectl apply` (satur novecojušu `resourceVersion`/
 
 ### Ja lomu paroles netiek rotētas
 
-Ja `PgConnectionString` lietotājam trūkst tiesību, Job'a logos (`kubectl logs job/hop-secrets-job`) parādās
+Ja `hop.secretsjob.yaml` konfigurētajam `PgConnectionString` lietotājam trūkst tiesību, Job'a logos (`kubectl logs job/hop-secrets-job`) parādās
 `Cannot alter role '<role>' — skipping password rotation.` — Job turpina darboties, tikai šī loma paliek nerotēta.
 
-PostgreSQL administratoram (superuser) jāizpilda šādas komandas (aizvietojot `h2ouser` ar `PgConnectionString` lietotāju):
+PostgreSQL administratoram (`<PG_SUPERUSER>`) jāizpilda šādas komandas, aizvietojot `<PG_CONNECTION_USER>` ar `PgConnectionString` lietotāju:
 
 ```sql
-GRANT h2o_quartz TO h2ouser WITH ADMIN OPTION;
-GRANT h2o_sys_notify TO h2ouser WITH ADMIN OPTION;
-GRANT h2o_hangfire TO h2ouser WITH ADMIN OPTION;
+GRANT h2o_quartz TO <PG_CONNECTION_USER> WITH ADMIN OPTION;
+GRANT h2o_sys_notify TO <PG_CONNECTION_USER> WITH ADMIN OPTION;
+GRANT h2o_hangfire TO <PG_CONNECTION_USER> WITH ADMIN OPTION;
 ```
 
 Pēc tam atkārtoti izpildiet visus atjaunināšanas soļus iepriekš (Job → `apply -k .` → `rollout restart`).
