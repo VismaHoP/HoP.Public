@@ -96,8 +96,8 @@ ja process neizdodas vai secrets pēc tam pazūd no klastera:
 ```bash
 DATE=$(date +%Y%m%d)
 
-kubectl exec deploy/postgres -- pg_dump -U postgres -Fc h2o > backup-db-$DATE.dump
-kubectl exec deploy/postgres -- pg_dumpall -U postgres --roles-only > backup-roles-$DATE.sql
+kubectl exec deploy/postgres -- pg_dump -U h2ouser -Fc h2o > backup-db-$DATE.dump
+kubectl exec deploy/postgres -- pg_dumpall -U h2ouser --roles-only > backup-roles-$DATE.sql
 kubectl get secret -o name | grep '^secret/hop-secrets-' | xargs -r kubectl get -o yaml > backup-secrets-$DATE.yaml
 ```
 
