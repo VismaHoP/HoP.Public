@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: contract
-          image: ${registryURL}/h2o.app.contract:296
+          image: ${registryURL}/h2o.app.contract:297
           env:
             - name: H2OGateWay
               valueFrom:
