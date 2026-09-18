@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: antra
-          image: ${registryURL}/h2o.app.antra:834
+          image: ${registryURL}/h2o.app.antra:835
           env:
             - name: H2OGateWay
               valueFrom:
