@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: ${registryURL}/h2o.web:1099
+          image: ${registryURL}/h2o.web:1101
           env:               
             - name: HTTPD_WEBROUTER
               valueFrom:
