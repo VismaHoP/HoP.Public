@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: payout
-          image: ${registryURL}/h2o.app.payout:405
+          image: ${registryURL}/h2o.app.payout:406
           env:
             - name: H2OGateWay
               valueFrom:
