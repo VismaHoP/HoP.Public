@@ -29,6 +29,9 @@ data:
         hibernate:
           ddl-auto: validate
           #ddl-auto: create-drop
+        properties:
+          hibernate:
+            generate_statistics: false
       liquibase:
         change-log: classpath:liquibase-changeLog.xml
       zipkin:
@@ -39,6 +42,8 @@ data:
       health:
         probes:
           enabled: true
+      tracing:
+        enabled: false
     springdoc:
       swagger-ui:
         use-root-path: true
@@ -97,7 +102,23 @@ data:
       pattern:
         console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{traceId}/%X{spanId}] %-5p [%t] %logger{36} - %msg%n'
       level:
-        root: info
+        root: DEBUG
+        # Keep always debug
+        ee.digitalmind: DEBUG
+        org.hibernate.SQL: DEBUG
+        # Suppress Apache HttpClient wire logging
+        org.apache.hc.client5.http: INFO
+        # Suppress other noisy loggers
+        org.apache.coyote.http11: INFO
+        org.apache.tomcat: INFO
+        org.hibernate.engine: INFO
+        org.hibernate.orm.sql.ast: INFO
+        org.hibernate.orm.core: INFO
+        org.hibernate.session.metrics: INFO
+        org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor: INFO
+        org.springframework.orm.jpa.JpaTransactionManager: INFO
+        com.trustlynx.autoconfigure.RequestTracingFilter: INFO
+        com.zaxxer.hikari.pool.HikariPool: INFO
   mappings.json: |
     [
       {
