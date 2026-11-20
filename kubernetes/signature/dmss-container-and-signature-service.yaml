@@ -22,6 +22,12 @@ data:
         web:
           client:
             enabled: true
+        propagation:
+          type: B3
+      jpa:
+        properties:
+          hibernate:
+            generate_statistics: false
       zipkin:
         enabled: false
       main:
@@ -59,33 +65,16 @@ data:
       saveBinFilesAllwaysInFallback: false
       fileMimeTypesAndExtensions: classpath:mime.types
     smartId:
-      hostUrl: https://rp-api.smart-id.com/v2/
+      hostUrl: https://rp-api.smart-id.com/v3/
       relyingPartyUUID: ${relyingPartyUUID}
       relyingPartyName: ${relyingPartyName}
-      displayText: ${displayText}
       delay: 3000
       trustedCertificates: classpath:trusted_certificates.jks
+      trustAnchorsCertificates: classpath:sid_trusted_CA.jks
+      schemaName: smart-id
       interactions:
-        -
-          interactionName: "Interaction.confirmationMessageAndVerificationCodeChoice"
-          defaultText: "confirmationMessageAndVerificationCodeChoice"
-          maxsize: 200
-          enabled: true
-        -
-          interactionName: "Interaction.confirmationMessage"
-          defaultText: "confirmationMessage"
-          maxsize: 200
-          enabled: true
-        -
-          interactionName: "Interaction.verificationCodeChoice"
-          defaultText: "verificationCodeChoice"
-          maxsize: 60
-          enabled: true
-        -
-          interactionName: "Interaction.displayTextAndPIN"
-          defaultText: "displayTextAndPIN"
-          maxsize: 60
-          enabled: true
+        type: confirmationMessageAndVerificationCodeChoice
+        display-text: ${displayText}
     mobile-id:
       fakeRequestsInTest: true
       countries:
@@ -121,7 +110,7 @@ data:
     digidoc4j:
       configuration:
         mode: PROD
-        #file: classpath:digidoc4j-custom.yaml
+        file: "/confs/digidoc4j-custom.yaml"
         preferAiaOcsp: true
         issuers:
     pdf:
@@ -157,6 +146,7 @@ data:
       kubernetes:
         enabled: true
         kubernetesServiceDns: dmss-container-and-signature.default.svc.cluster.local
+        service-dns: dmss-container-and-signature.default.svc.cluster.local
     idCard:
       useContainerIdAsSession: false
     lvrtc:
@@ -169,11 +159,32 @@ data:
       tspUrl: https://tsa.eparaksts.lv/
       keystorePassword: 
       certAlias: 
+      batchParallelism: 5
+      useRedirectResponse: true
     logging:
       pattern:
-        console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{X-Session-ID}/%X{X-Request-ID}] %-5p [%t] %logger{36} - %msg%n'
+        console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{traceId}/%X{spanId}] %-5p [%t] %logger{36} - %msg%n'
       level:
-        root: debug
+        root: DEBUG
+        # Keep always debug
+        ee.digitalmind: DEBUG
+        # Suppress other noisy loggers
+        org.apache.coyote.http11: INFO
+        org.apache.tomcat: INFO
+        org.apache.catalina: INFO
+        org.apache.hc.client5.http: INFO
+        org.apache.http.impl.conn.PoolingHttpClientConnectionManager: INFO
+        com.hazelcast.spi.impl.operationservice.impl.InvocationMonitor: INFO
+        com.hazelcast.internal: INFO
+        org.springframework.web.servlet: INFO
+        org.springframework.security.web: INFO
+        org.springframework.orm.jpa: INFO
+        org.hibernate.orm.core: INFO
+        org.hibernate.session.metrics: INFO
+        com.trustlynx.autoconfigure.RequestTracingFilter: INFO
+        # Digidoc4j
+        org.digidoc4j.impl.asic.tsl.LazyTslCertificateSource: INFO
+    logRequests: false
     timestamp:
       timestampProviders:
         -
@@ -186,6 +197,8 @@ data:
               realm: KeyOneSystem
               username: username
               password: password
+  digidoc4j-custom.yaml: |
+    TRUSTED_TERRITORIES: EE, LV, LT
 ---
 # Deployment
 apiVersion: apps/v1
@@ -215,6 +228,9 @@ spec:
         - name: config
           mountPath: /confs/application.yml
           subPath: application.yml
+        - name: config
+          mountPath: /confs/digidoc4j-custom.yaml
+          subPath: digidoc4j-custom.yaml
       volumes:
       - name: config
         configMap:

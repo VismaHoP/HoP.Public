@@ -15,33 +15,16 @@ data:
         preferAiaOcsp: true
         issuers:
     smartId:
-      hostUrl: https://rp-api.smart-id.com/v2
+      hostUrl: https://rp-api.smart-id.com/v3/
       relyingPartyUUID: ${relyingPartyUUID}
       relyingPartyName: ${relyingPartyName}
-      displayText: ${displayText}
-      displayTextLong:
       delay: 3000
+      trustedCertificates: classpath:trusted_certificates.jks
+      trustAnchorsCertificates: classpath:sid_trusted_CA.jks
+      schemaName: smart-id
       interactions:
-        -
-          interactionName: "Interaction.confirmationMessageAndVerificationCodeChoice"
-          defaultText: "confirmationMessageAndVerificationCodeChoice"
-          maxsize: 200
-          enabled: true
-        -
-          interactionName: "Interaction.confirmationMessage"
-          defaultText: "confirmationMessage"
-          maxsize: 200
-          enabled: false
-        -
-          interactionName: "Interaction.verificationCodeChoice"
-          defaultText: "verificationCodeChoice"
-          maxsize: 60
-          enabled: false
-        -
-          interactionName: "Interaction.displayTextAndPIN"
-          defaultText: "displayTextAndPIN"
-          maxsize: 60
-          enabled: true
+        type: confirmationMessageAndVerificationCodeChoice
+        display-text: ${displayText}
     mobileId:
       relyingPartyName: DEMO
       hostUrl: https://tsp.demo.sk.ee/mid-api
@@ -67,8 +50,31 @@ data:
       kubernetes:
         enabled: true
         service-dns: dmss-authentication-service.default.svc.cluster.local
+    logging:
+      pattern:
+        console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{traceId}/%X{spanId}] %-5p [%t] %logger{36} - %msg%n'
+      level:
+        root: DEBUG
+        # Keep always debug
+        ee.digitalmind: DEBUG
+        # Suppress other noisy loggers
+        org.apache.coyote.http11: INFO
+        org.apache.tomcat: INFO
+        org.apache.catalina: INFO
+        com.hazelcast.spi.impl.operationservice.impl.InvocationMonitor: INFO
+        org.springframework.web.servlet: INFO
+        org.apache.http.impl.conn.PoolingHttpClientConnectionManager: INFO
+        com.trustlynx.autoconfigure.RequestTracingFilter: INFO
+        com.hazelcast.internal.partition.InternalPartitionService: INFO
+        com.hazelcast.internal.cluster.impl.MembershipManager: INFO
     spring:
+      sleuth:
+        propagation:
+          type: B3
       zipkin:
+        enabled: false
+    management:
+      tracing:
         enabled: false
 ---
 # Deployment
