@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: signatureconfiguration
-          image: ${registryURL}/signatureconfiguration:649
+          image: ${registryURL}/signatureconfiguration:652
           env:
             - name: ASPNETCORE_URLS
               valueFrom:
