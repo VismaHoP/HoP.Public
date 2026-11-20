@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: webrouter
-          image: ${registryURL}/h2o.app.webrouter:682
+          image: ${registryURL}/h2o.app.webrouter:683
           env:
             - name: H2OGateWay
               valueFrom:
