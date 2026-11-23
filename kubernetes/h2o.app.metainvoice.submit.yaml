@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: metainvoicesubmit
-          image: ${registryURL}/h2o.app.metainvoice.submit:662
+          image: ${registryURL}/h2o.app.metainvoice.submit:665
           env:
             - name: H2OGateWay
               valueFrom:
