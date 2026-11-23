@@ -79,13 +79,10 @@ data:
       transformSpecJsonPath:
         cateogries: file:/confs/mappings.json
         docBody: classpath:metaForDoc.json
-    filesystem-service:
-      baseurl: http://localhost:8086/api
     archive-connections:
       connections:
         -   
           name: "FS-MAIN"
-          failover: "FSA-MAIN"
           url: http://dmss-archive-services-fallback:8095/api
           type: EXTERNAL_FILE_SYSTEM
           priority: 1
@@ -155,7 +152,7 @@ spec:
     spec:
       containers:
       - name: dmss-archive-services
-        image: trustlynx/dmss-archive-services:24.2.0.13
+        image: trustlynx/dmss-archive-services:26.0.0.1
         env:
         - name: SPRING_CONFIG_LOCATION
           value: /confs/

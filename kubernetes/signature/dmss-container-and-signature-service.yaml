@@ -51,7 +51,7 @@ data:
           objectNameJsonKey: "objectName"
     archive-services:
       baseUrl: http://dmss-archive-services:8090/api
-      fallbackUrl: http://localhost:8095/api
+      fallbackUrl: http://dmss-archive-services-fallback:8095/api
       forwardHttpHeaders: authorization, otcsticket, X-User-Context, X-Forwarded-For, X-Session-ID, X-Request-ID
       configuration:
         container:
@@ -75,31 +75,11 @@ data:
       interactions:
         type: confirmationMessageAndVerificationCodeChoice
         display-text: ${displayText}
-    mobile-id:
-      fakeRequestsInTest: true
-      countries:
-        EE:
-          relyingPartyName: DEMO
-          hostUrl: https://tsp.demo.sk.ee/mid-api
-          relyingPartyUUID: 00000000-0000-0000-0000-000000000000
-          displayText: "Allkirjasta dokument?"
-        LT:
-          relyingPartyName: DEMO
-          hostUrl: https://tsp.demo.sk.ee/mid-api
-          relyingPartyUUID: 00000000-0000-0000-0000-000000000000
-          displayText: "Pasirašai dokumentą?"
     hsm:
       enabled: false
       pkcs11ModulePath: "C:/1Program Files/SafeNet/LunaClient/cryptoki.dll"
       partitionPin: 
       slotIndex: 0
-    document-generation-service:
-      baseUrl: http://localhost:8083/api
-      configuration:
-        defaultMimeType: application/pdf
-        defaultExtension: .pdf
-    digital-stamping-service:
-      baseUrl: http://localhost:8084/api
     hystrix:
       command:
         default:
@@ -113,32 +93,6 @@ data:
         file: "/confs/digidoc4j-custom.yaml"
         preferAiaOcsp: true
         issuers:
-    pdf:
-      cakeystorepath: file:/confs/dmssrootca.p12
-      cakeystorepassword: 
-      caCertAlias: digital mind root ca
-      #tsaUrl: http://tsa.sk.ee
-      signature:
-        defaults:
-          xAxis: 100
-          yAxis: 700
-          zoomPrecent: 50
-          signatureText: "Digitally signed by: {cn} \n{dnName} \nAt date: {date}"
-        textImage:
-          by: "Signed By"
-          in: "In"
-          at: "At"
-      watermark:
-        defaults:
-          xAxis: 100
-          yAxis: 700
-          transparency: 1
-          colour:
-            r: 255
-            g: 0
-            b: 0
-          font: "C:/Users/Brain/font/Pacifico-Regular.ttf"
-          fontsize: 50
     hazelcast:
       expireInminutes: 3
       members: localhost:5777
@@ -218,7 +172,7 @@ spec:
     spec:
       containers:
       - name: dmss-container-and-signature
-        image: trustlynx/container-signature-service:24.3.0.49.3
+        image: trustlynx/container-signature-service:26.15.1.0
         env:
         - name: SPRING_CONFIG_LOCATION
           value: /confs/application.yml

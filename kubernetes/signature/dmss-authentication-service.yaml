@@ -25,13 +25,6 @@ data:
       interactions:
         type: confirmationMessageAndVerificationCodeChoice
         display-text: ${displayText}
-    mobileId:
-      relyingPartyName: DEMO
-      hostUrl: https://tsp.demo.sk.ee/mid-api
-      relyingPartyUUID: 00000000-0000-0000-0000-000000000000
-      displayText: Log into Service?
-      defaultCountry: EE
-      defaultLanguage: ENG
     lvrtc:
       authUri: https://eidas.eparaksts.lv/trustedx-authserver/oauth/lvrtc-eipsign-as
       resourcesUri: https://eidas.eparaksts.lv/trustedx-resources/openid/v1/users/me
@@ -95,7 +88,7 @@ spec:
     spec:
       containers:
       - name: dmss-authentication-service
-        image: trustlynx/dmss-authentication-service:24.0.27
+        image: trustlynx/dmss-authentication-service:26.0.2
         env:
         - name: SPRING_CONFIG_LOCATION
           value: /confs/application.yml

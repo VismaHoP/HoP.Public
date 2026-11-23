@@ -32,6 +32,7 @@ data:
           type: B3
       zipkin:
         enabled: false
+        logRequests: false
     server:
       port: 8095
     fallback:
@@ -115,7 +116,7 @@ spec:
     spec:
       containers:
       - name: dmss-archive-services-fallback
-        image: trustlynx/dmss-archive-services-fallback:24.1.0
+        image: trustlynx/dmss-archive-services-fallback:26.0.1
         env:
         - name: SPRING_CONFIG_LOCATION
           value: /confs/application.yml
