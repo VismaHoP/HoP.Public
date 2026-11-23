@@ -21,13 +21,18 @@ data:
         hibernate:
           format_sql: true
           ddl-auto: update
+          generate_statistics: false
       threads:
         virtual:
           enabled: true
       application:
         name: dmss-archive-services-fallback
+      sleuth:
+        propagation:
+          type: B3
       zipkin:
         enabled: false
+        logRequests: false
     server:
       port: 8095
     fallback:
@@ -39,6 +44,8 @@ data:
     archiveServices:
       baseUrl: http://localhost:8090/api
     management:
+      tracing:
+        enabled: false
       endpoint:
         health:
           probes:
@@ -53,9 +60,24 @@ data:
         use-root-path: true
     logging:
       pattern:
-        console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{X-Session-ID} %X{X-Request-ID} %X{traceId} %X{spanId}] %-5p [%t] %logger{36} - %msg%n'
+        console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{traceId}/%X{spanId}] %-5p [%t] %logger{36} - %msg%n'
       level:
-        root: info
+        root: DEBUG
+        # Keep always debug
+        ee.digitalmind: DEBUG
+        # Suppress Tomcat ping-pong debug
+        org.apache.coyote.http11: INFO
+        org.apache.tomcat: INFO
+        org.apache.tomcat.util.net: INFO
+        # Suppress Hibernate entity dump spam
+        org.hibernate.internal.util.EntityPrinter: INFO
+        com.zaxxer.hikari.pool.HikariPool: INFO
+        org.hibernate.orm.core: INFO
+        org.hibernate.session.metrics: INFO
+        org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor: INFO
+        org.springframework.orm.jpa.JpaTransactionManager: INFO
+        org.postgresql.jdbc.PgConnection: INFO
+        org.springframework.jdbc.datasource.DataSourceUtils: INFO
     logRequests: false
     fileMimeTypesAndExtensions: classpath:mime.types
     service-data-collector:
@@ -94,7 +116,7 @@ spec:
     spec:
       containers:
       - name: dmss-archive-services-fallback
-        image: trustlynx/dmss-archive-services-fallback:24.1.0
+        image: trustlynx/dmss-archive-services-fallback:26.0.1
         env:
         - name: SPRING_CONFIG_LOCATION
           value: /confs/application.yml
